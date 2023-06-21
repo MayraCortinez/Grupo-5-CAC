@@ -1,20 +1,22 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Home from "./components/Home";
-import ProductDetails from "./components/ProductDetails";
-import Cart from "./components/Cart";
-import NotFound from "./components/NotFound";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Home from "../src/pages/Home/Home";
+import ProductDetails from "../src/pages/ProductsDetails/ProductDetails";
+import Cart from "../src/components/Cart/Cart";
+import NotFound from "../src/components/NotFound/NotFound";
 
 function App() {
   return (
-    <Router>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route path="/product/:id" component={ProductDetails} />
-        <Route path="/cart" component={Cart} />
-        <Route component={NotFound} />
-      </Switch>
-    </Router>
+    <div className="App">
+      <BrowserRouter>
+        <Routes>
+          <Route exact path="/" element={<Home/>} />
+          <Route path="/product/:id" element={<ProductDetails/>} />
+          <Route path="/cart" element={<Cart/>} />
+          <Route element={<NotFound/>} />
+        </Routes>
+      </BrowserRouter>
+    </div>
   );
 }
 
