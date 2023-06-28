@@ -6,10 +6,12 @@ import Cart from "../src/components/Cart/Cart";
 import NotFound from "../src/components/NotFound/NotFound";
 
 import 'bootstrap/dist/css/bootstrap.min.css'
+import ProductList from "./components/ProductList/ProductList";
 
 function App() {
   return (
     <div className="App">
+      <ProductList />
       <BrowserRouter>
         <Routes>
           <Route exact path="/" element={<Home/>} />
