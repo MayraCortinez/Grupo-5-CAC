@@ -5,6 +5,8 @@ import ProductDetail from "../src/pages/ProductDetail/ProductDetail";
 import Cart from "../src/components/Cart/Cart";
 import NotFound from "../src/components/NotFound/NotFound";
 
+import 'bootstrap/dist/css/bootstrap.min.css'
+
 function App() {
   return (
     <div className="App">
