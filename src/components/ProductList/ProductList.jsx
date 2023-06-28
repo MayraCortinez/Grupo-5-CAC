@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "../ProductCard/ProductCard";
-import { collection, getDocs, getDoc } from 'firebase/firestore';
+import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
-import { async } from '@firebase/util';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -23,8 +22,6 @@ function ProductList() {
   useEffect( () => {
     getProductos();
   }, []);
-
-  /* sm 576, md 768, lg 992, xl 1200*/
 
   return (
     <Container>
