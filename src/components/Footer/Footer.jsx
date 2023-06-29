@@ -6,7 +6,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 // Uso tema oscuro (bg="dark") y el texto blanco text white
 const Footer = () => {
   return (
-    <footer className="bg-dark text-white">
+    <footer bg="dark" expand="lg" fixed="top">
       <Container>
         <Row>
           <Col md={4}>
@@ -16,7 +16,7 @@ const Footer = () => {
                 <a href="/">Inicio</a>
               </li>
               <li>
-                <a href="/productos">Productos</a>
+                <a href="/productList">Productos</a>
               </li>
               <li>
                 <a href="/contacto">Contacto</a>
