@@ -17,6 +17,12 @@ const Header = () => {
             <Nav.Link href="/productList" style={{ color: 'white' }}>
               Productos
             </Nav.Link>
+            <Nav.Link href="/listProduct" style={{ color: 'white' }}>
+              Listar Productos
+            </Nav.Link>
+            <Nav.Link href="/createProduct" style={{ color: 'white' }}>
+              Crear Producto
+            </Nav.Link>
             <Nav.Link href="/carrito" style={{ color: 'white' }}>
               Carrito
             </Nav.Link>

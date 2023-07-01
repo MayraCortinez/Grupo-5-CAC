@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import {getFirestore} from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics"; 
+import { getFirestore } from "firebase/firestore"; //Recurso que permite obtener los datos de la base.
 
 const firebaseConfig = {
   apiKey: "AIzaSyBgM8ar0yvsbeH-dz026jMMmB_0aL9i05M",

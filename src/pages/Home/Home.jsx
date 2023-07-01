@@ -1,13 +1,11 @@
 import React from "react";
-import "./styles.module.css";
-import { useParams } from "react-router-dom";
+import classes from "./home.module.css";
+import CarouselHome from "../../components/Carousel/CarouselHome";
 
 function Home() {
-  const { id } = useParams();
-
   return (
-    <div className="Home">
-      {/* Fetch product details from API or use local data */}
+    <div className={classes.Home}>
+      <CarouselHome />
     </div>
   );
 }
