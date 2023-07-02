@@ -96,7 +96,7 @@ export const ListProduct = () => {
                                 <td key={producto.talle} className='text-dark'>{producto.talle || ''}</td>
                                 <td key={producto.precio} className='text-dark'>{producto.precio || ''} </td>
                                 <td>
-                                    <Link to={`/editarproducto/${producto.id}`} className="btn btn"><img width="28" height="28" src="https://img.icons8.com/dotty/80/create-new.png" alt="create-new"/></Link>
+                                    <Link to={`/editProduct/${producto.id}`} className="btn btn"><img width="28" height="28" src="https://img.icons8.com/dotty/80/create-new.png" alt="create-new"/></Link>
                                     <button onClick={() => { confirmDelete(producto.id) }} className='btn btn-dangerous hover'><img width="28" height="28"src="https://img.icons8.com/wired/64/000000/filled-trash.png" alt="filled-trash"/></button>
                                 </td>
                             </tr>
