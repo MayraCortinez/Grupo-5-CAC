@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 
@@ -28,34 +29,34 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
+      <Form onSubmit={handleSubmit}>
+        <Form.Group controlId="email">
+          <Form.Label>Email:</Form.Label>
+          <Form.Control
             type="email"
-            id="email"
             value={email}
             onChange={handleEmailChange}
           />
-        </div>
-        <div>
-          <label htmlFor="password">Contraseña:</label>
-          <input
+        </Form.Group>
+        <Form.Group controlId="password">
+          <Form.Label>Contraseña:</Form.Label>
+          <Form.Control
             type="password"
-            id="password"
             value={password}
             onChange={handlePasswordChange}
           />
-        </div>
-        <button type="submit">Iniciar sesión</button>
-      </form>
+        </Form.Group>
+        <Button variant="primary" type="submit">Iniciar sesión</Button>
+      </Form>
     </div>
   );
 };
 
 export default Login;
+
+
 
 
 
