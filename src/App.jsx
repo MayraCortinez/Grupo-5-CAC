@@ -14,7 +14,7 @@ import CreateProduct from "./components/CrudProduct/CreateProduct";
 
 function App() {
   return (
-    <div className="App">
+    <div className="App bg-dark">
       <Header />
         <Routes>
           <Route exact path="/" element={<Home/>} />
@@ -25,7 +25,7 @@ function App() {
           <Route path="/cart" element={<Cart/>} />
           <Route element={<NotFound/>} />
         </Routes>
-
+      <Footer />
     </div>
   );
 }
