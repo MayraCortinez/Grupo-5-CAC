@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,500,600,700,800, 800i, 900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/*--- SÓLO PARA CENTRAR LA CARD ---*/
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    position: relative;
+}
+
+.container .card {
+    position: relative;
+    width: 300px;
+    height: 400px;
+    background: #232323;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.container .card:before {
+    content: "";
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#584225, #8D6B32, #906A37, #AE844E, #B29059, #ebb176);
+    clip-path: circle(30%);
+    transition: 0.5s ease-in-out;
+}
+
+.container .card:hover:before {
+    clip-path: circle(100% at 80% -20%);
+}
+
+.container .card .card-img {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    width: 100%;
+    height: 80%;
+    transition: .5s;
+}
+
+.container .card:hover .card-img {
+    transform: translateY(-70%);
+}
+
+.container .card .card-img img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(30deg);
+    width: 270px;
+    transition: .5s;
+}
+
+.container .card:hover .card-img img {
+    transform: translate(-50%, -50%) rotate(15deg);
+}
+
+.container .card .card-content {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30%;
+    text-align: center;
+    transition: 1s;
+    z-index: 90;
+}
+
+.container .card:hover .card-content {
+    height: 40%;
+}
+
+.container .card .card-content .card-title {
+    position: relative;
+    font-size: 2.5rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: red;
+    transition: .5s;
+}
+
+.container .card:hover .card-content .card-title {
+    transform: translate(-20%, -30%) scale(0.6);
+}
+
+.container .card .card-content .card-details {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: .5s;
+}
+
+.container .card:hover .card-content .card-details {
+    transform: translateY(-35%);
+}
+
+.container .card .card-content .card-details .size,
+.container .card .card-content .card-details .color,
+.container .card .card-content .card-details .price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 20px;
+    transition: .5s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.container .card:hover .card-content .card-details .size {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .6s;
+}
+
+.container .card:hover .card-content .card-details .color {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .7s;
+}
+
+.container .card:hover .card-content .card-details .price {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .8s;
+}
+
+.container .card .card-content .card-details .size h3,
+.container .card .card-content .card-details .color h3,
+.container .card .card-content .card-details .price h3 {
+    color: red;
+    font-weight: 300;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-right: 10px;
+}
+
+.container .card .card-content .card-details .price h3 {
+    font-weight: bold;
+    font-size: 1.2rem;
+    pointer-events: none;
+}
+
+
+.container .card .card-content .card-details .size span {
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    font-size: 14px;
+    display: inline-block;
+    color: white;
+    background: red;
+    font-weight: 500;
+    margin: 0 5px;
+    transition: .5s;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.container .card .card-content .card-details .size span:hover {
+    color: #fff;
+    background: #111;
+}
+
+.container .card .card-content .card-details .color span {
+    width: 20px;
+    height: 20px;
+    background: #906A37;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.container .card .card-content a {
+    display: inline-block;
+    padding: 5px 20px;
+    background: red;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: .5s;
+}
+
+.container .card:hover .card-content a {
+    opacity: 1;
+    transform: translateY(-80%);
+    transition-delay: .9s;
+}

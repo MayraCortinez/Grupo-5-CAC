@@ -1,13 +1,12 @@
 import React from "react";
+import "./styles.module.css";
 import { useParams } from "react-router-dom";
 
 function Home() {
   const { id } = useParams();
 
   return (
-    <div>
-      <h2>Product Details</h2>
-      <p>Product ID: {id}</p>
+    <div className="Home">
       {/* Fetch product details from API or use local data */}
     </div>
   );
