@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
-import Row from 'react-bootstrap/Row';
-import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { collection, addDoc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
@@ -18,7 +15,7 @@ const CreateProduct = () => {
     const [marca, setMarca] = useState("");
     const [modelo, setModelo] = useState("");
     const [color, setColor] = useState("");
-    const [precio, setPrecio] = useState();
+    const [precio, setPrecio] = useState("");
     const [talle, setTalle] = useState();
     const [detalle, setDetalle] = useState("");
     const [descripcion, setDescripcion] = useState("");
@@ -48,17 +45,17 @@ const CreateProduct = () => {
         e.preventDefault();
 
         await addDoc(productosCollection, {
-            Marca: marca,
-            Modelo: modelo,
-            Color: color,
-            Precio: precio,
-            Talle: talle,
-            Detalle: detalle,
-            Descripcion: descripcion,
-            Img: img
+            marca: marca,
+            modelo: modelo,
+            color: color,
+            precio: precio,
+            talle: talle,
+            detalle: detalle,
+            descripcion: descripcion,
+            img: img
         })
         alertCreate();
-        navigate('/ListProduct');
+        navigate('/listProduct');
     }
 
     return (
@@ -85,29 +82,18 @@ const CreateProduct = () => {
                 <label htmlFor="floatingInputCustom">Modelo</label>
             </Form.Floating>
             <Form.Floating className="mb-3">
-                <Form.Control
-                    id="floatingInputCustom"
-                    type="text"
-                    placeholder="Color"
-                    value={color}
-                    onChange={(e)=>setColor(e.target.value)}
-                />
+            <Form.Control
+                type="color"
+                id="exampleColorInput"
+                defaultValue="#563d7c"
+                title="Choose your color"
+            />
                 <label htmlFor="floatingInputCustom">Color</label>
             </Form.Floating>
             <Form.Floating className="mb-3">
                 <Form.Control
                     id="floatingInputCustom"
                     type="text"
-                    placeholder="Modelo"
-                    value={modelo}
-                    onChange={(e)=>setModelo(e.target.value)}
-                />
-                <label htmlFor="floatingInputCustom">Modelo</label>
-            </Form.Floating>
-            <Form.Floating className="mb-3">
-                <Form.Control
-                    id="floatingInputCustom"
-                    type="price"
                     placeholder="Precio"
                     value={precio}
                     onChange={(e)=>setPrecio(e.target.value)}
@@ -134,7 +120,7 @@ const CreateProduct = () => {
                 />
                 <label htmlFor="floatingInputCustom">Detalle</label>
             </Form.Floating>
-            <Form.Floating >
+            <Form.Floating className="mb-3">
                 <Form.Control
                     id="floatingInputCustom"
                     type="text"
@@ -143,6 +129,16 @@ const CreateProduct = () => {
                     onChange={(e)=>setDescripcion(e.target.value)}
                 />
                 <label htmlFor="floatingInputCustom">Descripción</label>
+            </Form.Floating>
+            <Form.Floating className="mb-3">
+                <Form.Control
+                    id="floatingInputCustom"
+                    type="text"
+                    placeholder="Imágen"
+                    value={img}
+                    onChange={(e)=>setImg(e.target.value)}
+                />
+                <label htmlFor="floatingInputCustom">Imágen</label>
             </Form.Floating>
             <button type="submit" className='btn btn-submit btn-lg mt-3'>Agregar</button>
             </form>

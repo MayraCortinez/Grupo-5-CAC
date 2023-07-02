@@ -76,8 +76,6 @@ export const ListProduct = () => {
 
     return (
         <div>
-            <body>
-                
             <Container>
 
                 <Table>
@@ -107,7 +105,6 @@ export const ListProduct = () => {
                     </tbody>
                 </Table>
             </Container>
-            </body>
         </div>
     )
 }
