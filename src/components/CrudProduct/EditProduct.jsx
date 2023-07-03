@@ -5,13 +5,8 @@ import Container from 'react-bootstrap/Container';
 import { getDoc, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
 import { dbCollections } from '../../firebaseConfig/collections';
-import Swal from 'sweetalert2';
-import withReactContent from 'sweetalert2-react-content';
-
-const MySwal = withReactContent(Swal);
 
 const EditProduct = () => {
-    
   const [form, setForm] = useState({
     marca: '',
     modelo: '',
@@ -31,15 +26,7 @@ const EditProduct = () => {
   };
 
   const alertaGuardado = () => {
-    MySwal.fire({
-      title: 'Producto editado con éxito',
-      showClass: {
-        popup: 'animate__animated animate__fadeInDown',
-      },
-      hideClass: {
-        popup: 'animate__animated animate__fadeOutUp',
-      },
-    });
+    // Código para mostrar la alerta de guardado
   };
 
   const update = async (e) => {
@@ -59,103 +46,106 @@ const EditProduct = () => {
     alertaGuardado();
     navigate('/listProduct');
   };
-  
-
-  const getProductoById = async (id) => {
-    const productoRef = doc(db, dbCollections.Productos, id);
-    console.log(productoRef)
-    const productoSnap = await getDoc(productoRef);
-    if (productoSnap.exists()) {
-      setForm(productoSnap.data());
-    } else {
-      console.log('No existe el producto');
-    }
-  };
 
   useEffect(() => {
-    getProductoById(id);
+    const getProductoById = async () => {
+      const productoDoc = doc(db, dbCollections.Productos, id);
+      const productoSnapshot = await getDoc(productoDoc);
+
+      if (productoSnapshot.exists()) {
+        const productoData = productoSnapshot.data();
+        setForm({
+          marca: productoData.marca,
+          modelo: productoData.modelo,
+          color: productoData.color,
+          precio: productoData.precio,
+          talle: productoData.talle,
+          detalle: productoData.detalle,
+          descripcion: productoData.descripcion,
+          img: productoData.img,
+        });
+      } else {
+        console.log('El producto no existe');
+      }
+    };
+
+    getProductoById();
   }, [id]);
 
   return (
     <div>
       <Container>
         <form onSubmit={update} className="mt-5">
-          <Form.Group className="mb-3">
-            <Form.Label>Marca</Form.Label>
+          <Form.Group controlId="marca">
+            <Form.Label>Marca:</Form.Label>
             <Form.Control
-              name="marca"
               type="text"
-              placeholder="Marca"
+              name="marca"
+              placeholder={form.marca}
               value={form.marca}
               onChange={cambio}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Modelo</Form.Label>
+          <Form.Group controlId="modelo">
+            <Form.Label>Modelo:</Form.Label>
             <Form.Control
-              name="modelo"
               type="text"
-              placeholder="Modelo"
+              name="modelo"
+              placeholder={form.modelo}
               value={form.modelo}
               onChange={cambio}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Color</Form.Label>
+          <Form.Group controlId="color">
+            <Form.Label>Color:</Form.Label>
             <Form.Control
-              name="color"
               type="text"
-              placeholder="Color"
+              name="color"
               value={form.color}
               onChange={cambio}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Precio</Form.Label>
+          <Form.Group controlId="precio">
+            <Form.Label>Precio:</Form.Label>
             <Form.Control
-              name="precio"
               type="number"
-              placeholder="Precio"
+              name="precio"
               value={form.precio}
               onChange={cambio}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Talle</Form.Label>
+          <Form.Group controlId="talle">
+            <Form.Label>Talle:</Form.Label>
             <Form.Control
-              name="talle"
               type="number"
-              placeholder="Talle"
+              name="talle"
               value={form.talle}
               onChange={cambio}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Detalle</Form.Label>
+          <Form.Group controlId="detalle">
+            <Form.Label>Detalle:</Form.Label>
             <Form.Control
-              name="detalle"
               type="text"
-              placeholder="Detalle"
+              name="detalle"
               value={form.detalle}
               onChange={cambio}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Descripción</Form.Label>
+          <Form.Group controlId="descripcion">
+            <Form.Label>Descripción:</Form.Label>
             <Form.Control
-              name="descripcion"
               type="text"
-              placeholder="Descripción"
+              name="descripcion"
               value={form.descripcion}
               onChange={cambio}
             />
           </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Imagen</Form.Label>
+          <Form.Group controlId="img">
+            <Form.Label>Imagen:</Form.Label>
             <Form.Control
-              name="img"
               type="file"
-              placeholder="Imagen"
+              name="img"
               value={form.img}
               onChange={cambio}
             />

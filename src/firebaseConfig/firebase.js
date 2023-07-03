@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-//import { getAnalytics } from "firebase/analytics"; 
+import { getAnalytics } from "firebase/analytics"; 
 import { getFirestore } from "firebase/firestore"; //Recurso que permite obtener los datos de la base.
 
 const firebaseConfig = {
