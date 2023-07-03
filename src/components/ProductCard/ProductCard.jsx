@@ -5,7 +5,9 @@ import AirMax from "./ID1_Air_Max_1.png";
 
 function ProductCard(  { modelo, talle, color, precio } ) {
   return (
+
     <div className="my-container">
+      <Link to={`/cart`}>
       <div className="my-card">
         <div className="my-card-img">
           <img src={ AirMax } alt="product.modelo" />
@@ -25,9 +27,9 @@ function ProductCard(  { modelo, talle, color, precio } ) {
             <h3>${precio}</h3>
           </div>
          </div>
-         <Link to={`/cart`}>More Details</Link>
        </div>
       </div>
+      </Link>
     </div>
   );
 }
