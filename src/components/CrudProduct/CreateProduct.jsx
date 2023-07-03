@@ -34,6 +34,7 @@ const CreateProduct = () => {
     const [talle, setTalle] = useState('');
     const [detalle, setDetalle] = useState('');
     const [descripcion, setDescripcion] = useState('');
+    const [id, setId] = useState('');
     const [img, setImg] = useState(null);
     const [previewImg, setPreviewImg] = useState(null);
 
@@ -71,6 +72,7 @@ const CreateProduct = () => {
             talle: talle,
             detalle: detalle,
             descripcion: descripcion,
+            id: id,
             img: urlImDesc,
         });
 
@@ -156,6 +158,16 @@ const CreateProduct = () => {
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
                     <label htmlFor="floatingInputCustom">Descripción</label>
+                </Form.Floating>
+                <Form.Floating className="mb-3">
+                    <Form.Control
+                        id="floatingInputCustom"
+                        type="number"
+                        placeholder="id"
+                        value={id}
+                        onChange={(e) => setId(parseInt(e.target.value))}
+                    />
+                    <label htmlFor="floatingInputCustom">Id</label>
                 </Form.Floating>
                 <Form.Floating className="mb-3">
                     <Form.Control

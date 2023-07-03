@@ -11,6 +11,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import ProductList from "./components/ProductList/ProductList";
 import CreateProduct from "./components/CrudProduct/CreateProduct";
 import EditProduct from "./components/CrudProduct/EditProduct";
+import Login from './components/Login/Login';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path="/createProduct" element={<CreateProduct/>} /> 
           <Route path="/editProduct/:id" element={<EditProduct/>} /> 
           <Route path="/cart" element={<Cart/>} />
+          <Route path="/login" element={<Login/>} />         
           <Route element={<NotFound/>} />
         </Routes>
 
