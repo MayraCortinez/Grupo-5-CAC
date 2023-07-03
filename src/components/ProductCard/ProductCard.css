@@ -13,21 +13,21 @@ body {
     align-items: center;
 }
 
-.container {
+.my-container {
     position: relative;
 }
 
-.container .card {
+.my-container .my-card {
     position: relative;
-    width: 300px;
-    height: 400px;
+    width: 200px;
+    height: 300px;
     background: #232323;
     border-radius: 15px;
     overflow: hidden;
     margin: auto;
 }
 
-.container .card:before {
+.my-container .my-card:before {
     content: "";
     position: absolute;
     top: -10%;
@@ -39,11 +39,11 @@ body {
     transition: 0.5s ease-in-out;
 }
 
-.container .card:hover:before {
+.my-container .my-card:hover:before {
     clip-path: circle(100% at 80% -20%);
 }
 
-.container .card .card-img {
+.my-container .my-card .my-card-img {
     position: absolute;
     top: 40%;
     transform: translateY(-50%);
@@ -53,24 +53,24 @@ body {
     transition: .5s;
 }
 
-.container .card:hover .card-img {
+.my-container .my-card:hover .my-card-img {
     transform: translateY(-70%);
 }
 
-.container .card .card-img img {
+.my-container .my-card .my-card-img img {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(30deg);
-    width: 270px;
+    width: 180px;
     transition: .5s;
 }
 
-.container .card:hover .card-img img {
+.my-container .my-card:hover .my-card-img img {
     transform: translate(-50%, -50%) rotate(15deg);
 }
 
-.container .card .card-content {
+.my-container .my-card .my-card-content {
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -80,24 +80,24 @@ body {
     z-index: 90;
 }
 
-.container .card:hover .card-content {
+.my-container .my-card:hover .my-card-content {
     height: 40%;
 }
 
-.container .card .card-content .card-title {
+.my-container .my-card .my-card-content .my-card-title {
     position: relative;
-    font-size: 2.5rem;
+    font-size: 1.3rem;
     font-weight: 600;
     letter-spacing: 1px;
     color: red;
     transition: .5s;
 }
 
-.container .card:hover .card-content .card-title {
-    transform: translate(-20%, -30%) scale(0.6);
+.my-container .my-card:hover .my-card-content .my-card-title {
+    transform: translate(-10%, -30%) scale(0.8);
 }
 
-.container .card .card-content .card-details {
+.my-container .my-card .my-card-content .my-card-details {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,13 +105,13 @@ body {
     transition: .5s;
 }
 
-.container .card:hover .card-content .card-details {
-    transform: translateY(-35%);
+.my-container .my-card:hover .my-card-content .my-card-details {
+    transform: translateY(-10%);
 }
 
-.container .card .card-content .card-details .size,
-.container .card .card-content .card-details .color,
-.container .card .card-content .card-details .price {
+.my-container .my-card .my-card-content .my-card-details .my-size,
+.my-container .my-card .my-card-content .my-card-details .my-color,
+.my-container .my-card .my-card-content .my-card-details .my-price {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -121,48 +121,48 @@ body {
     visibility: hidden;
 }
 
-.container .card:hover .card-content .card-details .size {
+.my-container .my-card:hover .my-card-content .my-card-details .my-size {
     opacity: 1;
     visibility: visible;
     transition-delay: .6s;
 }
 
-.container .card:hover .card-content .card-details .color {
+.my-container .my-card:hover .my-card-content .my-card-details .my-color {
     opacity: 1;
     visibility: visible;
     transition-delay: .7s;
 }
 
-.container .card:hover .card-content .card-details .price {
+.my-container .my-card:hover .my-card-content .my-card-details .my-price {
     opacity: 1;
     visibility: visible;
     transition-delay: .8s;
 }
 
-.container .card .card-content .card-details .size h3,
-.container .card .card-content .card-details .color h3,
-.container .card .card-content .card-details .price h3 {
+.my-container .my-card .my-card-content .my-card-details .my-size h3,
+.my-container .my-card .my-card-content .my-card-details .my-color h3,
+.my-container .my-card .my-card-content .my-card-details .my-price h3 {
     color: red;
     font-weight: 300;
-    font-size: 14px;
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     margin-right: 10px;
 }
 
-.container .card .card-content .card-details .price h3 {
+.my-container .my-card .my-card-content .my-card-details .my-price h3 {
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
     pointer-events: none;
 }
 
 
-.container .card .card-content .card-details .size span {
+.my-container .my-card .my-card-content .my-card-details .my-size span {
     width: 26px;
     height: 26px;
     text-align: center;
     line-height: 26px;
-    font-size: 14px;
+    font-size: 0.8rem;
     display: inline-block;
     color: white;
     background: red;
@@ -173,12 +173,12 @@ body {
     cursor: pointer;
 }
 
-.container .card .card-content .card-details .size span:hover {
+.my-container .my-card .my-card-content .my-card-details .my-size span:hover {
     color: #fff;
     background: #111;
 }
 
-.container .card .card-content .card-details .color span {
+.my-container .my-card .my-card-content .my-card-details .my-color span {
     width: 20px;
     height: 20px;
     background: #906A37;
@@ -187,7 +187,7 @@ body {
     cursor: pointer;
 }
 
-.container .card .card-content a {
+.my-container .my-card .my-card-content a {
     display: inline-block;
     padding: 5px 20px;
     background: red;
@@ -200,7 +200,7 @@ body {
     transition: .5s;
 }
 
-.container .card:hover .card-content a {
+.my-container .my-card:hover .my-card-content a {
     opacity: 1;
     transform: translateY(-80%);
     transition-delay: .9s;

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import ProductCard from "../ProductCard/ProductCard";
 import { collection, getDocs } from 'firebase/firestore';
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import { db } from '../../firebaseConfig/firebase';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -23,16 +24,27 @@ function ProductList() {
     getProductos();
   }, []);
 
+  const storage = getStorage();
+  
+  productos.forEach(async prod =>{
+    const storageRef = ref(storage, `${prod.img}`);
+    const urlImg = await getDownloadURL(storageRef)
+    console.log(urlImg)
+  })
+  
+  /*** PROBAR GUARDAR EN LA DB EL NOMBRE DEL ARCHIVO DE IMAGEN ****/
+  // 
+
   return (
-    <Container>
-      <Row className="py-5">
+    <Container fluid className="mt-3">
+      <Row className="pt-5">
       {productos?.map((producto ) => (
-        <Col key={producto.id} className="py-1" md="6" lg="4" xxl="3">
+        <Col key={producto.id} className="pt-5 px-3">
         <ProductCard 
-        modelo={producto.modelo}
-        talle={producto.talle}
-        color={producto.color}
-        precio={producto.precio}
+          modelo={producto.modelo}
+          talle={producto.talle}
+          color={producto.color}
+          precio={producto.precio}
         />
         </Col>
       ))}
