@@ -1,12 +1,16 @@
 import React from "react";
 import classes from "./home.module.css";
 import CarouselHome from "../../components/Carousel/CarouselHome";
-import Footer from "../../components/Footer/Footer";
+import FormContact from "../../components/FormContact/FormContact";
+import BannerCTA from "../../components/BannerCTA/BannerCTA";
+
 
 function Home() {
   return (
     <div className={classes.Home}>
       <CarouselHome />
+      <BannerCTA/>
+      <FormContact/>
     </div>
   );
 }
