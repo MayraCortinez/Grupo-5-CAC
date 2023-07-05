@@ -48,7 +48,7 @@ export const ListProduct = () => {
 
     const confirmDelete = (id) => {
         Swal.fire({
-            title: `Deseas eliminar el ${productoDoc.id}`,
+            title: `Eliminarás el producto id: ${id}`,
             text: "No podrás revertir tu decisión!",
             icon: 'warning',
             showCancelButton: true,

@@ -22,7 +22,7 @@ const db = getFirestore(app);
 
 // Obtener la instancia de Storage
 const storage = getStorage(app);
-const pathReference = ref(storage, 'images/stars.jpg');
+const gsReference = ref(storage, 'images/stars.jpg');
 
 export { app, db, storage, gsReference };
 
