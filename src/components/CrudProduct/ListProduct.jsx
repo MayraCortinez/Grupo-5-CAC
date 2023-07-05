@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+import { Table, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container'
 import { Link } from 'react-router-dom';
 import Swal from 'sweetalert2';
@@ -8,6 +8,7 @@ import { db } from '../../firebaseConfig/firebase';
 import { async } from '@firebase/util';
 
 import withReactContent from 'sweetalert2-react-content';
+import ModalEdit from './ModalEdit';
 const MySwal = withReactContent(Swal);
 
 
@@ -96,7 +97,9 @@ export const ListProduct = () => {
                                 <td key={producto.talle} className='text-dark'>{producto.talle || ''}</td>
                                 <td key={producto.precio} className='text-dark'>{producto.precio || ''} </td>
                                 <td>
-                                    <Link to={`/editProduct/${producto.id}`} className="btn btn"><img width="28" height="28" src="https://img.icons8.com/dotty/80/create-new.png" alt="create-new"/></Link>
+                                <Button variant="primary" onClick={() => setShow(true)}>
+                                    <ModalEdit />
+                                <img width="28" height="28" src="https://img.icons8.com/dotty/80/create-new.png" alt="create-new"/></Button>
                                     <button onClick={() => { confirmDelete(producto.id) }} className='btn btn-dangerous hover'><img width="28" height="28"src="https://img.icons8.com/wired/64/000000/filled-trash.png" alt="filled-trash"/></button>
                                 </td>
                             </tr>

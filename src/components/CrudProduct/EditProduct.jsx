@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { getDoc, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
@@ -43,7 +43,7 @@ const EditProduct = () => {
 
   const update = async (e) => {
     e.preventDefault();
-    const producto = doc(db, 'productos', id); // Utiliza form.id como cadena
+    const producto = doc(db, 'productos', id); 
     const data = {
       marca: form.marca,
       modelo: form.modelo,
