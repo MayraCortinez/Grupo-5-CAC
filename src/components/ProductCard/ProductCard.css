@@ -7,14 +7,15 @@
 }
 
 /*--- SÓLO PARA CENTRAR LA CARD ---*/
-body {
+/* body {
     display: flex;
     justify-content: center;
     align-items: center;
-}
+} */
 
 .my-container {
     position: relative;
+    cursor: pointer;
 }
 
 .my-container .my-card {

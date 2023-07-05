@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from "../../assets/3.png"
 
 //  Navbar, Nav y Container de React Bootstrap
