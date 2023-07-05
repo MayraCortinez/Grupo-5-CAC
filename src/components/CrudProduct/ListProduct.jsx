@@ -25,7 +25,7 @@ export const ListProduct = () => {
 
     const getProductos = async () => {
         const data = await getDocs(productosCollection);
-        //console.log(data.docs);
+        console.log(data.docs);
 
         setProductos(
             data.docs.map(doc => ({
@@ -33,7 +33,7 @@ export const ListProduct = () => {
                 id: doc.id
             }))
         );
-        console.log(productos);
+        
     }
 
     //4 delete documento

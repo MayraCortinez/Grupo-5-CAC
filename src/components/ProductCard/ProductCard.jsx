@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 import "./ProductCard.css"
 import AirMax from "./ID1_Air_Max_1.png";  
 
-function ProductCard(  { modelo, talle, color, precio } ) {
+function ProductCard(  { modelo, talle, color, precio, img } ) {
   return (
 
     <div className="my-container">
       <Link to={`/cart`}>
       <div className="my-card">
         <div className="my-card-img">
-          <img src={ AirMax } alt="product.modelo" />
+          <img src={ img } alt={img} />
         </div>
         <div className="my-card-content">
          <h2 className="my-card-title">{modelo}</h2>
