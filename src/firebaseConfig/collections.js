@@ -1,4 +1,5 @@
 export const dbCollections = {
     Productos : "Productos",
-    users: "users"
+    users: "users",
+    pedidos: "pedidos"
 };

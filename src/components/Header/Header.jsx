@@ -23,7 +23,7 @@ const Header = () => {
             <Nav.Link href="/createProduct">
               Crear Producto
             </Nav.Link>
-            <Nav.Link href="/carrito">
+            <Nav.Link href="/cart">
               Carrito
             </Nav.Link>
             <Nav.Link href="/contacto">
