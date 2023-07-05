@@ -5,6 +5,9 @@ import Container from 'react-bootstrap/Container';
 import { getDoc, updateDoc, doc } from 'firebase/firestore';
 import { db } from '../../firebaseConfig/firebase';
 import { dbCollections } from '../../firebaseConfig/collections';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+const MySwal = withReactContent(Swal);
 
 const EditProduct = () => {
   const [form, setForm] = useState({
@@ -15,6 +18,7 @@ const EditProduct = () => {
     talle: '',
     detalle: '',
     descripcion: '',
+    id: '',
     img: '',
   });
 
@@ -26,12 +30,20 @@ const EditProduct = () => {
   };
 
   const alertaGuardado = () => {
-    // Código para mostrar la alerta de guardado
+    Swal.fire({
+      title: 'Producto editado con éxito',
+      showClass: {
+        popup: 'animate__animated animate__fadeInDown',
+      },
+      hideClass: {
+        popup: 'animate__animated animate__fadeOutUp',
+      },
+    });
   };
 
   const update = async (e) => {
     e.preventDefault();
-    const productoRef = doc(db, dbCollections.Productos, id);
+    const producto = doc(db, 'productos', id); // Utiliza form.id como cadena
     const data = {
       marca: form.marca,
       modelo: form.modelo,
@@ -40,20 +52,21 @@ const EditProduct = () => {
       talle: form.talle,
       detalle: form.detalle,
       descripcion: form.descripcion,
+      id: form.id,
       img: form.img,
     };
-    await updateDoc(productoRef, data);
+    await updateDoc(producto, data);
     alertaGuardado();
     navigate('/listProduct');
   };
 
-  useEffect(() => {
-    const getProductoById = async () => {
-      const productoDoc = doc(db, dbCollections.Productos, id);
-      const productoSnapshot = await getDoc(productoDoc);
-
-      if (productoSnapshot.exists()) {
-        const productoData = productoSnapshot.data();
+  const getProductoById = async (id) => {
+    try {
+      const collectionName = 'productos';
+      const productoDoc = doc(db, collectionName, id);
+      const productoSnap = await getDoc(productoDoc);
+      if (productoSnap.exists()) {
+        const productoData = productoSnap.data();
         setForm({
           marca: productoData.marca,
           modelo: productoData.modelo,
@@ -62,94 +75,116 @@ const EditProduct = () => {
           talle: productoData.talle,
           detalle: productoData.detalle,
           descripcion: productoData.descripcion,
+          id: productoData.id,
           img: productoData.img,
         });
       } else {
         console.log('El producto no existe');
       }
-    };
+    } catch (error) {
+      console.log('Error al obtener el producto:', error);
+    }
+  };
 
-    getProductoById();
-  }, [id]);
+  useEffect(() => {
+    getProductoById(id);
+  },[id]);
 
   return (
     <div>
       <Container>
         <form onSubmit={update} className="mt-5">
-          <Form.Group controlId="marca">
-            <Form.Label>Marca:</Form.Label>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="text"
               name="marca"
-              placeholder={form.marca}
+              type="text"
+              placeholder="Marca"
               value={form.marca}
               onChange={cambio}
             />
-          </Form.Group>
-          <Form.Group controlId="modelo">
-            <Form.Label>Modelo:</Form.Label>
+            <label htmlFor="floatingInputCustom">Marca</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="text"
               name="modelo"
-              placeholder={form.modelo}
+              type="text"
+              placeholder="Modelo"
               value={form.modelo}
               onChange={cambio}
             />
-          </Form.Group>
-          <Form.Group controlId="color">
-            <Form.Label>Color:</Form.Label>
+            <label htmlFor="floatingInputCustom">Modelo</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="text"
               name="color"
+              type="text"
+              id="exampleColorInput"
+              placeholder="Color"
               value={form.color}
               onChange={cambio}
             />
-          </Form.Group>
-          <Form.Group controlId="precio">
-            <Form.Label>Precio:</Form.Label>
+            <label htmlFor="floatingInputCustom">Color</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="number"
               name="precio"
+              type="number"
+              placeholder="Precio"
               value={form.precio}
               onChange={cambio}
             />
-          </Form.Group>
-          <Form.Group controlId="talle">
-            <Form.Label>Talle:</Form.Label>
+            <label htmlFor="floatingInputCustom">Precio</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="number"
               name="talle"
+              type="number"
+              placeholder="Talle"
               value={form.talle}
               onChange={cambio}
             />
-          </Form.Group>
-          <Form.Group controlId="detalle">
-            <Form.Label>Detalle:</Form.Label>
+            <label htmlFor="floatingInputCustom">Talle</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="text"
               name="detalle"
+              type="text"
+              placeholder="Detalle"
               value={form.detalle}
               onChange={cambio}
             />
-          </Form.Group>
-          <Form.Group controlId="descripcion">
-            <Form.Label>Descripción:</Form.Label>
+            <label htmlFor="floatingInputCustom">Detalle</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="text"
               name="descripcion"
+              type="text"
+              placeholder={form.descripcion}
               value={form.descripcion}
               onChange={cambio}
             />
-          </Form.Group>
-          <Form.Group controlId="img">
-            <Form.Label>Imagen:</Form.Label>
+            <label htmlFor="floatingInputCustom">Descripción</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
             <Form.Control
-              type="file"
-              name="img"
-              value={form.img}
+              name="id"
+              type="number"
+              placeholder="id"
+              value={form.id}
               onChange={cambio}
             />
-          </Form.Group>
+            <label htmlFor="floatingInputCustom">Id</label>
+          </Form.Floating>
+          <Form.Floating className="mb-3">
+            <Form.Control
+              name="img"
+              type="file"
+              placeholder="Imágen"
+              value={""}
+              onChange={cambio}
+            />
+            <label htmlFor="floatingInputCustom">Imágen</label>
+          </Form.Floating>
           <button type="submit" className="btn btn-primary mt-3">
             Actualizar
           </button>

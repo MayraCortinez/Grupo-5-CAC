@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics"; 
-import { getFirestore } from "firebase/firestore"; //Recurso que permite obtener los datos de la base.
+import { getFirestore } from "firebase/firestore";
+import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBgM8ar0yvsbeH-dz026jMMmB_0aL9i05M",
@@ -13,7 +13,15 @@ const firebaseConfig = {
 };
 
 
-export const app = initializeApp(firebaseConfig);
-export const analytics = getAnalytics(app);
-export const db = getFirestore(app);
+
+// Inicializar la aplicación de Firebase
+const app = initializeApp(firebaseConfig);
+// Obtener la instancia de Firestore
+const db = getFirestore(app);
+
+// Obtener la instancia de Storage
+const storage = getStorage(app);
+const gsReference = ref(storage, 'images/stars.jpg');
+
+export { app, db, storage, gsReference };
 
