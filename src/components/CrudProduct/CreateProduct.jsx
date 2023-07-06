@@ -11,20 +11,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
 
-const firebaseConfig = {
-
-    apiKey: "AIzaSyBgM8ar0yvsbeH-dz026jMMmB_0aL9i05M",
-    authDomain: "reactjsgrupo5-43e69.firebaseapp.com",
-    projectId: "reactjsgrupo5-43e69",
-    storageBucket: "reactjsgrupo5-43e69.appspot.com",
-    messagingSenderId: "522676320609",
-    appId: "1:522676320609:web:a56e180815cb51b6362d20",
-    measurementId: "G-M9MVDDL4BS"
-
-};
-
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+const storage = getStorage();
 
 const CreateProduct = () => {
     const [marca, setMarca] = useState('');
@@ -34,6 +21,7 @@ const CreateProduct = () => {
     const [talle, setTalle] = useState('');
     const [detalle, setDetalle] = useState('');
     const [descripcion, setDescripcion] = useState('');
+    const [id, setId] = useState('');
     const [img, setImg] = useState(null);
     const [previewImg, setPreviewImg] = useState(null);
 
@@ -71,6 +59,7 @@ const CreateProduct = () => {
             talle: talle,
             detalle: detalle,
             descripcion: descripcion,
+            id: id,
             img: urlImDesc,
         });
 
@@ -156,6 +145,16 @@ const CreateProduct = () => {
                         onChange={(e) => setDescripcion(e.target.value)}
                     />
                     <label htmlFor="floatingInputCustom">Descripción</label>
+                </Form.Floating>
+                <Form.Floating className="mb-3">
+                    <Form.Control
+                        id="floatingInputCustom"
+                        type="number"
+                        placeholder="id"
+                        value={id}
+                        onChange={(e) => setId(parseInt(e.target.value))}
+                    />
+                    <label htmlFor="floatingInputCustom">Id</label>
                 </Form.Floating>
                 <Form.Floating className="mb-3">
                     <Form.Control

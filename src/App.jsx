@@ -1,4 +1,3 @@
-import React from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "../src/pages/Home/Home";
 import ProductDetail from "../src/pages/ProductDetail/ProductDetail";
@@ -10,6 +9,8 @@ import { ListProduct } from '../src/components/CrudProduct/ListProduct'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import ProductList from "./components/ProductList/ProductList";
 import CreateProduct from "./components/CrudProduct/CreateProduct";
+import EditProduct from "./components/CrudProduct/EditProduct";
+import Login from './components/Login/Login';
 
 
 function App() {
@@ -22,7 +23,9 @@ function App() {
           <Route path="/productList" element={<ProductList/>} /> 
           <Route path="/listProduct" element={<ListProduct/>} /> 
           <Route path="/createProduct" element={<CreateProduct/>} /> 
+          <Route path="/editProduct/:id" element={<EditProduct/>} /> 
           <Route path="/cart" element={<Cart/>} />
+          <Route path="/login" element={<Login/>} />         
           <Route element={<NotFound/>} />
         </Routes>
       <Footer />

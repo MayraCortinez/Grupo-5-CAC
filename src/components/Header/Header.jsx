@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from "../../assets/3.png"
 
 //  Navbar, Nav y Container de React Bootstrap
@@ -24,7 +23,7 @@ const Header = () => {
             <Nav.Link href="/createProduct">
               Crear Producto
             </Nav.Link>
-            <Nav.Link href="/carrito">
+            <Nav.Link href="/cart">
               Carrito
             </Nav.Link>
             <Nav.Link href="/contacto">

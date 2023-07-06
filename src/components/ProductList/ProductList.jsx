@@ -1,35 +1,34 @@
-import { useState, useEffect } from "react";
-import ProductCard from "../ProductCard/ProductCard";
-import { collection, getDocs } from 'firebase/firestore';
+import React, { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { db } from '../../firebaseConfig/firebase';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { db, gsReference } from "../../firebaseConfig/firebase";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ProductCard from "../ProductCard/ProductCard";
 
 function ProductList() {
-
   const [productos, setProductos] = useState([]);
 
-  const productosCollection = collection(db, "productos");
-
   const getProductos = async () => {
-    const data = await getDocs(productosCollection);
-    setProductos(
-      data.docs.map( doc => ({...doc.data(), id: doc.id}))
-    )
-  }
+    const querySnapshot = await getDocs(collection(db, "productos"));
+    const productosData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setProductos(productosData);
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     getProductos();
   }, []);
 
   const storage = getStorage();
   
-  productos.forEach(async prod =>{
+  productos.map(async prod =>{
     const storageRef = ref(storage, `${prod.img}`);
-    const urlImg = await getDownloadURL(storageRef)
-    console.log(urlImg)
+    const urlImg = await getDownloadURL(storageRef);
+    console.log(urlImg);
   })
   
   /*** PROBAR GUARDAR EN LA DB EL NOMBRE DEL ARCHIVO DE IMAGEN ****/
@@ -41,10 +40,14 @@ function ProductList() {
       {productos?.map((producto ) => (
         <Col key={producto.id} className="pt-5 px-3">
         <ProductCard 
-          modelo={producto.modelo}
-          talle={producto.talle}
           color={producto.color}
+          descripcion={producto.descripcion}
+          detalle={producto.detalle}
+          img={producto.img}
+          marca={producto.marca}
+          modelo={producto.modelo}
           precio={producto.precio}
+          talle={producto.talle}
         />
         </Col>
       ))}
