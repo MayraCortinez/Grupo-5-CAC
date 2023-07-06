@@ -27,7 +27,7 @@ const Header = () => {
             <Nav.Link href="/carrito">
               Carrito
             </Nav.Link>
-            <Nav.Link href="/contacto">
+            <Nav.Link href="#contacto" onClick={handleButtonClick}>
               Contacto
             </Nav.Link>
           </Nav>
@@ -36,5 +36,15 @@ const Header = () => {
     </Navbar>
   );
 };
+
+const handleButtonClick = (e) => {
+  e.preventDefault();
+  const target = document.querySelector(e.target.getAttribute('href'));
+  target.scrollIntoView({
+    behavior: 'smooth',
+  });
+};
+
+
 
 export default Header;

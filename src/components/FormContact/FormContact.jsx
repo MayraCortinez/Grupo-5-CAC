@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 
 const FormContact = () => {
   return (
-    <div>
+    <div id='contacto'>
       <h2 style={{ color: "#fff", textAlign: "center", margin: "10px"}}>Contacto</h2>
       <Form action="reactjsgrupo5@gmail.com" method="POST" style={{ width: "45%", margin: "0 auto"}}>
         <Form.Group controlId="name" style={{ margin:"10px 0"}}>
