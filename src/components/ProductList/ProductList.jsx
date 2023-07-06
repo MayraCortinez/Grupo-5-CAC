@@ -1,26 +1,25 @@
-import { useState, useEffect } from "react";
-import ProductCard from "../ProductCard/ProductCard";
-import { collection, getDocs } from 'firebase/firestore';
+import React, { useState, useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { db } from '../../firebaseConfig/firebase';
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { db, gsReference } from "../../firebaseConfig/firebase";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import ProductCard from "../ProductCard/ProductCard";
 
 function ProductList() {
-
   const [productos, setProductos] = useState([]);
 
-  const productosCollection = collection(db, "productos");
-
   const getProductos = async () => {
-    const data = await getDocs(productosCollection);
-    setProductos(
-      data.docs.map( doc => ({...doc.data(), id: doc.id}))
-    )
-  }
+    const querySnapshot = await getDocs(collection(db, "productos"));
+    const productosData = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setProductos(productosData);
+  };
 
-  useEffect( () => {
+  useEffect(() => {
     getProductos();
   }, []);
 

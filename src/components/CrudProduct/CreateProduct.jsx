@@ -11,20 +11,7 @@ import withReactContent from 'sweetalert2-react-content';
 
 const MySwal = withReactContent(Swal);
 
-const firebaseConfig = {
-
-    apiKey: "AIzaSyBgM8ar0yvsbeH-dz026jMMmB_0aL9i05M",
-    authDomain: "reactjsgrupo5-43e69.firebaseapp.com",
-    projectId: "reactjsgrupo5-43e69",
-    storageBucket: "reactjsgrupo5-43e69.appspot.com",
-    messagingSenderId: "522676320609",
-    appId: "1:522676320609:web:a56e180815cb51b6362d20",
-    measurementId: "G-M9MVDDL4BS"
-
-};
-
-const app = initializeApp(firebaseConfig);
-const storage = getStorage(app);
+const storage = getStorage();
 
 const CreateProduct = () => {
     const [marca, setMarca] = useState('');
