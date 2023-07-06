@@ -1,0 +1,207 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,500,600,700,800, 800i, 900&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+/*--- SÓLO PARA CENTRAR LA CARD ---*/
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.myContainer {
+    position: relative;
+}
+
+.myContainer .myCard {
+    position: relative;
+    width: 200px;
+    height: 300px;
+    background: #232323;
+    border-radius: 15px;
+    overflow: hidden;
+    margin: auto;
+}
+
+.myContainer .myCard:before {
+    content: "";
+    position: absolute;
+    top: -10%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(#584225, #8D6B32, #906A37, #AE844E, #B29059, #ebb176);
+    clip-path: circle(30%);
+    transition: 0.5s ease-in-out;
+}
+
+.myContainer .myCard:hover:before {
+    clip-path: circle(100% at 80% -20%);
+}
+
+.myContainer .myCard .myCardImg {
+    position: absolute;
+    top: 40%;
+    transform: translateY(-50%);
+    z-index: 1000;
+    width: 100%;
+    height: 80%;
+    transition: .5s;
+}
+
+.myContainer .myCard:hover .myCardImg {
+    transform: translateY(-70%);
+}
+
+.myContainer .myCard .myCardImg img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(30deg);
+    width: 180px;
+    transition: .5s;
+}
+
+.myContainer .myCard:hover .myCardImg img {
+    transform: translate(-50%, -50%) rotate(15deg);
+}
+
+.myContainer .myCard .myCardContent {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 30%;
+    text-align: center;
+    transition: 1s;
+    z-index: 90;
+}
+
+.myContainer .myCard:hover .myCardContent {
+    height: 40%;
+}
+
+.myContainer .myCard .myCardContent .myCardTitle {
+    position: relative;
+    font-size: 1.3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: red;
+    transition: .5s;
+}
+
+.myContainer .myCard:hover .myCardContent .myCardTitle {
+    transform: translate(-10%, -30%) scale(0.8);
+}
+
+.myContainer .myCard .myCardContent .myCarDetails {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    transition: .5s;
+}
+
+.myContainer .myCard:hover .myCardContent .myCarDetails {
+    transform: translateY(-10%);
+}
+
+.myContainer .myCard .myCardContent .myCarDetails .mySize,
+.myContainer .myCard .myCardContent .myCarDetails .myColor,
+.myContainer .myCard .myCardContent .myCarDetails .myPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 8px 20px;
+    transition: .5s;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.myContainer .myCard:hover .myCardContent .myCarDetails .mySize {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .6s;
+}
+
+.myContainer .myCard:hover .myCardContent .myCarDetails .myColor {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .7s;
+}
+
+.myContainer .myCard:hover .myCardContent .myCarDetails .myPrice {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: .8s;
+}
+
+.myContainer .myCard .myCardContent .myCarDetails .mySize h3,
+.myContainer .myCard .myCardContent .myCarDetails .myColor h3,
+.myContainer .myCard .myCardContent .myCarDetails .myPrice h3 {
+    color: red;
+    font-weight: 300;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-right: 10px;
+}
+
+.myContainer .myCard .myCardContent .myCarDetails .myPrice h3 {
+    font-weight: bold;
+    font-size: 1rem;
+    pointer-events: none;
+}
+
+
+.myContainer .myCard .myCardContent .myCarDetails .mySize span {
+    width: 26px;
+    height: 26px;
+    text-align: center;
+    line-height: 26px;
+    font-size: 0.8rem;
+    display: inline-block;
+    color: white;
+    background: red;
+    font-weight: 500;
+    margin: 0 5px;
+    transition: .5s;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.myContainer .myCard .myCardContent .myCarDetails .mySize span:hover {
+    color: #fff;
+    background: #111;
+}
+
+.myContainer .myCard .myCardContent .myCarDetails .my-color span {
+    width: 20px;
+    height: 20px;
+    background: #906A37;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.myContainer .myCard .myCardContent a {
+    display: inline-block;
+    padding: 5px 20px;
+    background: red;
+    border-radius: 20px;
+    text-decoration: none;
+    font-weight: 600;
+    color: white;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: .5s;
+}
+
+.myContainer .myCard:hover .myCardContent a {
+    opacity: 1;
+    transform: translateY(-80%);
+    transition-delay: .9s;
+}

@@ -74,9 +74,10 @@ const CreateProduct = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={newProduct} className="mt-5">
-                <Form.Floating className="mb-3">
+        <>
+            <form onSubmit={newProduct} className="mt-80">
+                <h1 className='blue'>Agregar producto:</h1>
+                <Form.Floating className="mb-3 ">
                     <Form.Control
                         id="floatingInputCustom"
                         type="text"
@@ -175,7 +176,7 @@ const CreateProduct = () => {
                     Agregar
                 </button>
             </form>
-        </div>
+        </>
     );
 };
 

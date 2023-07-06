@@ -1,39 +1,40 @@
-import { useState } from "react";
-import { Button, Modal } from "react-bootstrap";
-import EditProduct from "./EditProduct";
+// ModalEdit.jsx
+import React, { useState, useEffect } from 'react';
+import { Button, Modal } from 'react-bootstrap';
+import EditProduct from './EditProduct';
 
+const ModalEdit = ({ producto }) => {
+  const [show, setShow] = useState(false);
+  const [editedProducto, setEditedProducto] = useState(null);
 
+  useEffect(() => {
+    setEditedProducto(producto);
+  }, [producto]);
 
-const ModalEdit = () =>  {
-    const [show, setShow] = useState(false);
-  
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-  
-    return (
-      <>
-        <Button variant="primary" onClick={handleShow}>
-          Editar 
-        </Button>
-  
-        <Modal show={show} onHide={handleClose}>
-          <Modal.Header closeButton>
-            <Modal.Title> Editar producto </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <EditProduct />
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleClose}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      </>
-    );
-  }
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  export default ModalEdit;
+  return (
+    <>
+      <Button variant="primary" onClick={handleShow}>
+        Editar
+      </Button>
+
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar producto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {editedProducto && <EditProduct producto={editedProducto} />}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancelar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
+
+export default ModalEdit;

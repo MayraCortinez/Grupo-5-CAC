@@ -41,7 +41,7 @@ const EditProduct = () => {
     });
   };
 
-  const update = async (e) => {
+   const update = async (e) => {
     e.preventDefault();
     const producto = doc(db, 'productos', id); 
     const data = {
@@ -159,7 +159,7 @@ const EditProduct = () => {
             <Form.Control
               name="descripcion"
               type="text"
-              placeholder={form.descripcion}
+              placeholder="descripción"
               value={form.descripcion}
               onChange={cambio}
             />
