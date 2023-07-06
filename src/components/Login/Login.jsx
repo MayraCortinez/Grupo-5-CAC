@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
-import firebase from 'firebase/app';
-import 'firebase/auth';
+import { app } from '../../firebaseConfig/firebase';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '../../firebaseConfig/firebase';
+import { dbCollections } from '../../firebaseConfig/collections';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [userExists, setUserExists] = useState(false);
 
   const handleEmailChange = (event) => {
     setEmail(event.target.value);
@@ -18,8 +22,21 @@ const Login = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    // Consulta en la colección "users" para verificar si el usuario existe
+    const usersRef = collection(db, dbCollections.users);
+    const q = query(usersRef, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+      console.log('Usuario no encontrado');
+      // Lógica para manejar el caso cuando el usuario no existe
+      return;
+    }
+
+    const auth = getAuth(app);
+
     try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
+      await signInWithEmailAndPassword(auth, email, password);
       console.log('Inicio de sesión exitoso');
       // Lógica después de iniciar sesión exitosamente
     } catch (error) {
@@ -55,9 +72,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-
-
-
-
