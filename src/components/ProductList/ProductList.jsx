@@ -24,42 +24,35 @@ function ProductList() {
   }, []);
 
   const storage = getStorage();
-
-  const fetchImageUrls = async () => {
-    const updatedProductos = await Promise.all(
-      productos.map(async (producto) => {
-        const imageUrl = await getDownloadURL(
-          ref(storage, `${gsReference}/${producto.img}`)
-        );
-        return {
-          ...producto,
-          img: imageUrl,
-        };
-      })
-    );
-    setProductos(updatedProductos);
-  };
-
-  useEffect(() => {
-    fetchImageUrls();
-  }, [productos]);
+  
+  productos.map(async prod =>{
+    const storageRef = ref(storage, `${prod.img}`);
+    const urlImg = await getDownloadURL(storageRef);
+    console.log(urlImg);
+  })
+  
+  /*** PROBAR GUARDAR EN LA DB EL NOMBRE DEL ARCHIVO DE IMAGEN ****/
+  // 
 
   return (
     <Container fluid className="mt-3">
       <Row className="pt-5">
-        {productos.map((producto) => (
-          <Col key={producto.id} className="pt-5 px-3">
-            <ProductCard
-              modelo={producto.modelo}
-              talle={producto.talle}
-              color={producto.color}
-              precio={producto.precio}
-              img={producto.img}
-            />
-          </Col>
-        ))}
-      </Row>
-    </Container>
+      {productos?.map((producto ) => (
+        <Col key={producto.id} className="pt-5 px-3">
+        <ProductCard 
+          color={producto.color}
+          descripcion={producto.descripcion}
+          detalle={producto.detalle}
+          img={producto.img}
+          marca={producto.marca}
+          modelo={producto.modelo}
+          precio={producto.precio}
+          talle={producto.talle}
+        />
+        </Col>
+      ))}
+      </ Row>
+    </ Container>
   );
 }
 

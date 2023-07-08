@@ -1,4 +1,3 @@
-import React from 'react';
 import logo from "../../assets/3.png"
 
 //  Navbar, Nav y Container de React Bootstrap
@@ -24,10 +23,10 @@ const Header = () => {
             <Nav.Link href="/createProduct">
               Crear Producto
             </Nav.Link>
-            <Nav.Link href="/carrito">
+            <Nav.Link href="/cart">
               Carrito
             </Nav.Link>
-            <Nav.Link href="/contacto">
+            <Nav.Link href="#contacto" onClick={handleButtonClick}>
               Contacto
             </Nav.Link>
           </Nav>
@@ -36,5 +35,15 @@ const Header = () => {
     </Navbar>
   );
 };
+
+const handleButtonClick = (e) => {
+  e.preventDefault();
+  const target = document.querySelector(e.target.getAttribute('href'));
+  target.scrollIntoView({
+    behavior: 'smooth',
+  });
+};
+
+
 
 export default Header;

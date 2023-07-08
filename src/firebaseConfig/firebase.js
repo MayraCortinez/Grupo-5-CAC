@@ -16,7 +16,6 @@ const firebaseConfig = {
 
 // Inicializar la aplicación de Firebase
 const app = initializeApp(firebaseConfig);
-
 // Obtener la instancia de Firestore
 const db = getFirestore(app);
 
