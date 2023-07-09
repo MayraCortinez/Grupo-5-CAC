@@ -2,14 +2,14 @@ import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
-import { Sidebar } from '../components/Sidebar';
-import { useAuth } from '../hooks/useAuth';
+import { useProtected } from '../hooks/useProtected';
+import Cart from '../components/Cart/Cart';
 
 
 
 export const ProtectedLayout = () => {
 
-    const {auth, loading} = useAuth();  //   Traigo nombre/id del usuario.
+    const {auth, loading} = useProtected();  //   Traigo nombre/id del usuario.
     //console.log(auth)
 
         if (loading) {
@@ -19,7 +19,7 @@ export const ProtectedLayout = () => {
     return (
         <>
         {
-            auth.id ? (  //si el usuario está autenticado, entrará a las rutas privadas
+            auth.id ? (  //si el usuario ha inicado sesión, entrará a las rutas privadas
             <div className='bg-indigo-50/50 m-auto'>
                 <Header />
                     <div className='md:flex w-full'>

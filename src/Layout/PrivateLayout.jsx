@@ -3,13 +3,13 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { Footer } from '../components/Footer';
 import { Header } from '../components/Header';
 import { Sidebar } from '../components/Sidebar';
-import { useAuth } from '../hooks/useAuth';
+import { usePrivate } from '../hooks/usePrivate';
 
 
 
 export const ProtectedLayout = () => {
 
-    const {auth, loading} = useAuth();  //   Traigo nombre/id del usuario, luego del logueo.
+    const {auth, loading} = usePrivate();  //   Traigo nombre/id del usuario, luego del logueo.
     //console.log(auth)
 
         if (loading) {
