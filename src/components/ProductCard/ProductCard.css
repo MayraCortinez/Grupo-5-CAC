@@ -1,9 +1,9 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:100,300,400,500,600,700,800, 800i, 900&display=swap');
 
 * {
-    padding: 0;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
+  padding: 0;
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 /*--- SÓLO PARA CENTRAR LA CARD ---*/
@@ -14,195 +14,199 @@
 } */
 
 .my-container {
-    position: relative;
-    cursor: pointer;
+  position: relative;
+  cursor: pointer;
 }
 
 .my-container .my-card {
-    position: relative;
-    width: 200px;
-    height: 300px;
-    background: #232323;
-    border-radius: 15px;
-    overflow: hidden;
-    margin: auto;
+  position: relative;
+  width: 200px;
+  height: 300px;
+  background: #232323;
+  border-radius: 15px;
+  overflow: hidden;
+  margin: auto;
 }
 
 .my-container .my-card:before {
-    content: "";
-    position: absolute;
-    top: -10%;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(#584225, #8D6B32, #906A37, #AE844E, #B29059, #ebb176);
-    clip-path: circle(30%);
-    transition: 0.5s ease-in-out;
+  content: "";
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(#584225, #8D6B32, #906A37, #AE844E, #B29059, #ebb176);
+  clip-path: circle(30%);
+  transition: 0.5s ease-in-out;
 }
 
 .my-container .my-card:hover:before {
-    clip-path: circle(100% at 80% -20%);
+  clip-path: circle(100% at 80% -20%);
 }
 
 .my-container .my-card .my-card-img {
-    position: absolute;
-    top: 40%;
-    transform: translateY(-50%);
-    z-index: 1000;
-    width: 100%;
-    height: 80%;
-    transition: .5s;
+  position: absolute;
+  top: 40%;
+  transform: translateY(-50%);
+  z-index: 1000;
+  width: 100%;
+  height: 80%;
+  transition: .5s;
 }
 
 .my-container .my-card:hover .my-card-img {
-    transform: translateY(-70%);
+  transform: translateY(-70%);
 }
 
 .my-container .my-card .my-card-img img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(30deg);
-    width: 180px;
-    transition: .5s;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(30deg);
+  width: 90%;
+  transition: .5s;
 }
 
 .my-container .my-card:hover .my-card-img img {
-    transform: translate(-50%, -50%) rotate(15deg);
+  transform: translate(-50%, -50%) rotate(15deg);
 }
 
 .my-container .my-card .my-card-content {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 30%;
-    text-align: center;
-    transition: 1s;
-    z-index: 90;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 30%;
+  text-align: center;
+  transition: 1s;
+  z-index: 90;
 }
 
 .my-container .my-card:hover .my-card-content {
-    height: 40%;
+  height: 40%;
 }
 
 .my-container .my-card .my-card-content .my-card-title {
-    position: relative;
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: 1px;
-    color: red;
-    transition: .5s;
+  position: relative;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  color: red;
+  transition: .5s;
 }
 
 .my-container .my-card:hover .my-card-content .my-card-title {
-    transform: translate(-10%, -30%) scale(0.8);
+  transform: translate(-10%, -30%) scale(0.8);
+}
+
+.my-container .my-card:hover .my-card-content .brand {
+  display: none;
 }
 
 .my-container .my-card .my-card-content .my-card-details {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    transition: .5s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  transition: .5s;
 }
 
 .my-container .my-card:hover .my-card-content .my-card-details {
-    transform: translateY(-10%);
+  transform: translateY(-10%);
 }
 
 .my-container .my-card .my-card-content .my-card-details .my-size,
 .my-container .my-card .my-card-content .my-card-details .my-color,
 .my-container .my-card .my-card-content .my-card-details .my-price {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 20px;
-    transition: .5s;
-    opacity: 0;
-    visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 20px;
+  transition: .5s;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .my-container .my-card:hover .my-card-content .my-card-details .my-size {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: .6s;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: .6s;
 }
 
 .my-container .my-card:hover .my-card-content .my-card-details .my-color {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: .7s;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: .7s;
 }
 
 .my-container .my-card:hover .my-card-content .my-card-details .my-price {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: .8s;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: .8s;
 }
 
 .my-container .my-card .my-card-content .my-card-details .my-size h3,
 .my-container .my-card .my-card-content .my-card-details .my-color h3,
 .my-container .my-card .my-card-content .my-card-details .my-price h3 {
-    color: red;
-    font-weight: 300;
-    font-size: 0.8rem;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin-right: 10px;
+  color: red;
+  font-weight: 300;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-right: 10px;
 }
 
 .my-container .my-card .my-card-content .my-card-details .my-price h3 {
-    font-weight: bold;
-    font-size: 1rem;
-    pointer-events: none;
+  font-weight: bold;
+  font-size: 1rem;
+  pointer-events: none;
 }
 
 
 .my-container .my-card .my-card-content .my-card-details .my-size span {
-    width: 26px;
-    height: 26px;
-    text-align: center;
-    line-height: 26px;
-    font-size: 0.8rem;
-    display: inline-block;
-    color: white;
-    background: red;
-    font-weight: 500;
-    margin: 0 5px;
-    transition: .5s;
-    border-radius: 5px;
-    cursor: pointer;
+  width: 26px;
+  height: 26px;
+  text-align: center;
+  line-height: 26px;
+  font-size: 0.8rem;
+  display: inline-block;
+  color: white;
+  background: red;
+  font-weight: 500;
+  margin: 0 5px;
+  transition: .5s;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .my-container .my-card .my-card-content .my-card-details .my-size span:hover {
-    color: #fff;
-    background: #111;
+  color: #fff;
+  background: #111;
 }
 
 .my-container .my-card .my-card-content .my-card-details .my-color span {
-    width: 20px;
-    height: 20px;
-    background: #906A37;
-    border-radius: 50%;
-    margin: 0 5px;
-    cursor: pointer;
+  width: 20px;
+  height: 20px;
+  background: #906A37;
+  border-radius: 50%;
+  margin: 0 5px;
+  cursor: pointer;
 }
 
 .my-container .my-card .my-card-content a {
-    display: inline-block;
-    padding: 5px 20px;
-    background: red;
-    border-radius: 20px;
-    text-decoration: none;
-    font-weight: 600;
-    color: white;
-    opacity: 0;
-    transform: translateY(50px);
-    transition: .5s;
+  display: inline-block;
+  padding: 5px 20px;
+  background: red;
+  border-radius: 20px;
+  text-decoration: none;
+  font-weight: 600;
+  color: white;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: .5s;
 }
 
 .my-container .my-card:hover .my-card-content a {
-    opacity: 1;
-    transform: translateY(-80%);
-    transition-delay: .9s;
+  opacity: 1;
+  transform: translateY(-80%);
+  transition-delay: .9s;
 }

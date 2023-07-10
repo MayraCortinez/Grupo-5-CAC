@@ -23,13 +23,13 @@ function ProductList() {
     getProductos();
   }, []);
 
-  const storage = getStorage();
+  // const storage = getStorage();
   
-  productos.map(async prod =>{
-    const storageRef = ref(storage, `${prod.img}`);
-    const urlImg = await getDownloadURL(storageRef);
-    console.log(urlImg);
-  })
+  // productos.map(async prod =>{
+  //   const storageRef = ref(storage, `${prod.img}`);
+  //   const urlImg = await getDownloadURL(storageRef);
+  //   console.log(urlImg);
+  // })
   
   /*** PROBAR GUARDAR EN LA DB EL NOMBRE DEL ARCHIVO DE IMAGEN ****/
   // 
