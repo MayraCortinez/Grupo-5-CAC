@@ -1,11 +1,12 @@
 import React from "react";
 import { Stack, Container, Row, Col, Button } from "react-bootstrap";
 
-import app from "../../firebaseConfig/firebase";
+import { app } from "../../firebaseConfig/firebase";
 import { getFirestore, updateDoc, doc } from "firebase/firestore";
 const firestore = getFirestore(app);
 
 const Cart = ({ arrayPedidos, correoUsuario, setArrayPedidos }) => {
+  
   async function eliminarPedido(idPedidoAEliminar) {
     // crear nuevo array de pedidos
     const nvoArrayPedidos = arrayPedidos.filter(

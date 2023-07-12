@@ -1,10 +1,9 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { Footer } from '../components/Footer/Footer';
-import { useAuth } from '../hooks/useAuth';
+import  useAuth  from '../hooks/useAuth';
 
 
-export const AuthLayout = () => {
+ const AuthLayout = () => {
 
     const { auth, loading } = useAuth();
 
@@ -15,7 +14,7 @@ export const AuthLayout = () => {
     return (
         <>
         {
-            !auth._id ? (
+            !auth.id ? (
                 <main className='container mx-auto .pb-11 md:flex md:justify-center'>
                     <div className="md:w-2/3 lg:w-2/5">
                 
@@ -26,10 +25,12 @@ export const AuthLayout = () => {
                 </main>
             ) :
 
-            <Navigate to={'products'}/>
+            <Navigate to={'cart'}/>
             
         }
        
         </>
     )
 }
+
+export default AuthLayout

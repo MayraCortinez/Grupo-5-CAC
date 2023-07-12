@@ -22,15 +22,46 @@ export const ProtectedProvider = ({ children }) => {
     const navigate = useNavigate();
 
     //estados
+    const [arrayPedidos, setArrayPedidos] = useState(null);
     const [loading, setLoading] = useState(true);
     const [alert, setAlert] = useState({})
-    const [project, setProject] = useState({});
-    const [projects, setProjects] = useState([]);
+
+
     const [showModal, setShowModal] = useState(false);
     const [alertModal, setAlertModal] = useState({}); 
     
     //funciones
 
+    async function buscarPedidoOrCrearPedido(idPedido) {
+        //crear referencia al documento
+        const docuRef = doc(firestore, `pedidos/${idPedido}`);
+        // buscar documento
+        const consulta = await getDoc(docuRef);
+        // revisar si existe
+        if (consulta.exists()) {
+          // si sí existe
+          const infoDocu = consulta.data();
+          return infoDocu.tareas;
+        } else {
+          // si no existe
+          await setDoc(docuRef, { tareas: [...fakeData] });
+          const consulta = await getDoc(docuRef);
+          const infoDocu = consulta.data();
+          return infoDocu.tareas;
+        }
+      }
+    
+      useEffect(() => {
+        async function fetchTareas() {
+          const tareasFetchadas = await buscarDocumentOrCrearDocumento(
+            correoUsuario
+          );
+          setArrayTareas(tareasFetchadas);
+        }
+    
+        fetchTareas();
+      }, []);
+    
 
     return (
         <ProtectedContext.Provider

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { Footer } from '../components/Footer';
-import { Header } from '../components/Header';
+import { Footer } from '../components/Footer/Footer';
+import { Header } from '../components/Header/Header';
 import { useProtected } from '../hooks/useProtected';
 import Cart from '../components/Cart/Cart';
 
