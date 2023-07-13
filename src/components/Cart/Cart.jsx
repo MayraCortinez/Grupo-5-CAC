@@ -1,50 +1,89 @@
-import React from "react";
-import { Stack, Container, Row, Col, Button } from "react-bootstrap";
+import React, { useContext } from "react";
+import { Container, Stack, Row, Col, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { ProtectedContext } from "../../context/ProtectedProvider";
+import Swal from 'sweetalert2'
 
-import { app } from "../../firebaseConfig/firebase";
-import { getFirestore, updateDoc, doc } from "firebase/firestore";
-const firestore = getFirestore(app);
+const Cart = () => {
+  const { cart, duplicatePedido, removePedido, getTotalAmount } = useContext(
+    ProtectedContext
+  );
 
-const Cart = ({ arrayPedidos, correoUsuario, setArrayPedidos }) => {
-  
-  async function eliminarPedido(idPedidoAEliminar) {
-    // crear nuevo array de pedidos
-    const nvoArrayPedidos = arrayPedidos.filter(
-      (objetoPedido) => objeto.id !== idPedidoAEliminar
-    );
-    // actualizar base de datos
-    const docuRef = doc(firestore, `users/${correoUsuario}`);
-    updateDoc(docuRef, { pedidos: [...nvoArrayPedidos] });
-    //actualizar state
-    setArrayPedidos(nvoArrayPedidos);
-  }
+  const handleDuplicatePedido = (index) => {
+    duplicatePedido(index);
+  };
+
+  const handleRemovePedido = (index) => {
+    removePedido(index);
+  };
+
+  const handleTotalAmount = () => {
+    const total = getTotalAmount();
+    Swal.mixin({
+      input: 'text',
+      confirmButtonText: 'Next →',
+      showCancelButton: true,
+      progressSteps: ['1', '2', '3']
+    }).queue([
+      {
+        title: 'Ingrese su contraseña para confirmar su compra',
+        text: total
+      },
+      'Question 2',
+      'Question 3'
+    ]).then((result) => {
+      if (result.value) {
+        const answers = JSON.stringify(result.value)
+        Swal.fire({
+          title: 'All done!',
+          html: `
+            Your answers:
+            <pre><code>${answers}</code></pre>
+          `,
+          confirmButtonText: 'Lovely!'
+        })
+      }
+    })
+    // Realiza cualquier acción necesaria con el total
+    console.log("Total a pagar:", total);
+  };
+
   return (
     <Container>
       <Stack>
-        {arrayPedidos.map((objetoPedido) => {
-          return (
-            <>
-              <Row>
-                <Col>{objetoPedido.descripcion}</Col>
-                <Col>
-                  <a href={objetoPedido.url}>
-                    <Button variant="secondary">Ver más</Button>
-                  </a>
-                </Col>
-                <Col>
-                  <Button
-                    variant="danger"
-                    onClick={() => eliminarPedido(objetoPedido.id)}
-                  >
-                    Eliminar 
-                  </Button>
-                </Col>
-              </Row>
-              <hr />
-            </>
-          );
-        })}
+        {cart.map((pedido, index) => (
+          <React.Fragment key={pedido.id}>
+            <Row>
+              <Col>{pedido.descripcion}</Col>
+              <Col>
+                <Link to={`/ProductCard/${pedido.productoId}`}>
+                  <Button variant="secondary">Ver detalles del producto</Button>
+                </Link>
+              </Col>
+              <Col>
+                <Button
+                  variant="primary"
+                  onClick={() => handleDuplicatePedido(index)}
+                >
+                  Agregar
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  variant="danger"
+                  onClick={() => handleRemovePedido(index)}
+                >
+                  Eliminar
+                </Button>
+              </Col>
+            </Row>
+            <hr />
+          </React.Fragment>
+        ))}
       </Stack>
+      <Button variant="success" onClick={handleTotalAmount}>
+        Total a pagar
+      </Button>
     </Container>
   );
 };

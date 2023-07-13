@@ -5,7 +5,7 @@ import  useAuth  from '../hooks/useAuth';
 
  const AuthLayout = () => {
 
-    const { auth, loading } = useAuth();
+    const { user, loading } = useAuth();
 
     if (loading) {
         return <p> Cargando... </p>
@@ -14,7 +14,7 @@ import  useAuth  from '../hooks/useAuth';
     return (
         <>
         {
-            !auth.id ? (
+            !user ? (
                 <main className='container mx-auto .pb-11 md:flex md:justify-center'>
                     <div className="md:w-2/3 lg:w-2/5">
                 

@@ -1,10 +1,11 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { useAuth } from './AuthProvider';
+import  useAuth  from '../context/AuthProvider';
 import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { storage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { db } from '../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
+import { storage } from '../firebaseConfig/firebase'
 
 export const PrivateContext = createContext();
 

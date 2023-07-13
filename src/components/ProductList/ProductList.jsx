@@ -31,8 +31,7 @@ function ProductList() {
     console.log(urlImg);
   })
   
-  /*** PROBAR GUARDAR EN LA DB EL NOMBRE DEL ARCHIVO DE IMAGEN ****/
-  // 
+
 
   return (
     <Container fluid className="mt-3">

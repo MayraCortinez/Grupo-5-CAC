@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
-import { PrivateContext } from '../context/PrivateProvider';
+import  { PrivateContext } from '../../context/PrivateProvider';
 
 const ListProduct = () => {
   const { productos, getProductos, confirmDelete } = useContext(PrivateContext);

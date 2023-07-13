@@ -2,7 +2,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PrivateContext } from '../context/PrivateProvider';
+import { PrivateContext } from '../../context/PrivateProvider';
 
 const EditProduct = () => {
   const { getProductoById, updateProduct } = useContext(PrivateContext);
