@@ -1,17 +1,12 @@
+// ListProduct.js
 import React, { useContext, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
-import Swal from 'sweetalert2';
 import { PrivateContext } from '../context/PrivateProvider';
 
 const ListProduct = () => {
-  const {
-    productos,
-    getProductos,
-    deleteProducto,
-    confirmDelete,
-  } = useContext(PrivateContext);
+  const { productos, getProductos, confirmDelete } = useContext(PrivateContext);
 
   useEffect(() => {
     getProductos();

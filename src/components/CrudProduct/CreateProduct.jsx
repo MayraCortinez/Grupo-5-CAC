@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
-import { PrivateProvider } from '../../context/PrivateProvider';
+import { PrivateContext } from '../../context/PrivateProvider';
 
 const CreateProduct = () => {
   const {
