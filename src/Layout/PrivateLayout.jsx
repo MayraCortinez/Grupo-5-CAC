@@ -1,44 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import Footer from '../components/Footer/Footer';
-import Header from '../components/Header/Header';
-import { Sidebar } from '../components/Sidebar/Sidebar';
-import { usePrivate } from '../hooks/usePrivate';
+import { AuthContext } from '../context/AuthProvider';
+
+const PrivateLayout = () => {
+  const { user, isAdmin } = useContext(AuthContext);
+
+  if (!user ) {
+    // Si no hay un usuario autenticado, redirige al inicio de sesión o a la página de inicio
+    return <Navigate to="/" />;
+  }
+
+  if (!isAdmin) {
+    // Si el usuario no es administrador, redirige al inicio o a otra página adecuada para usuarios no administradores
+    return <Navigate to="/" />;
+  }
+
+  // Si el usuario es administrador, muestra el diseño privado
+  return (
+    <div>
+      {/* Coloca aquí los componentes de diseño privado */}
+      <Outlet />
+    </div>
+  );
+};
 
 
-
-export const ProtectedLayout = () => {
-
-    const {auth, loading} = usePrivate();  //   Traigo nombre/id del usuario, luego del logueo.
-    //console.log(auth)
-
-        if (loading) {
-           return <p> Cargando... </p>
-        } 
-
-    return (
-        <>
-        {
-            auth.admin ? (  //si el usuario es administrador, entrará a las rutas de configuración
-            <div className='bg-indigo-50/50 m-auto'>
-                <Header />
-                    <div className='md:flex w-full'>
-                        <Sidebar />
-                        <main className='container w-full'>
-                            <Outlet/>   
-                        
-                        </main>
-                   
-                    </div>
-                    <Footer /> 
-            </div>
-
-            )
-            : (
-                <Navigate to='/'/>  // sino será dirigido al home
-            )
-        };
-       
-        </>
-    )
-}
+export default PrivateLayout;

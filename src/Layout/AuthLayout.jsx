@@ -33,4 +33,4 @@ import  useAuth  from '../hooks/useAuth';
     )
 }
 
-export default AuthLayout
+export default AuthLayout;
