@@ -2,9 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 //Layout
-import AuthLayout from "./Layout/AuthLayout";
+import AuthLayout from "./layout/AuthLayout";
 import ProtectedLayout from "./layout/ProtectedLayout";
-import PrivateLayout from "./Layout/PrivateLayout";
+import PrivateLayout from "./layout/PrivateLayout";
 
 //Context
 import  AuthProvider from "./context/AuthProvider";
@@ -37,15 +37,16 @@ function App() {
             </Route>
             
             {/* Rutas privadas */}
-            <Route path="/user" element={<ProtectedLayout />} />
-              <Route path="/" element={<Cart />} />
+            <Route path="/user" element={<ProtectedLayout />} >
+              <Route index element={<Cart />} />
+            </Route>
             
             {/* Rutas admin */}
-            <Route path="/admin" element={<PrivateLayout />} />
-              <Route path="/" element={<ListProduct />} />
-              <Route path="/createProduct" element={<CreateProduct />} />
-              <Route path="/editProduct/:id" element={<EditProduct />} />
-
+            <Route path="/admin" element={<PrivateLayout />} >
+              <Route index element={<ListProduct />} />
+              <Route path="createProduct" element={<CreateProduct />} />
+              <Route path="editProduct/:id" element={<EditProduct />} />
+            </Route>
             
             {/* Ruta para manejar URLs no encontradas */}
             <Route path="*" element={<NotFound />} />

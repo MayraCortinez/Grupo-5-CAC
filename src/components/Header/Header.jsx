@@ -4,11 +4,15 @@ import logo from "../../assets/3.png";
 import AuthContext from '../../context/AuthProvider';
 
 const Header = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logout, login } = useContext(AuthContext);
 
   const handleLogout = () => {
     logout(); // Cerrar sesión utilizando el contexto de autenticación
   };
+
+  const handleLogin = () => {
+    login(); // Iniciar sesión utilizando el contexto de autenticación
+  }
 
   const handleButtonClick = (e) => {
     e.preventDefault();
@@ -43,8 +47,21 @@ const Header = () => {
               Contacto
             </Nav.Link>
           </Nav>
-          {user && <p>Welcome, {user.email}!</p>}
-          <button onClick={handleLogout}>Logout</button>
+          <span className='navbar-brand'>
+            <h2>
+              {!user ? 'Bienvenid@'  : `Hola ${user.email}`}
+            </h2>
+          </span>
+          {
+            !user 
+            ? 
+            <button className='btn btn-primary'
+            onClick={handleLogin}>Iniciar sesión</button>
+            :
+            <button className='btn btn-primary' 
+              onClick={handleLogout}>Cerrar sesión</button>
+          }
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

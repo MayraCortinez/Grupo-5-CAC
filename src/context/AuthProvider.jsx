@@ -13,6 +13,7 @@ export const AuthContext = createContext();
   const [user, setUser] = useState(null);
   const [hasOrders, setHasOrders] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const auth = getAuth();
@@ -98,7 +99,8 @@ export const AuthContext = createContext();
         login, 
         hasOrders,
         isAdmin,
-        logout }
+        logout,
+        loading }
         }>
       {children}
     </AuthContext.Provider>

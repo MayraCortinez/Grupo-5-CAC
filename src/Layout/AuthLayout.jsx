@@ -7,6 +7,7 @@ import  useAuth  from '../hooks/useAuth';
 
     const { user, loading } = useAuth();
 
+
     if (loading) {
         return <p> Cargando... </p>
     }
