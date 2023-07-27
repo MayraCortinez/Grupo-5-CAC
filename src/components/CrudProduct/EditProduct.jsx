@@ -2,10 +2,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import { PrivateContext } from '../../context/PrivateProvider';
+import {usePrivate} from '../../hooks/usePrivate';
 
 const EditProduct = () => {
-  const { getProductoById, updateProduct } = useContext(PrivateContext);
+  const { getProductoById, updateProduct } = usePrivate();
   
   const [form, setForm] = useState({});
   const [showModal, setShowModal] = useState(false);

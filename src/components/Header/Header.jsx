@@ -1,18 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import logo from "../../assets/3.png";
-import AuthContext from '../../context/AuthProvider';
+import {useAuth} from '../../hooks/useAuth';
 
 const Header = () => {
-  const { user, logout, login } = useContext(AuthContext);
+  const { user, logout } = useAuth();
 
   const handleLogout = () => {
     logout(); // Cerrar sesión utilizando el contexto de autenticación
   };
-
-  const handleLogin = () => {
-    login(); // Iniciar sesión utilizando el contexto de autenticación
-  }
 
   const handleButtonClick = (e) => {
     e.preventDefault();
@@ -55,13 +51,13 @@ const Header = () => {
           {
             !user 
             ? 
-            <button className='btn btn-primary'
-            onClick={handleLogin}>Iniciar sesión</button>
+            <Nav.Link href="/login">
+              Iniciar sesión
+            </Nav.Link>
             :
-            <button className='btn btn-primary' 
-              onClick={handleLogout}>Cerrar sesión</button>
+            <button className='btn btn-primary'
+            onClick={handleLogout}>Cerrar sesión</button>
           }
-
         </Navbar.Collapse>
       </Container>
     </Navbar>

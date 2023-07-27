@@ -17,7 +17,6 @@ const ProtectedLayout = () => {
       <div className="bg-indigo-50/50 m-auto">
         <Header />
         <div className="md:flex w-full">
-          <Cart />
           <main className="container w-full">
             <Outlet />
           </main>

@@ -3,10 +3,10 @@ import React, { useContext, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
-import  { PrivateContext } from '../../context/PrivateProvider';
+import  {usePrivate} from '../../hooks/usePrivate';
 
 const ListProduct = () => {
-  const { productos, getProductos, confirmDelete } = useContext(PrivateContext);
+  const { productos, getProductos, confirmDelete } = usePrivate();
 
   useEffect(() => {
     getProductos();

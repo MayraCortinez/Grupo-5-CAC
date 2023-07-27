@@ -27,30 +27,34 @@ function App() {
     <div className="App bg-dark">
       <BrowserRouter>
         <AuthProvider>
-          <Routes>
-            {/* Rutas públicas */}
-            <Route path="/" element={<AuthLayout />}>
-              <Route index element={Home} />
-              <Route path="login" element={<Login />} />
-              <Route path="product/:id" element={<ProductDetail />} />
-              <Route path="productList" element={<ProductList />} />
-            </Route>
-            
-            {/* Rutas privadas */}
-            <Route path="/user" element={<ProtectedLayout />} >
-              <Route index element={<Cart />} />
-            </Route>
-            
-            {/* Rutas admin */}
-            <Route path="/admin" element={<PrivateLayout />} >
-              <Route index element={<ListProduct />} />
-              <Route path="createProduct" element={<CreateProduct />} />
-              <Route path="editProduct/:id" element={<EditProduct />} />
-            </Route>
-            
-            {/* Ruta para manejar URLs no encontradas */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <ProtectedProvider>
+            <PrivateProvider>
+                <Routes>
+                  {/* Rutas públicas */}
+                  <Route path="/" element={<AuthLayout />}>
+                    <Route index element={<Home />} />
+                    <Route path="login" element={<Login />} />
+                    <Route path="product/:id" element={<ProductDetail />} />
+                    <Route path="productList" element={<ProductList />} />
+                  </Route>
+                  
+                  {/* Rutas privadas */}
+                  <Route path="/user" element={<ProtectedLayout />} >
+                    <Route index element={<Cart />} />
+                  </Route>
+                  
+                  {/* Rutas admin */}
+                  <Route path="/admin" element={<PrivateLayout />} >
+                    <Route index element={<ListProduct />} />
+                    <Route path="createProduct" element={<CreateProduct />} />
+                    <Route path="editProduct/:id" element={<EditProduct />} />
+                  </Route>
+                  
+                  {/* Ruta para manejar URLs no encontradas */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </PrivateProvider>
+            </ProtectedProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>

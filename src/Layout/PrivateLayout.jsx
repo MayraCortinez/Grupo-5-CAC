@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { AuthContext } from '../context/AuthProvider';
+import { useAuth } from '../hooks/useAuth';
 
 const PrivateLayout = () => {
-  const { user, isAdmin } = useContext(AuthContext);
+  const { user, isAdmin } = useAuth();
 
   if (!user ) {
     // Si no hay un usuario autenticado, redirige al inicio de sesión o a la página de inicio

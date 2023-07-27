@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import Form from 'react-bootstrap/Form';
-import { PrivateContext } from '../../context/PrivateProvider';
+import {usePrivate} from '../../hooks/usePrivate';
 
 const CreateProduct = () => {
   const {
@@ -26,7 +26,7 @@ const CreateProduct = () => {
     setPreviewImg,
     newProduct,
     fileHandler,
-  } = useContext(PrivateContext);
+  } = usePrivate();
 
   return (
     <div>

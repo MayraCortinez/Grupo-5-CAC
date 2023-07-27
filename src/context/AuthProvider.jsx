@@ -15,9 +15,10 @@ export const AuthContext = createContext();
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
+// const [ example, setExample ] = useState('hola')  
   useEffect(() => {
-    const auth = getAuth();
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const user = getAuth();
+    const unsubscribe = onAuthStateChanged(user, (currentUser) => {
       setUser(currentUser);
       checkOrders(currentUser);
       checkAdmin(currentUser);
@@ -26,10 +27,14 @@ export const AuthContext = createContext();
     return () => unsubscribe();
   }, []);
 
+/*   useEffect(() => {
+    console.log(example)
+  }, []) */
+  
   // Función para iniciar sesión
   const login = (email, password) => {
-    const auth = getAuth();
-    return auth
+    const user = getAuth();
+    return user
       .signInWithEmailAndPassword(email, password)
       .then((userCredential) => {
         // Si el inicio de sesión es exitoso, actualiza el estado del usuario
@@ -43,9 +48,9 @@ export const AuthContext = createContext();
 
   // Función para cerrar sesión
   const logout = async () => {
-    const auth = getAuth();
+    const user = getAuth();
     try {
-      await auth
+      await user
         .signOut();
       // Si el cierre de sesión es exitoso, actualiza el estado del usuario a null
       setUser(null);

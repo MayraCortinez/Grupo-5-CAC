@@ -1,6 +1,6 @@
 // 1 - Importamos los módulos y funciones necesarios
 import React, { createContext, useState, useContext } from 'react';
-import useAuth  from '../context/AuthProvider';
+import useAuth  from '../hooks/useAuth';
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 
