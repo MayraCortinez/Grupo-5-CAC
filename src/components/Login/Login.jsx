@@ -8,6 +8,7 @@ import {
   GoogleAuthProvider,
 }from 'firebase/auth';
 import {app} from '../../firebaseConfig/firebase';
+import { useState } from 'react';
 
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider;
@@ -56,7 +57,7 @@ const Login = () => {
             <Form.Control type="password" placeholder="Password" />
           </Form.Group>
 
-          <Button variant="dark" type="submit">
+          <Button variant="primary" type="submit">
             {registro ? "Registrarse" : "Iniciar sesión"}
           </Button>
         </Form>

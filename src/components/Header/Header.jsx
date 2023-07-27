@@ -48,6 +48,7 @@ const Header = () => {
               {!user ? 'Bienvenid@'  : `Hola ${user.email}`}
             </h2>
           </span>
+          <span>
           {
             !user 
             ? 
@@ -58,6 +59,8 @@ const Header = () => {
             <button className='btn btn-primary'
             onClick={handleLogout}>Cerrar sesión</button>
           }
+          </span>
+         
         </Navbar.Collapse>
       </Container>
     </Navbar>
