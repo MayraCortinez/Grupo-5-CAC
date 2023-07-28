@@ -21,7 +21,7 @@ export const ProtectedProvider = ({ children }) => {
   // 6 - Creamos una referencia a la colección "pedidos" en la base de datos
   const pedidosCollection = collection(db, 'pedidos');
 
-  const productosCollection = collection(db, 'pedidos');
+  const productosCollection = collection(db, 'productos');
   const getProductos = async ()=> { 
     const data = await getDocs(productosCollection); 
     console.log(data.docs);
