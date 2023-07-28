@@ -9,6 +9,8 @@ export const ProtectedContext = createContext();
 
 // 3 - Definimos el componente ProtectedProvider y recibimos los componentes hijos como prop children
 export const ProtectedProvider = ({ children }) => {
+
+  const [productos, setProductos] = useState([]);
   
   // 4 - Obtenemos el objeto user del contexto useAuth que proporciona la información del usuario autenticado
   const { user } = useAuth();
@@ -18,6 +20,17 @@ export const ProtectedProvider = ({ children }) => {
 
   // 6 - Creamos una referencia a la colección "pedidos" en la base de datos
   const pedidosCollection = collection(db, 'pedidos');
+
+  const productosCollection = collection(db, 'pedidos');
+  const getProductos = async ()=> { 
+    const data = await getDocs(productosCollection); 
+    console.log(data.docs);
+
+    setProductos(
+       data.docs.map((doc)=>({...doc.data(), id:doc.id}))
+    ); 
+   
+}
 
   // Agregar un producto al carrito
   const addToCart = (producto) => {
@@ -111,6 +124,8 @@ export const ProtectedProvider = ({ children }) => {
         getUserPedidos,
         deletePedido,
         updatePedido,
+        productos,
+        getProductos
       }}
     >
       {children}

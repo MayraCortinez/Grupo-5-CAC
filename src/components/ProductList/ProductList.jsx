@@ -6,30 +6,24 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ProductCard from "../ProductCard/ProductCard";
+import {useProtected} from '../../hooks/useProtected';
 
 function ProductList() {
-  const [productos, setProductos] = useState([]);
-
-  const getProductos = async () => {
-    const querySnapshot = await getDocs(collection(db, "productos"));
-    const productosData = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setProductos(productosData);
-  };
+  const { productos, getProductos } = useProtected();
 
   useEffect(() => {
     getProductos();
   }, []);
 
-  const storage = getStorage();
+  console.log(productos)
+
+   const storage = getStorage();
   
   productos.map(async prod =>{
     const storageRef = ref(storage, `${prod.img}`);
     const urlImg = await getDownloadURL(storageRef);
     console.log(urlImg);
-  })
+  }) 
   
 
 

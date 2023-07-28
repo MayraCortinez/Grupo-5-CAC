@@ -1,89 +1,85 @@
-import React from 'react';
-import { Stack, Container, Form, Button} from 'react-bootstrap'
-import {
-  getAuth, 
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  signInWithRedirect,
-  GoogleAuthProvider,
-}from 'firebase/auth';
-import {app} from '../../firebaseConfig/firebase';
-import { useState } from 'react';
-
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider;
-
+import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+import { Container, Stack, Form, Button } from 'react-bootstrap';
 
 const Login = () => {
-
+  const { loginWithEmailAndPassword, registerWithEmailAndPassword, loginWithGoogle, user } = useAuth();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [registro, setRegistro] = useState(false);
+  const navigate = useNavigate(); // Obtenemos la función de redirección desde react-router-dom
 
-  async function submitHandler(e) {
-    e.preventDefault();
-    const correo = e.target.formBasicEmail.value; //utilizo id de cada campo
-    const password = e.target.formBasicPassword.value;
-
-    //console.log(correo, password)
-
-    if(registro){
-      //si se está registrando
-      const usuario = await createUserWithEmailAndPassword(
-        auth, 
-        correo, 
-        password
-      )
-    } else {
-       // si está iniciando sesión
-       signInWithEmailAndPassword(
-        auth, 
-        correo,
-        password
-       )
+  useEffect(() => {
+    // Si el usuario ya está autenticado, redirigimos a la página principal o alguna otra página.
+    if (user) {
+      navigate('/'); // Redirigimos a la ruta '/home' o cualquier otra ruta que desees.
     }
-  }
+  }, [user, navigate]);
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      if (registro) {
+        // Registro de usuario
+        await registerWithEmailAndPassword(email, password);
+      } else {
+        // Inicio de sesión
+        await loginWithEmailAndPassword(email, password);
+      }
+      // El usuario se habrá autenticado automáticamente en el AuthProvider
+      // No es necesario realizar más acciones aquí ya que el AuthProvider maneja el estado del usuario.
+    } catch (error) {
+      console.error(error)
+    }
+  };
 
   return (
-    <Container>
-      <Stack gap={3}>
-        <h1>{registro ? 'Registrarse' : 'Iniciar sesión'}</h1>
-      <Form onSubmit={submitHandler}>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email</Form.Label>
-            <Form.Control type="email" placeholder="Enter email" />
-          </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Contraseña</Form.Label>
-            <Form.Control type="password" placeholder="Password" />
-          </Form.Group>
+    <Container className='m-5 p-5'>
+    <Stack gap={3} className="col-md-8 m-5 p-5 d-flex justify-content-center">
+      <h1 className='align-self-center' style={{ color: "white" }}>{registro ? 'Registrarse' : 'Iniciar sesión'}</h1>
+      <Form onSubmit={handleFormSubmit} className='d-flex-column justify-content-center'>
+        <Form.Group className="mb-3" controlId="formBasicEmail">
+          <Form.Label>Email</Form.Label>
+          <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" />
+        </Form.Group>
 
-          <Button variant="primary" type="submit">
-            {registro ? "Registrarse" : "Iniciar sesión"}
-          </Button>
-        </Form>
-        <Button 
+        <Form.Group className="mb-3" controlId="formBasicPassword">
+          <Form.Label>Contraseña</Form.Label>
+          <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
+        </Form.Group>
+
+        <Button variant="primary" type="submit" className='mb-3'>
+          {registro ? "Registrarse" : "Iniciar sesión"}
+        </Button>
+      </Form>
+      <Button 
+         className='align-self-center'
           variant='primary' 
           type='submit' 
           style={{width : "300px"}}
-          onClick={() => signInWithRedirect(auth, googleProvider)} 
+          onClick={() => loginWithGoogle()}
         >
           Acceder con Google
         </Button>
-        <Button
-          style={{width: "300px"}}
-          variant='secondary'
-          onClick={() => setRegistro(!registro)}
-        >
-          {
-            registro
+      <Button
+        className='align-self-center'
+        style={{ width: "300px" }}
+        variant='secondary'
+        onClick={() => setRegistro(!registro)}
+      >
+        {
+          registro
             ? "¿Ya tienes cuenta? Inicia sesión"
             : "¿No tienes cuenta? Regístrate"
-          }
-
-        </Button>
-        </Stack>
-    </Container>
-  )
-}
+        }
+      </Button>
+    </Stack>
+  </Container>
+  );
+};
 
 export default Login;
+

@@ -3,26 +3,23 @@ import { Navigate, Outlet } from 'react-router-dom';
 import Footer  from '../components/Footer/Footer';
 import Header from '../components/Header/Header';
 import { useProtected } from '../hooks/useProtected';
-import Cart from '../components/Cart/Cart';
 
 const ProtectedLayout = () => {
-  const { user, loading, hasOrders } = useProtected();
+  const { user} = useProtected();
 
-  if (loading) {
-    return <p>Cargando...</p>;
-  }
-
-  if (user && hasOrders) {
+  if (user) {
     return (
-      <div className="bg-indigo-50/50 m-auto">
-        <Header />
-        <div className="md:flex w-full">
-          <main className="container w-full">
-            <Outlet />
+      <>
+      <Header />
+          <main className='container mx-auto .pb-11 md:flex md:justify-center'>
+              <div className="md:w-2/3 lg:w-2/5">
+      
+                  <Outlet/>
+      
+              </div>
           </main>
-        </div>
-        <Footer />
-      </div>
+      <Footer />
+      </>
     );
   } else {
     return <Navigate to="/" />;

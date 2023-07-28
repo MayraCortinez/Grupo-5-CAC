@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
+import Header from '../components/Header/Header'
+import Footer from '../components/Footer/Footer'
 
 const PrivateLayout = () => {
   const { user, isAdmin } = useAuth();
@@ -18,8 +20,11 @@ const PrivateLayout = () => {
   // Si el usuario es administrador, muestra el diseño privado
   return (
     <div>
+      <Header />
       {/* Coloca aquí los componentes de diseño privado */}
-      <Outlet />
+        <Outlet />
+
+      < Footer />
     </div>
   );
 };

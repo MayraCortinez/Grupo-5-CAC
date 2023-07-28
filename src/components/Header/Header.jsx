@@ -24,6 +24,11 @@ const Header = () => {
         <Navbar.Brand href="/">
           <img src={logo} alt="VZU" width="80" />
         </Navbar.Brand>
+        <span className='navbar-brand m-5'>
+            <h2>
+              {!user ? 'Bienvenid@'  : `Hola ${user.email}`}
+            </h2>
+          </span>
         <Navbar.Toggle aria-controls="navbar" />
         <Navbar.Collapse className='align-items-center justify-content-end' id="navbar">
           <Nav>
@@ -43,12 +48,8 @@ const Header = () => {
               Contacto
             </Nav.Link>
           </Nav>
-          <span className='navbar-brand'>
-            <h2>
-              {!user ? 'Bienvenid@'  : `Hola ${user.email}`}
-            </h2>
-          </span>
-          <span>
+
+          <span className='navbar-brand m-5'>
           {
             !user 
             ? 

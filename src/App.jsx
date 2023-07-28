@@ -40,7 +40,7 @@ function App() {
                   
                   {/* Rutas privadas */}
                   <Route path="/user" element={<ProtectedLayout />} >
-                    <Route index element={<Cart />} />
+                    <Route path="cart" element={< Cart />} />
                   </Route>
                   
                   {/* Rutas admin */}

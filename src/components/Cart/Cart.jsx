@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import { Container, Stack, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { ProtectedContext } from "../../context/ProtectedProvider";
+import { useProtected } from "../../hooks/useProtected";
 import Swal from 'sweetalert2'
 
 const Cart = () => {
-  const { cart, duplicatePedido, removePedido, getTotalAmount } = useContext(
-    ProtectedContext
-  );
+  const { cart, duplicatePedido, removePedido, getTotalAmount } = useProtected();
 
   const handleDuplicatePedido = (index) => {
     duplicatePedido(index);

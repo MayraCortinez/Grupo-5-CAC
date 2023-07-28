@@ -1,21 +1,19 @@
 import React, { createContext, useState, useEffect } from 'react';
-import  useAuth  from '../hooks/useAuth';
-import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db } from '../firebaseConfig/firebase';
+import { db, storage } from '../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
-import { storage } from '../firebaseConfig/firebase'
+import { useNavigate } from 'react-router-dom';
 
 export const PrivateContext = createContext();
 
 const MySwal = withReactContent(Swal);
 
 export const PrivateProvider = ({ children }) => {
-  const { isAdmin } = useAuth();
+  const navigate = useNavigate();
 
   const [productos, setProductos] = useState([]);
-
   const [marca, setMarca] = useState('');
   const [modelo, setModelo] = useState('');
   const [color, setColor] = useState('');
@@ -27,25 +25,19 @@ export const PrivateProvider = ({ children }) => {
   const [img, setImg] = useState(null);
   const [previewImg, setPreviewImg] = useState(null);
 
-  //Hago el llamado a la colección productos y lo guardo en una variable
   const productosCollection = collection(db, 'productos');
 
-  //Traigo todos los productos guardados en la variable
-  const getProductos = async () => {
-    try {
-      const data = await getDocs(productosCollection);
-      setProductos(
-        data.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-      );
-    } catch (error) {
-      console.error('Error al obtener los productos:', error);
-    }
-  };
+  // Traer todos los productos guardados en la variable
+   const getProductos = async ()=> { 
+    const data = await getDocs(productosCollection); 
+    console.log(data.docs);
 
-  //Función para eliminar producto
+    setProductos(
+       data.docs.map((doc)=>({...doc.data(), id:doc.id}))
+    ); 
+   
+}
+
   const deleteProducto = async (id) => {
     try {
       const productoDoc = doc(db, 'productos', id);
@@ -56,8 +48,7 @@ export const PrivateProvider = ({ children }) => {
     }
   };
 
-  //Alerta confirmación de borrado
-    const confirmDelete = (id) => {
+  const confirmDelete = (id) => {
     Swal.fire({
       title: `Eliminarás el producto id: ${id}`,
       text: 'No podrás revertir tu decisión!',
@@ -81,7 +72,6 @@ export const PrivateProvider = ({ children }) => {
     let urlImDesc = '';
     if (img) {
       const archivo = img;
-
       const refArchivo = ref(storage, `img/${archivo.name}`);
       try {
         await uploadBytes(refArchivo, archivo);
@@ -124,20 +114,18 @@ export const PrivateProvider = ({ children }) => {
       });
 
       // Opción en alert para seguir creando o ir a la página de lista de productos después de agregar el producto
-      // navigate('/listProduct');
+      navigate('/listProduct');
     } catch (error) {
       console.error('Error al agregar el producto:', error);
     }
   };
 
-  //Función para obtener URL de imagen
   const fileHandler = (e) => {
     const archivo = e.target.files[0];
     setImg(archivo);
     setPreviewImg(URL.createObjectURL(archivo));
   };
 
-  //Función para editar producto
   const updateProduct = async (id, producto) => {
     try {
       const productoDoc = doc(db, 'productos', id);
@@ -148,7 +136,6 @@ export const PrivateProvider = ({ children }) => {
     }
   };
 
-  //Función para obtener producto por Id
   const getProductoById = async (id) => {
     try {
       const productoDoc = doc(db, 'productos', id);
@@ -161,32 +148,11 @@ export const PrivateProvider = ({ children }) => {
         return null;
       }
     } catch (error) {
-      console.log('Error al obtener el producto:', error);
+      console.error('Error al obtener el producto:', error);
       return null;
     }
   };
 
-  useEffect(() => {
-    const fetchProductos = async () => {
-      try {
-        const data = await getDocs(productosCollection);
-        setProductos(
-          data.docs.map((doc) => ({
-            ...doc.data(),
-            id: doc.id,
-          }))
-        );
-      } catch (error) {
-        console.error('Error al obtener los productos:', error);
-      }
-    };
-
-    fetchProductos();
-  }, [productosCollection]);
-
-  useEffect(() => {
-    getProductos();
-  }, []);
 
   return (
     <PrivateContext.Provider

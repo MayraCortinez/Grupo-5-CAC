@@ -6,7 +6,7 @@ import Footer from '../components/Footer/Footer';
 
  const AuthLayout = () => {
 
-    const { user, loading } = useAuth();
+    const { user } = useAuth();
 
 
     // if (loading) {
@@ -30,7 +30,17 @@ import Footer from '../components/Footer/Footer';
                 </>
             ) :
 
-            <Navigate to={'cart'}/>
+            <>
+            <Header />
+                <main className='container mx-auto .pb-11 md:flex md:justify-center'>
+                    <div className="md:w-2/3 lg:w-2/5">
+            
+                        <Outlet/>
+            
+                    </div>
+                </main>
+            <Footer />
+            </>
             
         }
        

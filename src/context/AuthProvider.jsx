@@ -1,117 +1,138 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { collection, getDocs, doc, query, where } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
+import { app } from '../firebaseConfig/firebase';
+import { addDoc, collection } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 
 
-// Crea el contexto de autenticación
 export const AuthContext = createContext();
 
-// Proveedor de autenticación
- const AuthProvider = ({ children }) => {
 
+const AuthProvider = ({ children }) => {
+  const auth = getAuth(app);
   const [user, setUser] = useState(null);
-  const [hasOrders, setHasOrders] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
 
-// const [ example, setExample ] = useState('hola')  
+  const [authState, setAuthState] = useState({ user: null, hasOrders: false, isAdmin: false, loading: true });
+
   useEffect(() => {
-    const user = getAuth();
-    const unsubscribe = onAuthStateChanged(user, (currentUser) => {
+    // Leer el estado inicial desde sessionStorage, si está disponible
+    const initialState = sessionStorage.getItem('authState')
+      ? JSON.parse(sessionStorage.getItem('authState'))
+      : { user: null, hasOrders: false, isAdmin: false, loading: true };
+
+    setAuthState(initialState);
+
+    // Escuchar cambios de estado de autenticación en Firebase Authentication
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Si el usuario está autenticado, actualizar el estado con el usuario y otras propiedades
+        setAuthState({ user, hasOrders: false, isAdmin: false, loading: false });
+        // Guardar el estado en sessionStorage para persistencia
+        sessionStorage.setItem('authState', JSON.stringify({ user, hasOrders: false, isAdmin: false, loading: false }));
+      } else {
+        // Si el usuario no está autenticado, actualizar el estado con usuario nulo
+        setAuthState({ user: null, hasOrders: false, isAdmin: false, loading: false });
+        // Guardar el estado en sessionStorage para persistencia
+        sessionStorage.setItem('authState', JSON.stringify({ user: null, hasOrders: false, isAdmin: false, loading: false }));
+      }
+    });
+
+    // Limpieza: Detener el listener al desmontar el componente
+    return () => unsubscribe();
+  }, [auth]);
+
+
+   useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      checkOrders(currentUser);
-      checkAdmin(currentUser);
+      setLoading(false);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [auth]); 
 
-/*   useEffect(() => {
-    console.log(example)
-  }, []) */
-  
-  // Función para iniciar sesión
-  const login = (email, password) => {
-    const user = getAuth();
-    return user
-      .signInWithEmailAndPassword(email, password)
-      .then((userCredential) => {
-        // Si el inicio de sesión es exitoso, actualiza el estado del usuario
-        setUser(userCredential.user);
-      })
-      .catch((error) => {
-        console.error(error)
-        // Manejar errores de inicio de sesión aquí
-      });
+  // Función para iniciar sesión con correo electrónico y contraseña
+  const loginWithEmailAndPassword = async (email, password) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user);
+      return userCredential.user;
+    } catch (error) {
+      console.error('Error en el inicio de sesión:', error);
+      throw error;
+    }
+  };
+
+  // Función para registrar un nuevo usuario y agregarlo a la colección "users"
+const registerWithEmailAndPassword = async (email, password) => {
+  const auth = getAuth();
+  try {
+    // Registrar al usuario en Firebase Authentication
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+
+    // Obtener el ID de usuario único (UID) del UserCredential
+    const userId = userCredential.user.uid;
+
+    // Datos adicionales del usuario para almacenar en la colección "users"
+    const userData = {
+      admin: false,
+      email: email,
+      password: password,
+      nombre: email
+    };
+
+    // Agregar los datos del usuario a la colección "users" en Firestore
+    const userRef = collection(db, 'users');
+    await addDoc(userRef, { ...userData, userId });
+
+    // Actualizar el estado del usuario en el contexto AuthProvider
+    setAuthState({ ...authState, user: userCredential.user, loading: false });
+
+    // Guardar el estado en sessionStorage para persistencia
+    sessionStorage.setItem('authState', JSON.stringify({ ...authState, user: userCredential.user, loading: false }));
+  } catch (error) {
+    console.error('Error al registrar el usuario:', error);
+    throw error;
+  }
+};
+
+  // Función para iniciar sesión con Google
+  const loginWithGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithRedirect(auth, provider);
+    } catch (error) {
+      console.error('Error en el inicio de sesión con Google:', error);
+      throw error;
+    }
   };
 
   // Función para cerrar sesión
   const logout = async () => {
-    const user = getAuth();
     try {
-      await user
-        .signOut();
-      // Si el cierre de sesión es exitoso, actualiza el estado del usuario a null
+      await signOut(auth);
       setUser(null);
     } catch (error) {
-      console.error(error);
-    }
-  };
-
-  const checkOrders = (user) => {
-    if (user) {
-    // Realiza la lógica para verificar si el usuario tiene pedidos en la colección de pedidos de Firebase
-    // Utilizamos la función 'getDocs' para obtener todos los documentos de la colección 'orders' y aplicamos una consulta por 'userId'
-      const pedidosRef = collection(db, 'pedidos');
-      const userPedidosQuery = query(pedidosRef, where('userId', '==', user.id));    /* utilizamos query para crear una consulta y where 
-                                                                                      para filtrar los resultados por el campo userId igual a user.uid. */
-      getDocs(userPedidosQuery)
-      .then((querySnapshot) => {
-        setHasOrders(!querySnapshot.empty)
-      })
-      .catch((error) => {
-        console.log('Error al traer los pedidos', error);
-      })
-    }
-  };
-
-  const checkAdmin = (user) => {
-    if (user) {
-   // Realiza la lógica para verificar si el usuario es administrador en la colección de usuarios de Firebase
-      // Utilizamos la función 'doc' para obtener un documento específico de la colección 'users' por 'user.uid'
-      const userRef = doc(db, 'users', user.id);
-      getDocs(userRef)
-        .then((docSnapshot) => {
-          if(docSnapshot.exists()){
-            const userData = docSnapshot.data()
-            setIsAdmin(userData.admin === true);
-          } else {
-            setIsAdmin(false);
-          }
-          }
-         )
-        .catch((error) => {
-          console.log('Error en la consulta a collection users:', error);
-        });
+      console.error('Error al cerrar sesión:', error);
+      throw error;
     }
   };
 
   return (
-    <AuthContext.Provider 
-    value={
-        { user, 
-        login, 
-        hasOrders,
-        isAdmin,
+    <AuthContext.Provider
+      value={{
+        user,
+        loading,
+        loginWithEmailAndPassword,
+        registerWithEmailAndPassword,
+        loginWithGoogle,
         logout,
-        loading }
-        }>
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
 };
-
-
 
 export default AuthProvider;
