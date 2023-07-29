@@ -3,9 +3,13 @@ import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
+import Sidebar from '../components/Sidebar/Sidebar';
+
 
 const PrivateLayout = () => {
   const { user, isAdmin } = useAuth();
+
+
 
   if (!user ) {
     // Si no hay un usuario autenticado, redirige al inicio de sesión o a la página de inicio
@@ -21,9 +25,8 @@ const PrivateLayout = () => {
   return (
     <div>
       <Header />
-      {/* Coloca aquí los componentes de diseño privado */}
+     <Sidebar />
         <Outlet />
-
       < Footer />
     </div>
   );

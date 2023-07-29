@@ -1,8 +1,10 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { app } from '../firebaseConfig/firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
+import getAuthenticatedUserId from '../hooks/getAuthenticatedUserId';
+
 
 
 export const AuthContext = createContext();
@@ -12,45 +14,9 @@ const AuthProvider = ({ children }) => {
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  const [authState, setAuthState] = useState({ user: null, hasOrders: false, isAdmin: false, loading: true });
-
-  useEffect(() => {
-    // Leer el estado inicial desde sessionStorage, si está disponible
-    const initialState = sessionStorage.getItem('authState')
-      ? JSON.parse(sessionStorage.getItem('authState'))
-      : { user: null, hasOrders: false, isAdmin: false, loading: true };
-
-    setAuthState(initialState);
-
-    // Escuchar cambios de estado de autenticación en Firebase Authentication
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Si el usuario está autenticado, actualizar el estado con el usuario y otras propiedades
-        setAuthState({ user, hasOrders: false, isAdmin: false, loading: false });
-        // Guardar el estado en sessionStorage para persistencia
-        sessionStorage.setItem('authState', JSON.stringify({ user, hasOrders: false, isAdmin: false, loading: false }));
-      } else {
-        // Si el usuario no está autenticado, actualizar el estado con usuario nulo
-        setAuthState({ user: null, hasOrders: false, isAdmin: false, loading: false });
-        // Guardar el estado en sessionStorage para persistencia
-        sessionStorage.setItem('authState', JSON.stringify({ user: null, hasOrders: false, isAdmin: false, loading: false }));
-      }
-    });
-
-    // Limpieza: Detener el listener al desmontar el componente
-    return () => unsubscribe();
-  }, [auth]);
+  const [userData, setUserData] = useState(null); // Estado para almacenar la información del usuario
 
 
-   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      setLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [auth]); 
 
   // Función para iniciar sesión con correo electrónico y contraseña
   const loginWithEmailAndPassword = async (email, password) => {
@@ -64,9 +30,8 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Función para registrar un nuevo usuario y agregarlo a la colección "users"
+// Función para registrar un nuevo usuario y agregarlo a la colección "users"
 const registerWithEmailAndPassword = async (email, password) => {
-  const auth = getAuth();
   try {
     // Registrar al usuario en Firebase Authentication
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -87,10 +52,10 @@ const registerWithEmailAndPassword = async (email, password) => {
     await addDoc(userRef, { ...userData, userId });
 
     // Actualizar el estado del usuario en el contexto AuthProvider
-    setAuthState({ ...authState, user: userCredential.user, loading: false });
+    setUser(userCredential.user); // Actualizamos el estado con el usuario autenticado
 
     // Guardar el estado en sessionStorage para persistencia
-    sessionStorage.setItem('authState', JSON.stringify({ ...authState, user: userCredential.user, loading: false }));
+    sessionStorage.setItem('authState', JSON.stringify({ user: userCredential.user, loading: false }));
   } catch (error) {
     console.error('Error al registrar el usuario:', error);
     throw error;
@@ -118,12 +83,55 @@ const registerWithEmailAndPassword = async (email, password) => {
       throw error;
     }
   };
+ 
+// Función para obtener los datos del usuario a partir de su UID
+const getUserDataFromFirestore = async (user) => {
+  try {
+    const userDocRef = doc(db, 'users', user);
+    const userDocSnapshot = await getDoc(userDocRef);
+    
+    if (userDocSnapshot.exists()) {
+      const userData = userDocSnapshot.data();
+      setUserData(userData);
+    } else {
+      setUserData(null);
+      console.log('El documento del usuario no existe');
+    }
+  } catch (error) {
+    console.error('Error al obtener datos del usuario:', error);
+    setUserData(null);
+  }
+};
+
+useEffect(() => {
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    setUser(user);
+    setLoading(false);
+
+    if (user) {
+      const userId = user.uid;
+      if (userId) {
+        await getUserDataFromFirestore(userId); // Llamamos a la función para obtener los datos del usuario
+      }
+    } else {
+      setUser(null);
+      setUserData(null);
+    }
+  });
+
+  return () => unsubscribe();
+}, [auth]);
+  
+  
+
+
 
   return (
     <AuthContext.Provider
       value={{
         user,
         loading,
+        userData,
         loginWithEmailAndPassword,
         registerWithEmailAndPassword,
         loginWithGoogle,

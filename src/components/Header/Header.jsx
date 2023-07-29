@@ -2,9 +2,20 @@ import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import logo from "../../assets/3.png";
 import {useAuth} from '../../hooks/useAuth';
+import Sidebar from '../Sidebar/Sidebar';
 
 const Header = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, userData } = useAuth();
+
+  if (user) {
+    console.log('Usuario autenticado:', user.email);
+    console.log('Datos del usuario:', userData);
+    console.log('¿Es administrador?', userData?.admin ? 'Sí' : 'No');
+  } else {
+    console.log('Usuario no autenticado');
+  }
+
+  
 
   const handleLogout = () => {
     logout(); // Cerrar sesión utilizando el contexto de autenticación
@@ -25,21 +36,15 @@ const Header = () => {
           <img src={logo} alt="VZU" width="80" />
         </Navbar.Brand>
         <span className='navbar-brand m-5'>
-            <h2>
+            <h3>
               {!user ? 'Bienvenid@'  : `Hola ${user.email}`}
-            </h2>
+            </h3>
           </span>
         <Navbar.Toggle aria-controls="navbar" />
         <Navbar.Collapse className='align-items-center justify-content-end' id="navbar">
           <Nav>
             <Nav.Link href="/productList">
               Productos
-            </Nav.Link>
-            <Nav.Link href="/listProduct">
-              Listar Productos
-            </Nav.Link>
-            <Nav.Link href="/createProduct">
-              Crear Producto
             </Nav.Link>
             <Nav.Link href="/cart">
               Carrito
@@ -48,7 +53,6 @@ const Header = () => {
               Contacto
             </Nav.Link>
           </Nav>
-
           <span className='navbar-brand m-5'>
           {
             !user 

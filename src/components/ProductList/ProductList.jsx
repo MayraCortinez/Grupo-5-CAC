@@ -25,7 +25,7 @@ function ProductList() {
   return (
     <Container fluid className="mt-5 pt-2 pb-2 mb-5">
       <Row className="pt-5">
-        {productos?.map((producto, index) => (
+        {productos?.map((producto) => (
           <Col key={producto.id} className="pt-5 px-3">
             <ProductCard
               color={producto.color}
