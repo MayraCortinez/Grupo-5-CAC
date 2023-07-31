@@ -14,6 +14,10 @@ const FormContact = () => {
           <Form.Label style={{ color: "#fff", textAlign: "center"}}>Email</Form.Label>
           <Form.Control type="email" name="email" required />
         </Form.Group>
+        <Form.Group controlId="email" style={{ margin:"10px 0"}}>
+          <Form.Label style={{ color: "#fff", textAlign: "center"}}>Mensaje</Form.Label>
+          <Form.Control as="textarea" placeholder="Dejanos tu comentario" name="textarea" required />
+        </Form.Group>        
         <Button variant="primary" type="submit" style={{ margin:"10px 0"}}>
           Enviar
         </Button>
