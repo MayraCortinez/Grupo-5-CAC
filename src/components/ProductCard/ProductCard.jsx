@@ -40,12 +40,12 @@ function ProductCard({
             <h2 className="my-card-title model">{modelo}</h2>
             <div className="my-card-details">
               <div className="my-size">
-                <h3>Size :</h3>
+                <h3>Size:</h3>
                 <span>{talle}</span>
               </div>
               <div className="my-color">
-                <h3>Color :</h3>
-                <span>{color}</span>
+                <h3>Color:</h3>
+                <span style={{background: color}}></span>
               </div>
               <div className="my-price">
                 <h3>${precio}</h3>

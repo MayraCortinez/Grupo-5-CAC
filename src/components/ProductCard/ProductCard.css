@@ -22,7 +22,7 @@
   position: relative;
   width: 200px;
   height: 300px;
-  background: #232323;
+  background: #524f4f;
   border-radius: 15px;
   overflow: hidden;
   margin: auto;
@@ -90,7 +90,7 @@
   font-size: 1.3rem;
   font-weight: 600;
   letter-spacing: 1px;
-  color: red;
+  color: #202020;
   transition: .5s;
 }
 
@@ -104,14 +104,14 @@
 
 .my-container .my-card .my-card-content .my-card-details {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   flex-wrap: wrap;
   transition: .5s;
 }
 
 .my-container .my-card:hover .my-card-content .my-card-details {
-  transform: translateY(-10%);
+  transform: translateY(-15%);
 }
 
 .my-container .my-card .my-card-content .my-card-details .my-size,
@@ -120,7 +120,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8px 20px;
+  padding: 8px 0px;
   transition: .5s;
   opacity: 0;
   visibility: hidden;
@@ -147,17 +147,17 @@
 .my-container .my-card .my-card-content .my-card-details .my-size h3,
 .my-container .my-card .my-card-content .my-card-details .my-color h3,
 .my-container .my-card .my-card-content .my-card-details .my-price h3 {
-  color: red;
+  color: #202020;
   font-weight: 300;
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 2px;
-  margin-right: 10px;
+  margin: 0px;
 }
 
 .my-container .my-card .my-card-content .my-card-details .my-price h3 {
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 1.2rem;
   pointer-events: none;
 }
 
@@ -170,7 +170,7 @@
   font-size: 0.8rem;
   display: inline-block;
   color: white;
-  background: red;
+  background: #202020;
   font-weight: 500;
   margin: 0 5px;
   transition: .5s;
@@ -186,13 +186,12 @@
 .my-container .my-card .my-card-content .my-card-details .my-color span {
   width: 20px;
   height: 20px;
-  background: #906A37;
   border-radius: 50%;
   margin: 0 5px;
   cursor: pointer;
 }
 
-.my-container .my-card .my-card-content a {
+/* .my-container .my-card .my-card-content a {
   display: inline-block;
   padding: 5px 20px;
   background: red;
@@ -203,7 +202,7 @@
   opacity: 0;
   transform: translateY(50px);
   transition: .5s;
-}
+} */
 
 .my-container .my-card:hover .my-card-content a {
   opacity: 1;
