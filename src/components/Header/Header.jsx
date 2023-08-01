@@ -19,7 +19,7 @@ const Header = () => {
           </Navbar.Brand>
         </Row>
         <Navbar.Toggle aria-controls="navbar" />
-        <Navbar.Collapse className='align-items-center justify-content-end' id="navbar">
+        <Navbar.Collapse className='align-items-center justify-content-end text-end' id="navbar">
           <Nav>
             <Nav.Link href="/productList">
               Productos

@@ -74,7 +74,7 @@ const CreateProduct = () => {
     };
 
     return (
-        <div>
+        <div className='mx-auto pt-5' style={{maxWidth: '520px'}}>
             <form onSubmit={newProduct} className="mt-5">
                 <Form.Floating className="mb-3">
                     <Form.Control
