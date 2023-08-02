@@ -1,36 +1,44 @@
-import React, { useContext } from 'react';
+import React, { useEffect } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import Header from '../components/Header/Header'
-import Footer from '../components/Footer/Footer'
-import Sidebar from '../components/Sidebar/Sidebar';
-
+import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 
 const PrivateLayout = () => {
-  const { user, isAdmin } = useAuth();
+  const { user, userData, fetchUserProfile } = useAuth();
 
+  useEffect(() => {
+    // Cuando el usuario cambia o se autentica, actualizamos su perfil en localStorage
+    if (user && user.uid) {
+      fetchUserProfile(user.uid).then((userProfile) => {
+        // Guardar el perfil del usuario en localStorage
+        localStorage.setItem('userProfile', JSON.stringify(userProfile));
+      });
+    }
+  }, [user, fetchUserProfile]);
 
-
-  if (!user ) {
-    // Si no hay un usuario autenticado, redirige al inicio de sesión o a la página de inicio
-    return <Navigate to="/" />;
-  }
-
-  if (!isAdmin) {
-    // Si el usuario no es administrador, redirige al inicio o a otra página adecuada para usuarios no administradores
-    return <Navigate to="/" />;
-  }
+  // Comprobar si hay un perfil de usuario en localStorage
+  const userProfile = JSON.parse(localStorage.getItem('userProfile'));
 
   // Si el usuario es administrador, muestra el diseño privado
   return (
-    <div>
-      <Header />
-     <Sidebar />
-        <Outlet />
-      < Footer />
-    </div>
+    <>
+      {userProfile?.admin ? (
+
+        <>
+          <Header />
+          <main className='container mx-auto pb-11 md:flex md:justify-center'>
+            <div className="md:w-2/3 lg:w-2/5">
+              <Outlet />
+            </div>
+          </main>
+          <Footer />
+        </>
+      ) : (
+        <Navigate to="/" />
+      )}
+    </>
   );
 };
-
 
 export default PrivateLayout;

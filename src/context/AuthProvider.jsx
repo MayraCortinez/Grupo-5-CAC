@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { app } from '../firebaseConfig/firebase';
-import { addDoc, collection, doc, getDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, query, where } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
-import getAuthenticatedUserId from '../hooks/getAuthenticatedUserId';
+
 
 
 
@@ -54,8 +54,12 @@ const registerWithEmailAndPassword = async (email, password) => {
     // Actualizar el estado del usuario en el contexto AuthProvider
     setUser(userCredential.user); // Actualizamos el estado con el usuario autenticado
 
+    // Obtener el perfil del usuario recién registrado y establecerlo en el estado userData
+    const userProfile = await fetchUserProfile(userId);
+    setUserData(userProfile);
+
     // Guardar el estado en sessionStorage para persistencia
-    sessionStorage.setItem('authState', JSON.stringify({ user: userCredential.user, loading: false }));
+    localStorage.setItem('authState', JSON.stringify({ user: userCredential.user, loading: false }));
   } catch (error) {
     console.error('Error al registrar el usuario:', error);
     throw error;
@@ -84,46 +88,24 @@ const registerWithEmailAndPassword = async (email, password) => {
     }
   };
  
-// Función para obtener los datos del usuario a partir de su UID
-const getUserDataFromFirestore = async (user) => {
-  try {
-    const userDocRef = doc(db, 'users', user);
-    const userDocSnapshot = await getDoc(userDocRef);
-    
-    if (userDocSnapshot.exists()) {
-      const userData = userDocSnapshot.data();
-      setUserData(userData);
-    } else {
-      setUserData(null);
-      console.log('El documento del usuario no existe');
-    }
-  } catch (error) {
-    console.error('Error al obtener datos del usuario:', error);
-    setUserData(null);
-  }
-};
-
-useEffect(() => {
-  const unsubscribe = onAuthStateChanged(auth, async (user) => {
-    setUser(user);
-    setLoading(false);
-
-    if (user) {
-      const userId = user.uid;
-      if (userId) {
-        await getUserDataFromFirestore(userId); // Llamamos a la función para obtener los datos del usuario
+  const fetchUserProfile = async (userId) => {
+    try {
+      const userCollectionRef = collection(db, 'users');
+      const querySnapshot = await getDocs(query(userCollectionRef, where('userId', '==', userId)));
+  
+      if (!querySnapshot.empty) {
+        const userData = querySnapshot.docs[0].data();
+        return userData;
+      } else {
+        console.log('El documento del usuario no existe');
+        return null;
       }
-    } else {
-      setUser(null);
-      setUserData(null);
+    } catch (error) {
+      console.error('Error al obtener datos del usuario:', error);
+      return null;
     }
-  });
-
-  return () => unsubscribe();
-}, [auth]);
+  };
   
-  
-
 
 
   return (
@@ -136,6 +118,7 @@ useEffect(() => {
         registerWithEmailAndPassword,
         loginWithGoogle,
         logout,
+        fetchUserProfile
       }}
     >
       {children}

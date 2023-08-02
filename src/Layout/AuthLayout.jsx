@@ -8,11 +8,6 @@ import Footer from '../components/Footer/Footer';
 
     const { user } = useAuth();
 
-
-    // if (loading) {
-    //     return <p> Cargando... </p>
-    // }
-
     return (
         <>
         {

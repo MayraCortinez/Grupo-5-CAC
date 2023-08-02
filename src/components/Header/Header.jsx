@@ -1,21 +1,24 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import logo from "../../assets/3.png";
-import {useAuth} from '../../hooks/useAuth';
+import { useAuth } from '../../hooks/useAuth';
 import Sidebar from '../Sidebar/Sidebar';
 
 const Header = () => {
-  const { user, logout, userData } = useAuth();
+  const { user, logout, userData, fetchUserProfile } = useAuth();
+  const [userProfile, setUserProfile] = useState(null);
 
-  if (user) {
-    console.log('Usuario autenticado:', user.email);
-    console.log('Datos del usuario:', userData);
-    console.log('¿Es administrador?', userData?.admin ? 'Sí' : 'No');
-  } else {
-    console.log('Usuario no autenticado');
-  }
+  useEffect(() => {
+    if (user && user.uid) {
+      fetchUserProfile(user.uid).then((userProfile) => {
+        setUserProfile(userProfile);
+        console.log(userProfile)
+      });
+    }
+  }, [user, fetchUserProfile]);
 
   
+
 
   const handleLogout = () => {
     logout(); // Cerrar sesión utilizando el contexto de autenticación
@@ -29,6 +32,9 @@ const Header = () => {
     });
   };
 
+  const userName = userData?.nombre || user?.email || '';
+
+
   return (
     <Navbar bg="dark" data-bs-theme="dark" expand="lg" fixed="top">
       <Container fluid className='px-5'>
@@ -36,10 +42,10 @@ const Header = () => {
           <img src={logo} alt="VZU" width="80" />
         </Navbar.Brand>
         <span className='navbar-brand m-5'>
-            <h3>
-              {!user ? 'Bienvenid@'  : `Hola ${user.email}`}
-            </h3>
-          </span>
+          <h3>
+            Bienvenido: {userName}
+          </h3>
+        </span>
         <Navbar.Toggle aria-controls="navbar" />
         <Navbar.Collapse className='align-items-center justify-content-end' id="navbar">
           <Nav>
@@ -54,18 +60,22 @@ const Header = () => {
             </Nav.Link>
           </Nav>
           <span className='navbar-brand m-5'>
-          {
-            !user 
-            ? 
-            <Nav.Link href="/login">
-              Iniciar sesión
-            </Nav.Link>
-            :
-            <button className='btn btn-primary'
-            onClick={handleLogout}>Cerrar sesión</button>
-          }
+            {
+              !user
+                ?
+                <Nav.Link href="/login">
+                  Iniciar sesión
+                </Nav.Link>
+                :
+                <button className='btn btn-primary'
+                  onClick={handleLogout}>Cerrar sesión</button>
+            }
           </span>
-         
+          <span className='navbar-brand m-5'>
+            {
+              userProfile?.admin ? <Sidebar /> : "no admin"
+            }
+          </span>
         </Navbar.Collapse>
       </Container>
     </Navbar>

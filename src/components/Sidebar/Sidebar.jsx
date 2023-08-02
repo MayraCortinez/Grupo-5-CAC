@@ -1,42 +1,34 @@
-import React from 'react';
-import { useState } from "react";
-import { Container, Button, Nav } from "react-bootstrap";
+import React, { useState } from 'react';
+import { Container, Button, Nav } from 'react-bootstrap';
 
 const Sidebar = () => {
-    const [showSidebar, setShowSidebar] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false);
 
-    const handleHover = (isHovering) => {
-        setShowSidebar(isHovering);
-    };
+  const handleToggleSidebar = () => {
+    setShowSidebar((prevState) => !prevState);
+  };
 
-    return (
-        <div
-            className="sidebar"
-            onMouseEnter={() => handleHover(true)}
-            onMouseLeave={() => handleHover(false)}
+  return (
+    <Container className='pl-1' >
+    <div className="sidebar">
+      <Button onClick={handleToggleSidebar}>
+        {showSidebar ? 'Cerrar' : 'Mostrar configuración'}
+      </Button>
+      {showSidebar && (
+        <Container
+          style={{
+            width: '200px',
+            overflowX: 'hidden',
+            transition: 'width 0.3s ease-in-out',
+          }}
         >
-            <Container
-                style={{
-                    width: showSidebar ? "200px" : "0",
-                    overflowX: "hidden",
-                    transition: "width 0.3s ease-in-out",
-                }}
-            >
-                <Nav.Link href="/listProduct">
-                    Listar Productos
-                </Nav.Link>
-                <Nav.Link href="/createProduct">
-                    Crear Producto
-                </Nav.Link>
-            </Container>
-            <Button
-                onMouseEnter={() => handleHover(true)}
-                onMouseLeave={() => handleHover(false)}
-            >
-                {showSidebar ? "Hide Sidebar" : "Show Sidebar"}
-            </Button>
-        </div>
-    );
+          <Nav.Link href="/admin">Listar Productos</Nav.Link>
+          <Nav.Link href="/admin/createProduct">Crear Producto</Nav.Link>
+        </Container>
+      )}
+    </div>
+    </Container>
+  );
 };
 
 export default Sidebar;
