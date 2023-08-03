@@ -74,7 +74,8 @@ const CreateProduct = () => {
     };
 
     return (
-        <div className='mx-auto pt-5' style={{maxWidth: '520px'}}>
+        <div className='mx-auto' style={{maxWidth: '520px', paddingTop: '6.5rem', textAlign:'center'}}>
+            <h2 className='text-uppercase text-light'>crear producto</h2>
             <form onSubmit={newProduct} className="mt-5">
                 <Form.Floating className="mb-3">
                     <Form.Control
