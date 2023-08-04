@@ -5,7 +5,7 @@ const FormContact = () => {
   return (
     <div id='contacto'>
       <h2 style={{ color: "#fff", textAlign: "center", margin: "10px"}}>Contacto</h2>
-      <Form action="reactjsgrupo5@gmail.com" method="POST" style={{ width: "45%", margin: "0 auto"}}>
+      <Form action="https://formsubmit.co/reactjsgrupo5@gmail.com" method="POST" style={{ width: "45%", margin: "0 auto"}}>
         <Form.Group controlId="name" style={{ margin:"10px 0"}}>
           <Form.Label style={{ color: "#fff", textAlign: "center"}}>Nombre</Form.Label>
           <Form.Control type="text" name="name" required />
@@ -17,10 +17,12 @@ const FormContact = () => {
         <Form.Group controlId="email" style={{ margin:"10px 0"}}>
           <Form.Label style={{ color: "#fff", textAlign: "center"}}>Mensaje</Form.Label>
           <Form.Control as="textarea" placeholder="Dejanos tu comentario" name="textarea" required />
-        </Form.Group>        
-        <Button variant="primary" type="submit" style={{ margin:"10px 0"}}>
-          Enviar
-        </Button>
+        </Form.Group>      
+        <div style={{ textAlign: "center" }}>
+          <Button variant="primary" type="submit" style={{ margin:"10px 0", padding: "5px 45px", fontWeight: "600"}}>
+            Enviar
+          </Button>
+        </div>  
       </Form>
     </div>  
   );
