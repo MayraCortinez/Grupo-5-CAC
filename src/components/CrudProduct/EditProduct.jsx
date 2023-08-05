@@ -70,7 +70,7 @@ const EditProduct = () => {
               <Form.Label>Color</Form.Label>
               <Form.Control
                 name="color"
-                type="text"
+                type="color"
                 value={form.color || ''}
                 onChange={handleChange}
               />

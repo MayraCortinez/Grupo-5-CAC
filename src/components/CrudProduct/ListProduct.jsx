@@ -44,7 +44,7 @@ const ListProduct = () => {
                 </td>
                 <td>
                   <Link
-                    to={`/editProduct/${producto.id}`}
+                    to={`/admin/editProduct/${producto.id}`}
                     className="btn btn"
                   >
                     <img
