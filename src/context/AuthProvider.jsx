@@ -5,6 +5,7 @@ import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, si
 import { app } from '../firebaseConfig/firebase';
 import { addDoc, collection, doc, getDocs, where, query } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
+import { useNavigate } from 'react-router-dom';
 
 export const AuthContext = createContext();
 
@@ -13,6 +14,8 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null); // Estado para almacenar la información del usuario
+
+  const navigate = useNavigate();
 
   // Función para guardar la información del usuario en el estado userData
   const saveUserData = (userData) => {
@@ -100,6 +103,8 @@ const AuthProvider = ({ children }) => {
       setUser(null);
       removeUserDataFromLocal();
       setUserData(null); // Eliminar los datos del usuario del estado userData al cerrar sesión
+    // Redirigir a la página de inicio después de cerrar sesión utilizando navigate
+    navigate('/');
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
       throw error;

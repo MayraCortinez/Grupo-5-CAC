@@ -1,9 +1,10 @@
 // ListProduct.js
 import React, { useContext, useEffect } from 'react';
-import { Table } from 'react-bootstrap';
+import { Stack, Table } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import { Link } from 'react-router-dom';
 import  {usePrivate} from '../../hooks/usePrivate';
+
 
 const ListProduct = () => {
   const { productos, getProductos, confirmDelete } = usePrivate();
@@ -14,8 +15,9 @@ const ListProduct = () => {
 
   return (
     <div>
-      <Container>
-        <Table>
+  <Container className='mx-auto mt-5 pt-5' >
+      <Stack className='pt-5 pb-5 mb-3 mt-5'>
+        <Table className='pt-3 mt-5'>
           <thead>
             <tr>
               <th>Modelo</th>
@@ -70,6 +72,7 @@ const ListProduct = () => {
             ))}
           </tbody>
         </Table>
+        </Stack>
       </Container>
     </div>
   );

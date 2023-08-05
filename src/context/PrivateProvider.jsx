@@ -114,7 +114,7 @@ export const PrivateProvider = ({ children }) => {
       });
 
       // Opción en alert para seguir creando o ir a la página de lista de productos después de agregar el producto
-      navigate('/listProduct');
+      navigate('/admin');
     } catch (error) {
       console.error('Error al agregar el producto:', error);
     }
