@@ -1,30 +1,35 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { AuthContext } from '../context/AuthProvider';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
 
 const PrivateLayout = () => {
-  const { user, userData, fetchUserProfile } = useAuth();
+  const { user, userData, fetchUserProfile } = useContext(AuthContext);
+  const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
-    // Cuando el usuario cambia o se autentica, actualizamos su perfil en localStorage
-    if (user && user.uid) {
-      fetchUserProfile(user.uid).then((userProfile) => {
-        // Guardar el perfil del usuario en localStorage
-        localStorage.setItem('userProfile', JSON.stringify(userProfile));
-      });
+    if (user && userData && userData.userId) {
+      fetchUserProfile(userData.userId)
+        .then((userProfile) => {
+          setUserProfile(userProfile);
+        })
+        .catch((error) => {
+          console.error('Error al obtener el perfil del usuario:', error);
+        });
     }
-  }, [user, fetchUserProfile]);
+  }, [user, userData, fetchUserProfile]);
 
-  // Comprobar si hay un perfil de usuario en localStorage
-  const userProfile = JSON.parse(localStorage.getItem('userProfile'));
+  // Si userData o userProfile son nulos, puedes hacer un render condicional,
+  // mostrar un spinner de carga o redirigir a la página de inicio de sesión
 
-  // Si el usuario es administrador, muestra el diseño privado
+  if (!user || !userData || !userProfile) {
+    return <p>Cargando...</p>; // Por ejemplo, muestra un mensaje de carga mientras los datos se recuperan
+  }
+
   return (
     <>
-      {userProfile?.admin ? (
-
+      {userProfile.admin ? (
         <>
           <Header />
           <main className='container mx-auto pb-11 md:flex md:justify-center'>

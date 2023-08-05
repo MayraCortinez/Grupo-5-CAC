@@ -1,24 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import logo from "../../assets/3.png";
 import { useAuth } from '../../hooks/useAuth';
 import Sidebar from '../Sidebar/Sidebar';
 
 const Header = () => {
-  const { user, logout, userData, fetchUserProfile } = useAuth();
-  const [userProfile, setUserProfile] = useState(null);
-
-  useEffect(() => {
-    if (user && user.uid) {
-      fetchUserProfile(user.uid).then((userProfile) => {
-        setUserProfile(userProfile);
-        console.log(userProfile)
-      });
-    }
-  }, [user, fetchUserProfile]);
-
-  
-
+  const { user, logout, userData } = useAuth();
 
   const handleLogout = () => {
     logout(); // Cerrar sesión utilizando el contexto de autenticación
@@ -33,7 +20,6 @@ const Header = () => {
   };
 
   const userName = userData?.nombre || user?.email || '';
-
 
   return (
     <Navbar bg="dark" data-bs-theme="dark" expand="lg" fixed="top">
@@ -60,22 +46,20 @@ const Header = () => {
             </Nav.Link>
           </Nav>
           <span className='navbar-brand m-5'>
-            {
-              !user
-                ?
-                <Nav.Link href="/login">
-                  Iniciar sesión
-                </Nav.Link>
-                :
-                <button className='btn btn-primary'
-                  onClick={handleLogout}>Cerrar sesión</button>
-            }
+            {!user ? (
+              <Nav.Link href="/login">
+                Iniciar sesión
+              </Nav.Link>
+            ) : (
+              <>
+                <button className='btn btn-primary' onClick={handleLogout}>
+                  Cerrar sesión
+                </button>
+                {userData?.admin ? <Sidebar /> : ""}
+              </>
+            )}
           </span>
-          <span className='navbar-brand m-5'>
-            {
-              userProfile?.admin ? <Sidebar /> : "no admin"
-            }
-          </span>
+          <span className='navbar-brand m-5'></span>
         </Navbar.Collapse>
       </Container>
     </Navbar>
@@ -83,3 +67,4 @@ const Header = () => {
 };
 
 export default Header;
+
