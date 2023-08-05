@@ -20,9 +20,6 @@ const PrivateLayout = () => {
     }
   }, [user, userData, fetchUserProfile]);
 
-  // Si userData o userProfile son nulos, puedes hacer un render condicional,
-  // mostrar un spinner de carga o redirigir a la página de inicio de sesión
-
   if (!user || !userData || !userProfile) {
     return <p>Cargando...</p>; // Por ejemplo, muestra un mensaje de carga mientras los datos se recuperan
   }
