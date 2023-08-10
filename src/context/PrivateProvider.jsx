@@ -5,15 +5,18 @@ import { db, storage } from '../firebaseConfig/firebase';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../hooks/useAuth';
 
 export const PrivateContext = createContext();
 
 const MySwal = withReactContent(Swal);
 
 export const PrivateProvider = ({ children }) => {
+
+  const { productos, getProductos } = useAuth();
+
   const navigate = useNavigate();
 
-  const [productos, setProductos] = useState([]);
   const [marca, setMarca] = useState('');
   const [modelo, setModelo] = useState('');
   const [color, setColor] = useState('');
@@ -27,22 +30,13 @@ export const PrivateProvider = ({ children }) => {
 
   const productosCollection = collection(db, 'productos');
 
-  // Traer todos los productos guardados en la variable
-   const getProductos = async ()=> { 
-    const data = await getDocs(productosCollection); 
-    console.log(data.docs);
 
-    setProductos(
-       data.docs.map((doc)=>({...doc.data(), id:doc.id}))
-    ); 
-   
-}
-
+//ELIMINAR PRODUCTO
   const deleteProducto = async (id) => {
     try {
       const productoDoc = doc(db, 'productos', id);
       await deleteDoc(productoDoc);
-      getProductos();
+      await getProductos(); // Espera a que getProductos se complete antes de continuar
     } catch (error) {
       console.error('Error al eliminar el producto:', error);
     }
@@ -66,6 +60,8 @@ export const PrivateProvider = ({ children }) => {
     });
   };
 
+
+//CREAR PRODUCTO
   const newProduct = async (e) => {
     e.preventDefault();
 
@@ -120,12 +116,15 @@ export const PrivateProvider = ({ children }) => {
     }
   };
 
+  //IMÁGEN PREVIA
   const fileHandler = (e) => {
     const archivo = e.target.files[0];
     setImg(archivo);
     setPreviewImg(URL.createObjectURL(archivo));
   };
 
+
+//EDITAR PRODUCTO
   const updateProduct = async (id, producto) => {
     try {
       const productoDoc = doc(db, 'productos', id);
@@ -143,6 +142,8 @@ export const PrivateProvider = ({ children }) => {
     }
   };
 
+
+//TRAER PRODUCTO POR ID
   const getProductoById = async (id) => {
     try {
       const productoDoc = doc(db, 'productos', id);
@@ -164,8 +165,6 @@ export const PrivateProvider = ({ children }) => {
   return (
     <PrivateContext.Provider
       value={{
-        productos,
-        getProductos,
         deleteProducto,
         confirmDelete,
         marca,

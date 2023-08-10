@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import { usePrivate } from '../../hooks/usePrivate';
+import { useAuth } from '../../hooks/useAuth';
 import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content';
 
@@ -10,7 +11,8 @@ const MySwal = withReactContent(Swal);
 const EditProduct = ({ productId, handleCloseEditModal }) => {
 
   const { getProductoById, updateProduct } = usePrivate();
-  
+  const { getProductos } = useAuth(); //se utiliza para que luego de editar el producto, se actualice la lista
+
   const [form, setForm] = useState({});
   const navigate = useNavigate();
   const { id } = useParams();
@@ -19,7 +21,7 @@ const EditProduct = ({ productId, handleCloseEditModal }) => {
     if (productId) {
       const fetchProduct = async () => {
         const productoData = await getProductoById(productId);
-        console.log(productoData);
+        //console.log(productoData);
         setForm(productoData);
       };
       fetchProduct();
@@ -32,21 +34,23 @@ const EditProduct = ({ productId, handleCloseEditModal }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await updateProduct(id, form);
-    console.log(form)
+    await updateProduct(productId, form);
+    console.log(form);
+    await getProductos(); // Llama a getProductos para obtener la lista actualizada
     handleCloseEditModal(); // Cierra el modal después de actualizar
   };
+
 
 
   return (
     <div>
 
-<Modal show={productId !== null} onHide={handleCloseEditModal}>
-      <Modal.Header closeButton>
-        <Modal.Title>Editar Producto</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-      <Form onSubmit={handleSubmit}>
+      <Modal show={productId !== null} onHide={handleCloseEditModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Editar Producto</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Marca</Form.Label>
               <Form.Control
@@ -119,18 +123,18 @@ const EditProduct = ({ productId, handleCloseEditModal }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            </Form>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseEditModal}>
-                Cancelar
-              </Button>
-              <Button type="submit" onClick={handleSubmit} variant="primary">
-                Actualizar
-              </Button>
-            </Modal.Footer>
-      </Modal.Body>
-    </Modal>
-          </div>
+          </Form>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={handleCloseEditModal}>
+              Cancelar
+            </Button>
+            <Button type="submit" onClick={handleSubmit} variant="primary">
+              Actualizar
+            </Button>
+          </Modal.Footer>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 };
 
