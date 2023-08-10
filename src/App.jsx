@@ -27,8 +27,6 @@ function App() {
     <div className="App bg-dark">
       <BrowserRouter>
         <AuthProvider>
-          <ProtectedProvider>
-            <PrivateProvider>
                 <Routes>
                   {/* Rutas públicas */}
                   <Route path="/" element={<AuthLayout />}>
@@ -37,24 +35,34 @@ function App() {
                     <Route path="product/:id" element={<ProductDetail />} />
                     <Route path="productList" element={<ProductList />} />
                   </Route>
+                  </Routes>
                   
+                  <ProtectedProvider>
+                  <Routes>
                   {/* Rutas privadas */}
                   <Route path="/user" element={<ProtectedLayout />} >
                     <Route path="cart" element={< Cart />} />
                   </Route>
-                  
+                  </Routes>
+                  </ProtectedProvider>
+
+                  <PrivateProvider>
                   {/* Rutas admin */}
+                  <Routes>
                   <Route path="/admin" element={<PrivateLayout />} >
                     <Route index element={<ListProduct />} />
                     <Route path="createProduct" element={<CreateProduct />} />
                     <Route path="editProduct/:id" element={<EditProduct />} />
                   </Route>
-                  
+                  </Routes>
+                  </PrivateProvider>
+
+                  <Routes>
                   {/* Ruta para manejar URLs no encontradas */}
                   <Route path="*" element={<NotFound />} />
                 </Routes>
-              </PrivateProvider>
-            </ProtectedProvider>
+
+ 
         </AuthProvider>
       </BrowserRouter>
     </div>

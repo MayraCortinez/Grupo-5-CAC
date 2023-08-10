@@ -1,24 +1,30 @@
-// EditProduct.js
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Form, Modal, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
-import {usePrivate} from '../../hooks/usePrivate';
+import { usePrivate } from '../../hooks/usePrivate';
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
 
-const EditProduct = () => {
+const MySwal = withReactContent(Swal);
+
+const EditProduct = ({ productId, handleCloseEditModal }) => {
+
   const { getProductoById, updateProduct } = usePrivate();
   
   const [form, setForm] = useState({});
-  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      const productoData = await getProductoById(id);
-      setForm(productoData);
-    };
-    fetchProduct();
-  }, [getProductoById, id]);
+    if (productId) {
+      const fetchProduct = async () => {
+        const productoData = await getProductoById(productId);
+        console.log(productoData);
+        setForm(productoData);
+      };
+      fetchProduct();
+    }
+  }, [getProductoById, productId]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -27,27 +33,20 @@ const EditProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await updateProduct(id, form);
-    navigate('/listProduct');
+    console.log(form)
+    handleCloseEditModal(); // Cierra el modal después de actualizar
   };
 
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
 
   return (
     <div>
-      <Button onClick={handleOpenModal}>Editar Producto</Button>
 
-      <Modal show={showModal} onHide={handleCloseModal}>
-        <Modal.Header closeButton>
-          <Modal.Title>Editar Producto</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form onSubmit={handleSubmit}>
+<Modal show={productId !== null} onHide={handleCloseEditModal}>
+      <Modal.Header closeButton>
+        <Modal.Title>Editar Producto</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+      <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3">
               <Form.Label>Marca</Form.Label>
               <Form.Control
@@ -103,7 +102,7 @@ const EditProduct = () => {
               />
             </Form.Group>
             <Form.Group className="mb-3">
-              <Form.Label>Descripción</Form.Label>
+              <Form.Label className='white'>Descripción</Form.Label>
               <Form.Control
                 name="descripcion"
                 type="text"
@@ -120,19 +119,18 @@ const EditProduct = () => {
                 onChange={handleChange}
               />
             </Form.Group>
-
+            </Form>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleCloseModal}>
+              <Button variant="secondary" onClick={handleCloseEditModal}>
                 Cancelar
               </Button>
-              <Button type="submit" variant="primary">
+              <Button type="submit" onClick={handleSubmit} variant="primary">
                 Actualizar
               </Button>
             </Modal.Footer>
-          </Form>
-        </Modal.Body>
-      </Modal>
-    </div>
+      </Modal.Body>
+    </Modal>
+          </div>
   );
 };
 

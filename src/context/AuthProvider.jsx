@@ -15,6 +15,21 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null); // Estado para almacenar la información del usuario
 
+  const [productos, setProductos] = useState([]);
+
+  const productosCollection = collection(db, 'productos');
+
+  // Traer todos los productos guardados en la variable
+   const getProductos = async ()=> { 
+    const data = await getDocs(productosCollection); 
+    console.log(data.docs);
+
+    setProductos(
+       data.docs.map((doc)=>({...doc.data(), id:doc.id}))
+    ); 
+   
+}
+
   const navigate = useNavigate();
 
   // Función para guardar la información del usuario en el estado userData
@@ -162,7 +177,9 @@ const AuthProvider = ({ children }) => {
         registerWithEmailAndPassword,
         loginWithGoogle,
         logout,
-        fetchUserProfile
+        fetchUserProfile,
+        productos,
+        getProductos,
       }}
     >
       {children}

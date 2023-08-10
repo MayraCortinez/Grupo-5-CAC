@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import {usePrivate} from '../../hooks/usePrivate';
 import { Container, Stack } from 'react-bootstrap';
@@ -30,6 +30,8 @@ const CreateProduct = () => {
     newProduct,
     fileHandler,
   } = usePrivate();
+
+
 
   return (
     <Container className='mx-auto p-5' style={{maxWidth: '520px', paddingTop: '6.5rem', textAlign:'center'}}>

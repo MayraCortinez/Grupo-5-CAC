@@ -4,10 +4,10 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ProductCard from "../ProductCard/ProductCard";
-import { useProtected } from '../../hooks/useProtected';
+import { useAuth } from '../../hooks/useAuth';
 
 function ProductList() {
-  const { productos, getProductos } = useProtected();
+  const { productos, getProductos } = useAuth();
   const [imageUrls, setImageUrls] = useState([]); // Estado para almacenar las URL de las imágenes
 
   useEffect(() => {

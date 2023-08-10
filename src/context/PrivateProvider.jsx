@@ -130,7 +130,14 @@ export const PrivateProvider = ({ children }) => {
     try {
       const productoDoc = doc(db, 'productos', id);
       await updateDoc(productoDoc, producto);
-      // Otras operaciones necesarias después de actualizar el producto
+      MySwal.fire({
+        position: 'center',
+        icon: 'success',
+        title: 'El producto ha sido editado con éxito!',
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      navigate('/admin');
     } catch (error) {
       console.error('Error al actualizar el producto:', error);
     }
