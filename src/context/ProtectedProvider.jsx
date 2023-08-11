@@ -1,5 +1,5 @@
 // 1 - Importamos los módulos y funciones necesarios
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 import useAuth  from '../hooks/useAuth';
 import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
@@ -22,10 +22,21 @@ export const ProtectedProvider = ({ children }) => {
 
   const productosCollection = collection(db, 'productos');
 
-  // Agregar un producto al carrito
-  const addToCart = (producto) => {
-    setCart([...cart, producto]);
-  };
+
+    // Crear un nuevo pedido
+    const createPedido = async (productoId) => {
+      const pedidoData = {
+        //campos relacionados con el pedido
+        userId: user.uid,
+        productoId: productoId,
+        };
+      try {
+        const docRef = await addDoc(pedidosCollection, pedidoData);
+        console.log('Pedido creado con ID:', docRef.id);
+      } catch (error) {
+        console.error('Error al crear el pedido:', error);
+      }
+    };
 
   // Duplicar un pedido en el carrito
   const duplicatePedido = (index) => {
@@ -49,22 +60,8 @@ export const ProtectedProvider = ({ children }) => {
     return total;
   };
 
-  // Crear un nuevo pedido
-  const createPedido = async (productoId) => {
-    const pedidoData = {
-      //campos relacionados con el pedido
-      userId: user.uid,
-      productoId: productoId,
-      };
-    try {
-      const docRef = await addDoc(pedidosCollection, pedidoData);
-      console.log('Pedido creado con ID:', docRef.id);
-    } catch (error) {
-      console.error('Error al crear el pedido:', error);
-    }
-  };
 
-  // Obtener todos los pedidos del usuario actual
+  // Obtener todos los pedidos del usuario actual y cargarlos en el estado de cart
   const getUserPedidos = async () => {
     try {
       const querySnapshot = await getDocs(pedidosCollection);
@@ -72,16 +69,18 @@ export const ProtectedProvider = ({ children }) => {
         id: doc.id,
         ...doc.data(),
       }));
+      setCart(pedidos);
       console.log('Pedidos del usuario:', pedidos);
     } catch (error) {
       console.error('Error al obtener los pedidos del usuario:', error);
     }
   };
 
+
   // Eliminar un pedido
-  const deletePedido = async (pedidoId) => {
+  const deletePedido = async (id) => {
     try {
-      const pedidoDoc = doc(db, 'pedidos', pedidoId);
+      const pedidoDoc = doc(db, 'pedidos', id);
       await deleteDoc(pedidoDoc);
       console.log('Pedido eliminado con éxito');
     } catch (error) {
@@ -107,7 +106,6 @@ export const ProtectedProvider = ({ children }) => {
       value={{
         user,
         cart,
-        addToCart,
         duplicatePedido,
         removePedido,
         getTotalAmount,

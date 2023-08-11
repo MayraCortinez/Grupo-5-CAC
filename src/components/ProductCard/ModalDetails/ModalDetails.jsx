@@ -17,7 +17,6 @@ const ModalDetails = ({ show, onHide, id, marca, modelo, descripcion, detalle, t
 
     const handleCreatePedido = () => {
         if (user) {
-            
             const productoId = id
             const userId = user.uid
             // Crear el pedido en la base de datos con la información del usuario y el producto

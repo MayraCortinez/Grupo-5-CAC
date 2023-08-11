@@ -2,7 +2,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
 import { app } from '../firebaseConfig/firebase';
-import { addDoc, collection, doc, getDocs, where, query } from 'firebase/firestore';
+import { addDoc, collection, doc, getDocs, getDoc, where, query } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,6 +15,8 @@ const AuthProvider = ({ children }) => {
   const [userData, setUserData] = useState(null); // Estado para almacenar la información del usuario
 
   const [productos, setProductos] = useState([]);
+
+  const navigate = useNavigate();
 
   const productosCollection = collection(db, 'productos');
 
@@ -29,7 +31,23 @@ const AuthProvider = ({ children }) => {
    
 }
 
-  const navigate = useNavigate();
+//TRAER PRODUCTO POR ID
+const getProductoById = async (id) => {
+  try {
+    const productoDoc = doc(db, 'productos', id);
+    const productoSnap = await getDoc(productoDoc);
+    if (productoSnap.exists()) {
+      const productoData = productoSnap.data();
+      return productoData;
+    } else {
+      console.log('El producto no existe');
+      return null;
+    }
+  } catch (error) {
+    console.error('Error al obtener el producto:', error);
+    return null;
+  }
+};
 
   // Función para guardar la información del usuario en el estado userData
   const saveUserData = (userData) => {
@@ -179,6 +197,7 @@ const AuthProvider = ({ children }) => {
         fetchUserProfile,
         productos,
         getProductos,
+        getProductoById
       }}
     >
       {children}
