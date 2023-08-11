@@ -27,6 +27,7 @@ function App() {
     <div className="App bg-dark">
       <BrowserRouter>
         <AuthProvider>
+        <ProtectedProvider>
                 <Routes>
                   {/* Rutas públicas */}
                   <Route path="/" element={<AuthLayout />}>
@@ -41,7 +42,7 @@ function App() {
                   <Routes>
                   {/* Rutas privadas */}
                   <Route path="/user" element={<ProtectedLayout />} >
-                    <Route path="cart" element={< Cart />} />
+                  <Route index element={<Cart />} />
                   </Route>
                   </Routes>
                   </ProtectedProvider>
@@ -62,7 +63,7 @@ function App() {
                   <Route path="*" element={<NotFound />} />
                 </Routes>
 
- 
+                </ProtectedProvider>
         </AuthProvider>
       </BrowserRouter>
     </div>

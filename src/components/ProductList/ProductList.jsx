@@ -8,7 +8,7 @@ import { useAuth } from '../../hooks/useAuth';
 
 function ProductList() {
   const { productos, getProductos } = useAuth();
-  const [imageUrls, setImageUrls] = useState([]); // Estado para almacenar las URL de las imágenes
+ 
 
   useEffect(() => {
     getProductos();
@@ -28,6 +28,7 @@ function ProductList() {
         {productos?.map((producto) => (
           <Col key={producto.id} className="pt-5 px-3">
             <ProductCard
+              id={producto.id}
               color={producto.color}
               descripcion={producto.descripcion}
               detalle={producto.detalle}

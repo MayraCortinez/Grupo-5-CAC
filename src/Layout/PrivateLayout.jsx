@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
-import { AuthContext } from '../context/AuthProvider';
 import Header from '../components/Header/Header';
 import Footer from '../components/Footer/Footer';
+import useAuth from '../hooks/useAuth';
 
 const PrivateLayout = () => {
-  const { user, userData, fetchUserProfile } = useContext(AuthContext);
+  const { user, userData, fetchUserProfile } = useAuth();
   const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const PrivateLayout = () => {
   }, [user, userData, fetchUserProfile]);
 
   if (!user || !userData || !userProfile) {
-    return <p>Cargando...</p>; // Por ejemplo, muestra un mensaje de carga mientras los datos se recuperan
+    return <p>Cargando...</p>; 
   }
 
   return (

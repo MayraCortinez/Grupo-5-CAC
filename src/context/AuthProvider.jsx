@@ -1,4 +1,3 @@
-// authProvider.js
 
 import React, { createContext, useState, useEffect } from 'react';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, GoogleAuthProvider, signInWithRedirect } from 'firebase/auth';
@@ -92,7 +91,7 @@ const AuthProvider = ({ children }) => {
       // Guardar el perfil del usuario en el estado userData
       setUserData(userData);
 
-      // Guardar el estado en sessionStorage para persistencia (opcional)
+      // Guardar el estado en sessionStorage para persistencia 
       // sessionStorage.setItem('authState', JSON.stringify({ user: userCredential.user, loading: false }));
     } catch (error) {
       console.error('Error al registrar el usuario:', error);

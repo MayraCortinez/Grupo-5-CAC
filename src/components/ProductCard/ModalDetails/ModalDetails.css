@@ -1,0 +1,16 @@
+.customize-modal-details .modal-header {
+    border-bottom: none;
+  }
+  
+  .customize-modal-details .btn-close {
+    opacity: 1;
+  }
+  
+  .customize-modal-details .modal-content {
+    background-color: rgba(180, 40, 40, .9);
+    color: #fff;
+  }
+  
+  .customize-modal-details h2 {
+    font-size: 2.5rem;
+  }

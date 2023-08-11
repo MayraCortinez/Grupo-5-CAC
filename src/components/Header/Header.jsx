@@ -38,9 +38,6 @@ const Header = () => {
             <Nav.Link href="/productList">
               Productos
             </Nav.Link>
-            <Nav.Link href="/cart">
-              Carrito
-            </Nav.Link>
             <Nav.Link href="#contacto" onClick={handleButtonClick}>
               Contacto
             </Nav.Link>
@@ -52,6 +49,9 @@ const Header = () => {
               </Nav.Link>
             ) : (
               <>
+            <Nav.Link href="/user">
+              Carrito
+            </Nav.Link>
                 <button className='btn btn-primary' onClick={handleLogout}>
                   Cerrar sesión
                 </button>

@@ -9,28 +9,18 @@ export const ProtectedContext = createContext();
 
 // 3 - Definimos el componente ProtectedProvider y recibimos los componentes hijos como prop children
 export const ProtectedProvider = ({ children }) => {
-
-  const [productos, setProductos] = useState([]);
   
-  // 4 - Obtenemos el objeto user del contexto useAuth que proporciona la información del usuario autenticado
-  const { user } = useAuth();
+  
+  const { user } = useAuth();  // 4 - Obtenemos el objeto user del contexto useAuth que proporciona la información del usuario autenticado
+  const { productos, getProductos } = useAuth();
 
-  // 5 - Creamos el estado cart para almacenar los productos agregados al carrito
-  const [cart, setCart] = useState([]);
+  
+  const [cart, setCart] = useState([]); // 5 - Creamos el estado cart para almacenar los productos agregados al carrito
 
-  // 6 - Creamos una referencia a la colección "pedidos" en la base de datos
-  const pedidosCollection = collection(db, 'pedidos');
+  
+  const pedidosCollection = collection(db, 'pedidos'); // 6 - Creamos una referencia a la colección "pedidos" en la base de datos
 
   const productosCollection = collection(db, 'productos');
-  const getProductos = async ()=> { 
-    const data = await getDocs(productosCollection); 
-    console.log(data.docs);
-
-    setProductos(
-       data.docs.map((doc)=>({...doc.data(), id:doc.id}))
-    ); 
-   
-}
 
   // Agregar un producto al carrito
   const addToCart = (producto) => {
@@ -62,10 +52,10 @@ export const ProtectedProvider = ({ children }) => {
   // Crear un nuevo pedido
   const createPedido = async (productoId) => {
     const pedidoData = {
-      userId: user.id,
+      //campos relacionados con el pedido
+      userId: user.uid,
       productoId: productoId,
-      // Otros campos relacionados con el pedido
-    };
+      };
     try {
       const docRef = await addDoc(pedidosCollection, pedidoData);
       console.log('Pedido creado con ID:', docRef.id);
@@ -115,6 +105,7 @@ export const ProtectedProvider = ({ children }) => {
   return (
     <ProtectedContext.Provider
       value={{
+        user,
         cart,
         addToCart,
         duplicatePedido,
