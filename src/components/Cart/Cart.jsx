@@ -30,10 +30,34 @@ const Cart = () => {
 
   useEffect(() => {
     getUserPedidos();
-    setTimeout(()=> {
+    setTimeout(() => {
       setLoading(false);
     }, 4000);
   }, [user]);
+
+  const alertRemove = ( id ) => {
+    Swal.fire({
+      title: 'Estas seguro de eliminar el producto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleRemovePedido(id);
+        Swal.fire(
+          'Producto eliminado!',
+          'El producto fue elminado correctamente.',
+          'success'
+        )
+      }else {
+        //May hay un error seguramente en cargar el carrito de nuevo, en casos de prueba en que la opcion es no, al borrar un producto posteriormente, lo elimina de la base pero no lo vuelve a renderizar en el carrito
+        console.log('Remove cancelado')
+      }
+    })
+  }
 
   const handleVerDetalles = async (productoId) => {
     try {
@@ -51,6 +75,7 @@ const Cart = () => {
 
   const handleRemovePedido = (id) => {
     deletePedido(id);
+    getUserPedidos();
   };
 
   const handleTotalAmount = () => {
@@ -80,7 +105,7 @@ const Cart = () => {
         });
       }
     });
-    
+
     console.log("Total a pagar:", total);
   };
 
@@ -103,63 +128,63 @@ const Cart = () => {
   return (
     <Container className="m-5 p-5">
       <Stack className="m-5 p-5">
-        {loading ? 
-        (<LoadingSpinner style={{ height: "550px" }} className='text-primary d-flex align-items-center justify-content-center'/>)
-        :
-        cart.length === 0 ? (
-          <div>
-            <p className="mt-5 pt-5 text-center" style={{ color: "white" }}>
-              No hay productos en el carrito.
-            </p>
-          </div>
-        ) : (
-          cart.map((pedido, index) => (
-            <React.Fragment key={pedido.id}>
-              <Row>
-              {selectedProduct && (
-                <>
-                    <h6 className="text-white">
-                      {selectedProduct.marca} - {selectedProduct.modelo}
-                      <br /> $ {selectedProduct.precio}
-                    </h6>
-                    <img className=" img-fluid w-25 img-thumbnail rounded float-start" src={selectedProduct.img} alt={selectedProduct.modelo} />
-                </>
+        {loading ?
+          (<LoadingSpinner style={{ height: "550px" }} className='text-primary d-flex align-items-center justify-content-center' />)
+          :
+          cart.length === 0 ? (
+            <div>
+              <p className="mt-5 pt-5 text-center" style={{ color: "white" }}>
+                No hay productos en el carrito.
+              </p>
+            </div>
+          ) : (
+            cart.map((pedido, index) => (
+              <React.Fragment key={pedido.id}>
+                <Row>
+                  {selectedProduct && (
+                    <>
+                      <h6 className="text-white">
+                        {selectedProduct.marca} - {selectedProduct.modelo}
+                        <br /> $ {selectedProduct.precio}
+                      </h6>
+                      <img className=" img-fluid w-25 img-thumbnail rounded float-start" src={selectedProduct.img} alt={selectedProduct.modelo} />
+                    </>
                   )}
-                <Col>
-                  <Button
-                    variant="info"
-                    onClick={() => handleModalShow(pedido.id)} // Usa el id del pedido
-                  >
-                    Ver detalles
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleDuplicatePedido(index)}
-                  >
-                    Duplicar
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleRemovePedido(index)}
-                  >
-                    Eliminar
-                  </Button>
-                  <hr />
-                </Col>
-              </Row>
-              <hr />
-            </React.Fragment>
-          ))
+                  <Col>
+                    <Button
+                      variant="info"
+                      onClick={() => handleModalShow(pedido.id)} // Usa el id del pedido
+                    >
+                      Ver detalles
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      variant="primary"
+                      onClick={() => handleDuplicatePedido(index, pedido)}
+                    >
+                      Duplicar
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      variant="danger"
+                      onClick={() => alertRemove(pedido.id)}
+                    >
+                      Eliminar
+                    </Button>
+                    <hr />
+                  </Col>
+                </Row>
+                <hr />
+              </React.Fragment>
+            ))
+          )}
+        {cart.length > 0 && (
+          <Button variant="success" className="mr-auto" onClick={handleTotalAmount}>
+            Total a pagar
+          </Button>
         )}
-          {cart.length > 0 && (
-        <Button variant="success" className="mr-auto" onClick={handleTotalAmount}>
-          Total a pagar
-        </Button>
-      )}
       </Stack>
 
       {modalShow && selectedProduct && (
