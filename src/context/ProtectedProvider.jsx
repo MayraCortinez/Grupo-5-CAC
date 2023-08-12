@@ -44,13 +44,6 @@ export const ProtectedProvider = ({ children }) => {
     setCart([...cart, pedido]);
   };
 
-  // Eliminar un pedido del carrito
-  const removePedido = (index) => {
-    const newCart = [...cart];
-    newCart.splice(index, 1);
-    setCart(newCart);
-  };
-
   // Obtener el total a pagar
   const getTotalAmount = () => {
     let total = 0;
@@ -107,7 +100,6 @@ export const ProtectedProvider = ({ children }) => {
         user,
         cart,
         duplicatePedido,
-        removePedido,
         getTotalAmount,
         createPedido,
         getUserPedidos,

@@ -44,8 +44,8 @@ const Cart = () => {
     duplicatePedido(index);
   };
 
-  const handleRemovePedido = (index) => {
-    deletePedido(index);
+  const handleRemovePedido = (id) => {
+    deletePedido(id);
   };
 
   const handleTotalAmount = () => {
@@ -75,14 +75,14 @@ const Cart = () => {
         });
       }
     });
-    // Realiza cualquier acción necesaria con el total
+    
     console.log("Total a pagar:", total);
   };
 
   const [modalShow, setModalShow] = useState(false);
 
   const handleModalShow = (pedidoId) => {
-    // Encuentra el pedido en el carrito con el pedidoId dado
+    // Encuentra el pedido en el carrito con el pedidoId
     const pedido = cart.find((pedido) => pedido.id === pedidoId);
     if (pedido) {
       // Si se encuentra el pedido, muestra los detalles del producto
@@ -109,9 +109,13 @@ const Cart = () => {
             <React.Fragment key={pedido.id}>
               <Row>
               {selectedProduct && (
+                <>
                     <h6 className="text-white">
                       {selectedProduct.marca} - {selectedProduct.modelo}
+                      <br /> $ {selectedProduct.precio}
                     </h6>
+                    <img className=" img-fluid w-25 img-thumbnail rounded float-start" src={selectedProduct.img} alt={selectedProduct.modelo} />
+                </>
                   )}
                 <Col>
                   <Button
@@ -126,7 +130,7 @@ const Cart = () => {
                     variant="primary"
                     onClick={() => handleDuplicatePedido(index)}
                   >
-                    Agregar
+                    Duplicar
                   </Button>
                 </Col>
                 <Col>
@@ -136,18 +140,20 @@ const Cart = () => {
                   >
                     Eliminar
                   </Button>
+                  <hr />
                 </Col>
               </Row>
               <hr />
             </React.Fragment>
           ))
         )}
-      </Stack>
-      {cart.length > 0 && (
-        <Button variant="success" onClick={handleTotalAmount}>
+          {cart.length > 0 && (
+        <Button variant="success" className="mr-auto" onClick={handleTotalAmount}>
           Total a pagar
         </Button>
       )}
+      </Stack>
+
       {modalShow && selectedProduct && (
         <ModalDetails
           show={modalShow}
