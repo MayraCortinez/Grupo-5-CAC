@@ -73,8 +73,8 @@ const Cart = () => {
     duplicatePedido(index);
   };
 
-  const handleRemovePedido = (id) => {
-    deletePedido(id);
+  const handleRemovePedido = async (id) => {
+    await deletePedido(id);
     getUserPedidos();
   };
 
