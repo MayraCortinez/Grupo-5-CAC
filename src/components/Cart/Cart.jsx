@@ -5,12 +5,14 @@ import { useProtected } from "../../hooks/useProtected";
 import Swal from 'sweetalert2';
 import ModalDetails from "../ProductCard/ModalDetails/ModalDetails";
 import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "../LoadingSpinner";
 
 const Cart = () => {
   const { user, cart, duplicatePedido, deletePedido, getTotalAmount, getUserPedidos } = useProtected();
   const { getProductoById } = useAuth();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [userPedidos, setUserPedidos] = useState([]); // Inicializar como una matriz vacía
+  let [loading, setLoading] = useState(true);
 
   /*   useEffect(() => {
       const fetchUserPedidos = async () => {
@@ -28,6 +30,9 @@ const Cart = () => {
 
   useEffect(() => {
     getUserPedidos();
+    setTimeout(()=> {
+      setLoading(false);
+    }, 4000);
   }, [user]);
 
   const handleVerDetalles = async (productoId) => {
@@ -98,7 +103,10 @@ const Cart = () => {
   return (
     <Container className="m-5 p-5">
       <Stack className="m-5 p-5">
-        {cart.length === 0 ? (
+        {loading ? 
+        (<LoadingSpinner style={{ height: "550px" }} className='text-primary d-flex align-items-center justify-content-center'/>)
+        :
+        cart.length === 0 ? (
           <div>
             <p className="mt-5 pt-5 text-center" style={{ color: "white" }}>
               No hay productos en el carrito.
