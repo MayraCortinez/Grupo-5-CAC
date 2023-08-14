@@ -1,7 +1,7 @@
 // 1 - Importamos los módulos y funciones necesarios
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import useAuth  from '../hooks/useAuth';
-import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, addDoc, getDocs, doc, deleteDoc, updateDoc, getDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import { db } from '../firebaseConfig/firebase';
 
 // 2 - Creamos el contexto ProtectedContext utilizando la función createContext() de React
@@ -37,6 +37,47 @@ export const ProtectedProvider = ({ children }) => {
         console.error('Error al crear el pedido:', error);
       }
     };
+
+ 
+
+const getPedidoById = async (pedidoId) => {
+  try {
+    const pedidoDocRef = doc(pedidosCollection, pedidoId);
+    const pedidoDoc = await getDoc(pedidoDocRef);
+
+    if (pedidoDoc.exists()) {
+      const pedidoData = pedidoDoc.data();
+      // Obtener más detalles del producto relacionado al pedido usando el ID del producto
+      const productoId = pedidoData.productoId;
+      if (productoId) {
+        const productoDocRef = doc(productosCollection, productoId);
+        const productoDoc = await getDoc(productoDocRef);
+        if (productoDoc.exists()) {
+          const productoData = productoDoc.data();
+          return {
+            id: pedidoDoc.id,
+            pedidoData,
+            productoData,
+          };
+        } else {
+          console.error('No se encontró el producto con el ID:', productoId);
+          return null;
+        }
+      } else {
+        console.error('El pedido no tiene un ID de producto válido.');
+        return null;
+      }
+    } else {
+      console.error('No se encontró el pedido con el ID:', pedidoId);
+      return null;
+    }
+  } catch (error) {
+    console.error('Error al obtener el pedido:', error);
+    return null;
+  }
+};
+
+    
 
   // Duplicar un pedido en el carrito
   const duplicatePedido = (index) => {
@@ -106,7 +147,8 @@ export const ProtectedProvider = ({ children }) => {
         deletePedido,
         updatePedido,
         productos,
-        getProductos
+        getProductos, 
+        getPedidoById
       }}
     >
       {children}

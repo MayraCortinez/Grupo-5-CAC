@@ -7,9 +7,10 @@ import ModalDetails from "../ProductCard/ModalDetails/ModalDetails";
 import useAuth from "../../hooks/useAuth";
 
 const Cart = () => {
-  const { user, cart, duplicatePedido, deletePedido, getTotalAmount, getUserPedidos } = useProtected();
-  const { getProductoById } = useAuth();
+  const { cart, duplicatePedido, deletePedido, getTotalAmount, getUserPedidos, getPedidoById } = useProtected();
+  const { getProductoById, user } = useAuth();
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedPedido, setSelectedPedido] = useState(null);
   const [userPedidos, setUserPedidos] = useState([]); // Inicializar como una matriz vacía
 
   /*   useEffect(() => {
@@ -32,20 +33,39 @@ const Cart = () => {
 
   const handleVerDetalles = async (productoId) => {
     try {
-      const productData = await getProductoById(productoId);
-      setSelectedProduct(productData);
-      console.log(productData)
+      // Obtenemos el ID del pedido desde la colección "pedidos"
+      const pedidoData = await getPedidoById(productoId);
+
+      // Si se encuentra el pedido, obtenemos más detalles del producto desde la colección "productos"
+      if (pedidoData) {
+        const productData = await getProductoById(pedidoData.productoId);
+        setSelectedProduct(productData);
+      }
     } catch (error) {
       console.error('Error al obtener detalles del producto:', error);
     }
   };
 
-  const handleDuplicatePedido = (index) => {
-    duplicatePedido(index);
+  const handleDuplicatePedido = async (pedidoId) => {
+    try {
+      const pedidoData = await getPedidoById(pedidoId);
+      if (pedidoData) {
+        duplicatePedido(pedidoData); // Llama a la función para duplicar el pedido con los datos del pedido obtenido
+      }
+    } catch (error) {
+      console.error('Error al duplicar el pedido:', error);
+    }
   };
 
-  const handleRemovePedido = (id) => {
-    deletePedido(id);
+  const handleRemovePedido = async (pedidoId) => {
+    try {
+      const pedidoData = await getPedidoById(pedidoId);
+      if (pedidoData) {
+        deletePedido(pedidoData); // Llama a la función para eliminar el pedido con los datos del pedido obtenido
+      }
+    } catch (error) {
+      console.error('Error al eliminar el pedido:', error);
+    }
   };
 
   const handleTotalAmount = () => {
@@ -126,18 +146,12 @@ const Cart = () => {
                   </Button>
                 </Col>
                 <Col>
-                  <Button
-                    variant="primary"
-                    onClick={() => handleDuplicatePedido(index)}
-                  >
+                <Button variant="primary" onClick={() => handleDuplicatePedido(pedido.id)}>
                     Duplicar
                   </Button>
                 </Col>
                 <Col>
-                  <Button
-                    variant="danger"
-                    onClick={() => handleRemovePedido(index)}
-                  >
+                <Button variant="danger" onClick={() => handleRemovePedido(pedido.id)}>
                     Eliminar
                   </Button>
                   <hr />
