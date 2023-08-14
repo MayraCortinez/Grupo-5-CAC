@@ -5,120 +5,87 @@ import { useProtected } from "../../hooks/useProtected";
 import Swal from 'sweetalert2';
 import ModalDetails from "../ProductCard/ModalDetails/ModalDetails";
 import useAuth from "../../hooks/useAuth";
+import LoadingSpinner from "../LoadingSpinner";
+
 
 const Cart = () => {
-  const { cart, duplicatePedido, deletePedido, getTotalAmount, getUserPedidos, getPedidoById } = useProtected();
+  const { cart, deletePedido, getUserPedidos, getPedidoById } = useProtected();
   const { getProductoById, user } = useAuth();
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [selectedPedido, setSelectedPedido] = useState(null);
-  const [userPedidos, setUserPedidos] = useState([]); // Inicializar como una matriz vacía
-
-  /*   useEffect(() => {
-      const fetchUserPedidos = async () => {
-        try {
-          const pedidos = await getUserPedidos();
-          setUserPedidos(pedidos || []); // Si getUserPedidos devuelve undefined, establece la matriz vacía
-        } catch (error) {
-          console.error('Error al obtener los pedidos del usuario:', error);
-          setUserPedidos([]); // En caso de error, establece la matriz vacía
-        }
-      };
-  
-      fetchUserPedidos();
-    }, [getUserPedidos]); */
+  const [userPedidos, setUserPedidos] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedProducts, setSelectedProducts] = useState({});
 
   useEffect(() => {
     getUserPedidos();
+    setTimeout(() => {
+      setLoading(false);
+    }, 4000);
   }, [user]);
+
+  const alertRemove = (id) => {
+    Swal.fire({
+      title: 'Estas seguro que desea eliminar el producto?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar',
+      cancelButtonText: 'No'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        handleRemovePedido(id);
+        Swal.fire(
+          'Producto eliminado!',
+          'El producto fue eliminado correctamente.',
+          'success'
+        )
+      } else {
+        console.log('Remove cancelado')
+      }
+    })
+  }
 
   const handleVerDetalles = async (productoId) => {
     try {
-      // Obtenemos el ID del pedido desde la colección "pedidos"
       const pedidoData = await getPedidoById(productoId);
 
-      // Si se encuentra el pedido, obtenemos más detalles del producto desde la colección "productos"
-      if (pedidoData) {
-        const productData = await getProductoById(pedidoData.productoId);
-        setSelectedProduct(productData);
+      if (pedidoData && pedidoData.productoData) {
+        setSelectedProducts((prevSelectedProducts) => ({
+          ...prevSelectedProducts,
+          [productoId]: pedidoData.productoData,
+        }));
       }
     } catch (error) {
       console.error('Error al obtener detalles del producto:', error);
     }
   };
 
-  const handleDuplicatePedido = async (pedidoId) => {
-    try {
-      const pedidoData = await getPedidoById(pedidoId);
-      if (pedidoData) {
-        duplicatePedido(pedidoData); // Llama a la función para duplicar el pedido con los datos del pedido obtenido
-      }
-    } catch (error) {
-      console.error('Error al duplicar el pedido:', error);
-    }
-  };
-
-  const handleRemovePedido = async (pedidoId) => {
-    try {
-      const pedidoData = await getPedidoById(pedidoId);
-      if (pedidoData) {
-        deletePedido(pedidoData); // Llama a la función para eliminar el pedido con los datos del pedido obtenido
-      }
-    } catch (error) {
-      console.error('Error al eliminar el pedido:', error);
-    }
-  };
-
-  const handleTotalAmount = () => {
-    const total = getTotalAmount();
-    Swal.mixin({
-      input: 'text',
-      confirmButtonText: 'Next →',
-      showCancelButton: true,
-      progressSteps: ['1', '2', '3']
-    }).queue([
-      {
-        title: 'Ingrese su contraseña para confirmar su compra',
-        text: total
-      },
-      'Question 2',
-      'Question 3'
-    ]).then((result) => {
-      if (result.value) {
-        const answers = JSON.stringify(result.value);
-        Swal.fire({
-          title: 'All done!',
-          html: `
-            Your answers:
-            <pre><code>${answers}</code></pre>
-          `,
-          confirmButtonText: 'Lovely!'
-        });
-      }
-    });
-    
-    console.log("Total a pagar:", total);
+  const handleRemovePedido = async (id) => {
+    await deletePedido(id);
+    getUserPedidos();
   };
 
   const [modalShow, setModalShow] = useState(false);
+  const [selectedPedidoId, setSelectedPedidoId] = useState(null);
 
   const handleModalShow = (pedidoId) => {
-    // Encuentra el pedido en el carrito con el pedidoId
-    const pedido = cart.find((pedido) => pedido.id === pedidoId);
-    if (pedido) {
-      // Si se encuentra el pedido, muestra los detalles del producto
-      handleVerDetalles(pedido.productoId);
-      setModalShow(true);
-    }
+    setSelectedPedidoId(pedidoId); // Guarda el ID del pedido seleccionado para el modal
+    handleVerDetalles(pedidoId);
+    setModalShow(true);
   };
 
   const handleModalClose = () => {
     setModalShow(false);
   };
 
+ 
+
   return (
     <Container className="m-5 p-5">
       <Stack className="m-5 p-5">
-        {cart.length === 0 ? (
+        {loading ? (
+          <LoadingSpinner style={{ height: "550px" }} className='text-primary d-flex align-items-center justify-content-center' />
+        ) : cart.length === 0 ? (
           <div>
             <p className="mt-5 pt-5 text-center" style={{ color: "white" }}>
               No hay productos en el carrito.
@@ -128,30 +95,28 @@ const Cart = () => {
           cart.map((pedido, index) => (
             <React.Fragment key={pedido.id}>
               <Row>
-              {selectedProduct && (
-                <>
+                {selectedProducts[pedido.productoId] && (
+                  <>
                     <h6 className="text-white">
-                      {selectedProduct.marca} - {selectedProduct.modelo}
-                      <br /> $ {selectedProduct.precio}
+                      {selectedProducts[pedido.productoId].marca} - {selectedProducts[pedido.productoId].modelo}
+                      <br /> $ {selectedProducts[pedido.productoId].precio}
                     </h6>
-                    <img className=" img-fluid w-25 img-thumbnail rounded float-start" src={selectedProduct.img} alt={selectedProduct.modelo} />
-                </>
-                  )}
+                    <img className=" img-fluid w-25 img-thumbnail rounded float-start" src={selectedProducts[pedido.productoId].img} alt={selectedProducts[pedido.productoId].modelo} />
+                  </>
+                )}
                 <Col>
                   <Button
                     variant="info"
-                    onClick={() => handleModalShow(pedido.id)} // Usa el id del pedido
+                    onClick={() => handleModalShow(pedido.id)}
                   >
                     Ver detalles
                   </Button>
                 </Col>
                 <Col>
-                <Button variant="primary" onClick={() => handleDuplicatePedido(pedido.id)}>
-                    Duplicar
-                  </Button>
-                </Col>
-                <Col>
-                <Button variant="danger" onClick={() => handleRemovePedido(pedido.id)}>
+                  <Button
+                    variant="danger"
+                    onClick={() => alertRemove(pedido.id)}
+                  >
                     Eliminar
                   </Button>
                   <hr />
@@ -161,30 +126,23 @@ const Cart = () => {
             </React.Fragment>
           ))
         )}
-          {cart.length > 0 && (
-        <Button variant="success" className="mr-auto" onClick={handleTotalAmount}>
-          Total a pagar
-        </Button>
-      )}
       </Stack>
 
-      {modalShow && selectedProduct && (
+      {modalShow && selectedProducts[selectedPedidoId] && (
         <ModalDetails
           show={modalShow}
           onHide={handleModalClose}
-          id={selectedProduct.id}
-          marca={selectedProduct.marca}
-          modelo={selectedProduct.modelo}
-          img={selectedProduct.img}
-          descripcion={selectedProduct.descripcion}
-          detalle={selectedProduct.detalle}
-          talle={selectedProduct.talle}
-          precio={selectedProduct.precio}
+          id={selectedProducts[selectedPedidoId].id}
+          marca={selectedProducts[selectedPedidoId].marca}
+          modelo={selectedProducts[selectedPedidoId].modelo}
+          img={selectedProducts[selectedPedidoId].img}
+          descripcion={selectedProducts[selectedPedidoId].descripcion}
+          detalle={selectedProducts[selectedPedidoId].detalle}
+          talle={selectedProducts[selectedPedidoId].talle}
+          precio={selectedProducts[selectedPedidoId].precio}
         />
       )}
     </Container>
-
-
   );
 };
 

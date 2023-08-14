@@ -77,22 +77,7 @@ const getPedidoById = async (pedidoId) => {
   }
 };
 
-    
 
-  // Duplicar un pedido en el carrito
-  const duplicatePedido = (index) => {
-    const pedido = cart[index];
-    setCart([...cart, pedido]);
-  };
-
-  // Obtener el total a pagar
-  const getTotalAmount = () => {
-    let total = 0;
-    cart.forEach((pedido) => {
-      total += pedido.precio;
-    });
-    return total;
-  };
 
 
   // Obtener todos los pedidos del usuario actual y cargarlos en el estado de cart
@@ -122,17 +107,6 @@ const getPedidoById = async (pedidoId) => {
     }
   };
 
-  // Actualizar un pedido
-  const updatePedido = async (pedidoId, updatedData) => {
-    try {
-      const pedidoDoc = doc(db, 'pedidos', pedidoId);
-      await updateDoc(pedidoDoc, updatedData);
-      console.log('Pedido actualizado con éxito');
-    } catch (error) {
-      console.error('Error al actualizar el pedido:', error);
-    }
-  };
-
 
   // Renderizamos el proveedor del contexto ProtectedContext con los valores y funciones necesarios para los componentes hijos
   return (
@@ -140,14 +114,9 @@ const getPedidoById = async (pedidoId) => {
       value={{
         user,
         cart,
-        duplicatePedido,
-        getTotalAmount,
         createPedido,
         getUserPedidos,
         deletePedido,
-        updatePedido,
-        productos,
-        getProductos, 
         getPedidoById
       }}
     >

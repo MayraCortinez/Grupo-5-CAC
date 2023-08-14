@@ -27,7 +27,7 @@ const Header = () => {
         <Navbar.Brand href="/">
           <img src={logo} alt="VZU" width="80" />
         </Navbar.Brand>
-        <span className='navbar-brand m-5'>
+        <span className='navbar-brand ms-5'>
           <h3>
             Bienvenido: {userName}
           </h3>
@@ -42,21 +42,21 @@ const Header = () => {
               Contacto
             </Nav.Link>
           </Nav>
-          <span className='navbar-brand m-5'>
+          <span className='navbar-brand ms-4'>
             {!user ? (
               <Nav.Link href="/login">
                 Iniciar sesión
               </Nav.Link>
             ) : (
-              <>
-            <Nav.Link href="/user">
-              Carrito
-            </Nav.Link>
-                <button className='btn btn-primary' onClick={handleLogout}>
+              <div className='d-flex align-items-center '>
+                <Nav.Link href="/user">
+                  Carrito
+                </Nav.Link>
+                <button className='btn btn-primary ms-3 me-5' onClick={handleLogout}>
                   Cerrar sesión
                 </button>
                 {userData?.admin ? <Sidebar /> : ""}
-              </>
+              </div>
             )}
           </span>
           <span className='navbar-brand m-5'></span>
