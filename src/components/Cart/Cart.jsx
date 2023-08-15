@@ -10,10 +10,11 @@ import ModalDetailsCart from "./ModalDetailsCart";
 
 const Cart = () => {
   const { cart, deletePedido, getUserPedidos, getPedidoById } = useProtected();
-  const { getProductoById, user } = useAuth();
+  const { getProductoById, user, formatPriceWithCommas } = useAuth();
   const [userPedidos, setUserPedidos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProducts, setSelectedProducts] = useState({});
+  const [totalPrice, setTotalPrice] = useState(0); 
 
   useEffect(() => {
     getUserPedidos();
@@ -85,6 +86,22 @@ const Cart = () => {
     getUserPedidos();
   };
 
+
+  const calculateTotalPrice = () => {
+    let totalPrice = 0;
+    for (const pedido of cart) {
+      if (selectedProducts[pedido.productoId]) {
+        totalPrice += +selectedProducts[pedido.productoId].precio;
+      }
+    }
+    return formatPriceWithCommas (+totalPrice); // Aquí formateamos el total
+  };
+
+  useEffect(() => {
+    const calculatedTotalPrice = calculateTotalPrice();
+    setTotalPrice(calculatedTotalPrice); // Guardamos el total en el estado
+  }, [cart, selectedProducts]);
+
   const [modalShow, setModalShow] = useState(false);
   const [selectedPedidoId, setSelectedPedidoId] = useState(null);
 
@@ -118,7 +135,7 @@ const Cart = () => {
                   <>
                     <h6 className="text-white">
                       {selectedProducts[pedido.productoId].marca} - {selectedProducts[pedido.productoId].modelo}
-                      <br /> $ {selectedProducts[pedido.productoId].precio}
+                      <br /> $ {formatPriceWithCommas(selectedProducts[pedido.productoId].precio)}
                     </h6>
                     <Image
                       className="d-block img-thumbnail rounded float-start custom-image-size"
@@ -148,9 +165,26 @@ const Cart = () => {
                 </Col>
               </Row>
               <hr />
+
+              
             </React.Fragment>
           ))
         )}
+
+        <hr />
+         
+          <h6 className="text-white border p-2 rounded">
+          Total a pagar: 
+
+            $ {totalPrice}
+          </h6>
+
+          <hr/>
+
+          <Button variant="success">
+              Siguiente paso
+              <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/circled-right-2.png" alt="circled-right-2" className="m-2"/>
+          </Button>
       </Stack>
 
       {modalShow && selectedProducts[selectedPedidoId] && (

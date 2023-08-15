@@ -13,7 +13,7 @@ import useAuth from '../../hooks/useAuth';
 const ModalDetailsCart = ({ show, onHide, id, marca, modelo, descripcion, detalle, talle, precio, img }) => {
 
 
-  const { user } = useAuth();
+  const { user, formatPriceWithCommas } = useAuth();
   let navigate = useNavigate();
   console.log(user);
 
@@ -45,7 +45,7 @@ const ModalDetailsCart = ({ show, onHide, id, marca, modelo, descripcion, detall
                   <h5>{talle}</h5>
                 </Col>
                 <Col>
-                  <h3>$ {precio}</h3>
+                  <h3>$ {formatPriceWithCommas(precio)}</h3>
                 </Col>
               </Row>
             </Col>

@@ -13,7 +13,7 @@ import useAuth from '../../../hooks/useAuth';
 const ModalDetails = ({ show, onHide, id, marca, modelo, descripcion, detalle, talle, precio, img }) => {
 
   const { createPedido } = useProtected();
-  const { user } = useAuth();
+  const { user, formatPriceWithCommas } = useAuth();
   let navigate = useNavigate();
   console.log(user);
 
@@ -23,35 +23,6 @@ const ModalDetails = ({ show, onHide, id, marca, modelo, descripcion, detalle, t
       const userId = user.uid
       // Crear el pedido en la base de datos con la información del usuario y el producto
       createPedido(productoId, userId);
-      Swal.fire({
-        title: "Producto agregado con éxito",
-        icon: "success",
-        confirmButtonText: "Ver carrito",
-        showDenyButton: true,
-        denyButtonText: "Seguir comprando",
-      }).then( (result) => {
-        if (result.isConfirmed) {
-          navigate('/user');
-        } else if (result.isDenied) {
-          onHide(false);
-        }
-      });
-    } else {
-      Swal.fire({
-        title: "Usuario no autenticado",
-        text: "Debes iniciar sesión, para agregar productos al carrito.",
-        icon: "error",
-        //Arregla el acento May jeje Soy Raul
-        confirmButtonText: "Iniciar sesión",
-        showDenyButton: true,
-        denyButtonText: "Cancelar"
-      }).then( (result) => {
-        if(result.isConfirmed){
-          navigate('/login');
-        } else if(result.isDenied){
-          onHide(false);
-        }
-      });
     }
   };
 
@@ -83,7 +54,7 @@ const ModalDetails = ({ show, onHide, id, marca, modelo, descripcion, detalle, t
                   <h5>{talle}</h5>
                 </Col>
                 <Col>
-                  <h3>$ {precio}</h3>
+                  <h3>$ {formatPriceWithCommas(precio)}</h3>
                 </Col>
               </Row>
               <Container className="d-flex justify-content-center">

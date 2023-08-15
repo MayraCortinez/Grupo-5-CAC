@@ -4,6 +4,8 @@ import Swal from "sweetalert2";
 import { Container, Row, Col } from "react-bootstrap";
 import { BsCart4 } from "react-icons/bs";
 import ModalDetails from "./ModalDetails/ModalDetails"
+import useAuth from "../../hooks/useAuth";
+
 
 function ProductCard({
   id,
@@ -25,6 +27,8 @@ function ProductCard({
   const handleModalClose = () => {
     setModalShow(false);
   };
+
+  const { formatPriceWithCommas } = useAuth();
 
   return (
     <>
@@ -49,7 +53,7 @@ function ProductCard({
                 <span style={{background: color}}></span>
               </div>
               <div className="my-price">
-                <h3>${precio}</h3>
+                <h3>$ {formatPriceWithCommas(precio)}</h3>
               </div>
             </div>
           </div>

@@ -49,6 +49,18 @@ const getProductoById = async (id) => {
   }
 };
 
+const formatPriceWithCommas = (price) => {
+  // Convierte el precio a string y divide en parte entera y decimal
+  const parts = price.toString().split(".");
+  const integerPart = parts[0];
+
+  // Agrega puntos como separadores de miles en la parte entera
+  const formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+  // Retorna el valor formateado
+  return formattedIntegerPart;
+};
+
   // Función para guardar la información del usuario en el estado userData
   const saveUserData = (userData) => {
     setUserData(userData);
@@ -197,7 +209,8 @@ const getProductoById = async (id) => {
         fetchUserProfile,
         productos,
         getProductos,
-        getProductoById
+        getProductoById,
+        formatPriceWithCommas
       }}
     >
       {children}
