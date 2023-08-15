@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Container, Stack, Row, Col, Button, Image } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { useProtected } from "../../hooks/useProtected";
 import Swal from 'sweetalert2';
 import useAuth from "../../hooks/useAuth";
@@ -14,7 +13,7 @@ const Cart = () => {
   const [userPedidos, setUserPedidos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedProducts, setSelectedProducts] = useState({});
-  const [totalPrice, setTotalPrice] = useState(0); 
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     getUserPedidos();
@@ -94,7 +93,7 @@ const Cart = () => {
         totalPrice += +selectedProducts[pedido.productoId].precio;
       }
     }
-    return formatPriceWithCommas (+totalPrice); // Aquí formateamos el total
+    return formatPriceWithCommas(+totalPrice); // Aquí formateamos el total
   };
 
   useEffect(() => {
@@ -145,46 +144,46 @@ const Cart = () => {
                   </>
                 )}
                 <Col>
-                <Col className="mb-2">
-                  <Button
-                    variant="info"
-                    onClick={() => handleModalShow(pedido.id)}
-                  >
-                    Ver detalles
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    variant="danger"
-                    onClick={() => alertRemove(pedido.id)}
-                  >
-                    Eliminar
-                  </Button>
-                  <hr />
-                </Col>
+                  <Col className="mb-2">
+                    <Button
+                      variant="info"
+                      onClick={() => handleModalShow(pedido.id)}
+                    >
+                      Ver detalles
+                    </Button>
+                  </Col>
+                  <Col>
+                    <Button
+                      variant="danger"
+                      onClick={() => alertRemove(pedido.id)}
+                    >
+                      Eliminar
+                    </Button>
+                    <hr />
+                  </Col>
                 </Col>
               </Row>
               <hr />
-
-              
             </React.Fragment>
+
           ))
+
         )}
 
-        <hr />
-         
-          <h6 className="text-white border p-2 rounded">
-          Total a pagar: 
+        {cart.length !== 0 && (
+          <div>
+            <h6 className="text-white border p-2 rounded">
+              Total a pagar: $ {totalPrice}
+            </h6>
 
-            $ {totalPrice}
-          </h6>
+            <hr />
 
-          <hr/>
-
-          <Button variant="success">
+            <Button variant="success">
               Siguiente paso
-              <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/circled-right-2.png" alt="circled-right-2" className="m-2"/>
-          </Button>
+              <img width="30" height="30" src="https://img.icons8.com/ios-glyphs/30/circled-right-2.png" alt="circled-right-2" className="m-2" />
+            </Button>
+          </div>
+        )}
       </Stack>
 
       {modalShow && selectedProducts[selectedPedidoId] && (
