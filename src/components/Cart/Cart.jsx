@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Container, Stack, Row, Col, Button } from "react-bootstrap";
+import { Container, Stack, Row, Col, Button, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useProtected } from "../../hooks/useProtected";
 import Swal from 'sweetalert2';
 import ModalDetails from "../ProductCard/ModalDetails/ModalDetails";
 import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../LoadingSpinner";
-
+import './Cart.css';
 
 const Cart = () => {
   const { cart, deletePedido, getUserPedidos, getPedidoById } = useProtected();
@@ -24,7 +24,7 @@ const Cart = () => {
 
   const alertRemove = (id) => {
     Swal.fire({
-      title: 'Estas seguro que desea eliminar el producto?',
+      title: 'Deseas eliminar el producto?',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -44,6 +44,26 @@ const Cart = () => {
       }
     })
   }
+
+  // Obtén los detalles de producto para todos los pedidos
+  const fetchProductDetails = async () => {
+    const updatedSelectedProducts = {};
+
+    for (const pedido of cart) {
+      const pedidoData = await getPedidoById(pedido.id);
+      if (pedidoData && pedidoData.productoData) {
+        updatedSelectedProducts[pedido.productoId] = pedidoData.productoData;
+      }
+    }
+
+    setSelectedProducts(updatedSelectedProducts);
+  };
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      fetchProductDetails();
+    }
+  }, [cart]);
 
   const handleVerDetalles = async (productoId) => {
     try {
@@ -78,7 +98,6 @@ const Cart = () => {
     setModalShow(false);
   };
 
- 
 
   return (
     <Container className="m-5 p-5">
@@ -101,7 +120,11 @@ const Cart = () => {
                       {selectedProducts[pedido.productoId].marca} - {selectedProducts[pedido.productoId].modelo}
                       <br /> $ {selectedProducts[pedido.productoId].precio}
                     </h6>
-                    <img className=" img-fluid w-25 img-thumbnail rounded float-start" src={selectedProducts[pedido.productoId].img} alt={selectedProducts[pedido.productoId].modelo} />
+                    <Image
+                      className="d-block img-thumbnail rounded float-start custom-image-size"
+                      src={selectedProducts[pedido.productoId].img}
+                      alt={selectedProducts[pedido.productoId].modelo}
+                    />
                   </>
                 )}
                 <Col>

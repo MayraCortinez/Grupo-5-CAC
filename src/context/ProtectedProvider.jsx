@@ -90,6 +90,35 @@ const getPedidoById = async (pedidoId) => {
       }));
       setCart(pedidos);
       console.log('Pedidos del usuario:', pedidos);
+    
+    // Ahora, para cada pedido, obtén la información del producto relacionado
+    const cartWithProductInfo = await Promise.all(
+      pedidos.map(async (pedido) => {
+        const productoId = pedido.productoId;
+        if (productoId) {
+          const productoDocRef = doc(productosCollection, productoId);
+          const productoDoc = await getDoc(productoDocRef);
+          if (productoDoc.exists()) {
+            const productoData = productoDoc.data();
+            return {
+              ...pedido,
+              productoData,
+            };
+          } else {
+            console.error('No se encontró el producto con el ID:', productoId);
+            return pedido; // Mantén el pedido sin información de producto
+          }
+        } else {
+          console.error('El pedido no tiene un ID de producto válido.');
+          return pedido; // Mantén el pedido sin información de producto
+        }
+      })
+    );
+
+    setCart(cartWithProductInfo); // Actualiza el estado cart con la información de productos
+    
+    
+    
     } catch (error) {
       console.error('Error al obtener los pedidos del usuario:', error);
     }
