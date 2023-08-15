@@ -12,7 +12,7 @@ export const ProtectedProvider = ({ children }) => {
   
   
   const { user } = useAuth();  // 4 - Obtenemos el objeto user del contexto useAuth que proporciona la información del usuario autenticado
-  const { productos, getProductos } = useAuth();
+
 
   
   const [cart, setCart] = useState([]); // 5 - Creamos el estado cart para almacenar los productos agregados al carrito

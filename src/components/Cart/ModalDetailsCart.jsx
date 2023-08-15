@@ -4,56 +4,18 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Modal from 'react-bootstrap/Modal';
 import Row from 'react-bootstrap/Row';
-import './ModalDetails.css'
+import '../ProductCard/ModalDetails/ModalDetails.css'
 import Swal from 'sweetalert2';
-import { useProtected } from "../../../hooks/useProtected";
+import { useProtected } from "../../hooks/useProtected";
 import { useNavigate } from "react-router-dom";
-import useAuth from '../../../hooks/useAuth';
+import useAuth from '../../hooks/useAuth';
 
-const ModalDetails = ({ show, onHide, id, marca, modelo, descripcion, detalle, talle, precio, img }) => {
+const ModalDetailsCart = ({ show, onHide, id, marca, modelo, descripcion, detalle, talle, precio, img }) => {
 
-  const { createPedido } = useProtected();
+
   const { user } = useAuth();
   let navigate = useNavigate();
   console.log(user);
-
-  const handleCreatePedido = () => {
-    if (user) {
-      const productoId = id
-      const userId = user.uid
-      // Crear el pedido en la base de datos con la información del usuario y el producto
-      createPedido(productoId, userId);
-      Swal.fire({
-        title: "Producto agregado con éxito",
-        icon: "success",
-        confirmButtonText: "Ver carrito",
-        showDenyButton: true,
-        denyButtonText: "Seguir comprando",
-      }).then( (result) => {
-        if (result.isConfirmed) {
-          navigate('/user');
-        } else if (result.isDenied) {
-          onHide(false);
-        }
-      });
-    } else {
-      Swal.fire({
-        title: "Usuario no autenticado",
-        text: "Debes iniciar sesión, para agregar productos al carrito.",
-        icon: "error",
-        //Arregla el acento May jeje Soy Raul
-        confirmButtonText: "Iniciar sesión",
-        showDenyButton: true,
-        denyButtonText: "Cancelar"
-      }).then( (result) => {
-        if(result.isConfirmed){
-          navigate('/login');
-        } else if(result.isDenied){
-          onHide(false);
-        }
-      });
-    }
-  };
 
   return (
     <Modal size="lg" show={show} onHide={onHide} centered className="customize-modal-details">
@@ -86,11 +48,6 @@ const ModalDetails = ({ show, onHide, id, marca, modelo, descripcion, detalle, t
                   <h3>$ {precio}</h3>
                 </Col>
               </Row>
-              <Container className="d-flex justify-content-center">
-                <Button className="w-75" variant="dark" onClick={handleCreatePedido}>
-                  Agregar al Carrito
-                </Button>
-              </Container>
             </Col>
           </Row>
         </Container>
@@ -99,7 +56,7 @@ const ModalDetails = ({ show, onHide, id, marca, modelo, descripcion, detalle, t
   );
 };
 
-ModalDetails.propTypes = {
+ModalDetailsCart.propTypes = {
   show: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
   marca: PropTypes.string.isRequired,
@@ -111,4 +68,4 @@ ModalDetails.propTypes = {
   img: PropTypes.string.isRequired,
 };
 
-export default ModalDetails;
+export default ModalDetailsCart;

@@ -3,10 +3,10 @@ import { Container, Stack, Row, Col, Button, Image } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useProtected } from "../../hooks/useProtected";
 import Swal from 'sweetalert2';
-import ModalDetails from "../ProductCard/ModalDetails/ModalDetails";
 import useAuth from "../../hooks/useAuth";
 import LoadingSpinner from "../LoadingSpinner";
 import './Cart.css';
+import ModalDetailsCart from "./ModalDetailsCart";
 
 const Cart = () => {
   const { cart, deletePedido, getUserPedidos, getPedidoById } = useProtected();
@@ -29,8 +29,8 @@ const Cart = () => {
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, eliminar',
-      cancelButtonText: 'No'
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
         handleRemovePedido(id);
@@ -100,8 +100,8 @@ const Cart = () => {
 
 
   return (
-    <Container className="m-5 p-5">
-      <Stack className="m-5 p-5">
+    <Container className="m-5 p-5 ">
+      <Stack className="m-5 p-5 d-flex align-items-center justify-content-cente">
         {loading ? (
           <LoadingSpinner style={{ height: "550px" }} className='text-primary d-flex align-items-center justify-content-center' />
         ) : cart.length === 0 ? (
@@ -128,6 +128,7 @@ const Cart = () => {
                   </>
                 )}
                 <Col>
+                <Col className="mb-2">
                   <Button
                     variant="info"
                     onClick={() => handleModalShow(pedido.id)}
@@ -144,6 +145,7 @@ const Cart = () => {
                   </Button>
                   <hr />
                 </Col>
+                </Col>
               </Row>
               <hr />
             </React.Fragment>
@@ -152,7 +154,7 @@ const Cart = () => {
       </Stack>
 
       {modalShow && selectedProducts[selectedPedidoId] && (
-        <ModalDetails
+        <ModalDetailsCart
           show={modalShow}
           onHide={handleModalClose}
           id={selectedProducts[selectedPedidoId].id}
