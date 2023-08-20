@@ -1,7 +1,7 @@
 import React, {useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import {usePrivate} from '../../hooks/usePrivate';
-import { Container, Stack } from 'react-bootstrap';
+import { Container, Image, Stack } from 'react-bootstrap';
 
 
 
@@ -131,7 +131,7 @@ const CreateProduct = () => {
                 {/* Vista previa de la imagen */}
                 {previewImg && (
                     <div className="mb-3 ">
-                        <img className="rounded rounded-lg" src={previewImg} alt="Vista previa" style={{ maxWidth: '200px' }} />
+                        <Image className="rounded rounded-lg" src={previewImg} alt="Vista previa" roundedCircle style={{ maxWidth: '200px' }} />
                     </div>
                 )}
                 <button type="submit" className="btn btn-primary mt-3">
