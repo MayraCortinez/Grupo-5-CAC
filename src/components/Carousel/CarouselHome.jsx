@@ -6,7 +6,7 @@ import "./carousel.module.css";
 
 function CarouselHome() {
   return (
-<Carousel indicators={false} controls={false} className="">
+<Carousel indicators={false} controls={false} className="mt-4">
       <Carousel.Item className="" style={{ maxHeight: '650px' }} >
         <img
           className="d-block w-100 img-fluid"  

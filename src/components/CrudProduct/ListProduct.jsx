@@ -34,14 +34,14 @@ const ListProduct = () => {
 
   return (
     <>
-      <Container className='mx-auto mt-5 p-5' >
+      <Container className='' >
         <Stack className='p-5 pb-5 mb-3 mt-5'>
-          <Table className='p-3 mt-5'>
+          <Table className='p-5 mt-5'>
             <thead>
               <tr>
+                <th>Marca</th>
                 <th>Modelo</th>
                 <th>Talle</th>
-                <th>Color</th>
                 <th>Precio</th>
                 <th>Acciones</th>
               </tr>

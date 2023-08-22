@@ -37,11 +37,11 @@ const Login = () => {
 
   return (
 
-    <Container className='m-5 p-5'>
-    <Stack gap={3} className="col-md-8 m-5 p-5 d-flex justify-content-center">
-      <h1 className='align-self-center' style={{ color: "white" }}>{registro ? 'Registrarse' : 'Iniciar sesión'}</h1>
+    <Container className='m-auto p-3'>
+    <Stack gap={3} className="col-md-4 m-4 p-5 d-flex justify-content-center align-item-center">
+      <h3 className='align-self-center' style={{ color: "white" }}>{registro ? 'Registrarse' : 'Iniciar sesión'}</h3>
       <Form onSubmit={handleFormSubmit} className='d-flex-column justify-content-center'>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
+        <Form.Group className="" controlId="formBasicEmail">
           <Form.Label>Email</Form.Label>
           <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter email" />
         </Form.Group>
@@ -51,13 +51,15 @@ const Login = () => {
           <Form.Control type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" />
         </Form.Group>
 
+        <Form.Group className='d-flex justify-content-center'>
         <Button variant="primary" type="submit" className='mb-3'>
           {registro ? "Registrarse" : "Iniciar sesión"}
         </Button>
+        </Form.Group>
       </Form>
       <Button 
          className='align-self-center'
-          variant='primary' 
+          variant='success' 
           type='submit' 
           style={{width : "300px"}}
           onClick={() => loginWithGoogle()}

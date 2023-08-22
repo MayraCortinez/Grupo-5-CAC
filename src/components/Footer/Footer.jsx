@@ -43,16 +43,16 @@ const Footer = () => {
             </ul>
           </div>
 
-          <div>
+          <Col className='d-flex-column'>
             <h4>Contacto</h4>
-            <p>Dirección: Calle 133 N 832, La Plata</p>
-            <p>Teléfono: 123-456-7890</p>
-            <p>Email: info@vzu.com.ar</p>
-          </div>
+            <h6>Dirección: Calle 133 N 832, La Plata</h6>
+            <h6>Teléfono: 123-456-7890</h6>
+            <span>Email: info@vzu.com.ar</span>
+          </Col>
         </Col>
-        <Col md={4} className='text-light '>
+        <Col md={4} className='text-light mt-4'>
           <h4 className='mb-1'>Ubicación</h4>
-          <div style={{ height: '300px', width: '100%', marginTop: '20px' }}>
+          <div style={{ height: '300px', width: '90%', margin: '20 auto' }}>
               <iframe
                 title="Mapa"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3270.730127412192!2d-57.98083752343061!3d-34.93830467524688!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a2e87674a2dc3b%3A0x49279b779080987!2sC.%20133%20832%2C%20San%20Carlos%2C%20Provincia%20de%20Buenos%20Aires!5e0!3m2!1ses!2sar!4v1688421293293!5m2!1ses!2sar"

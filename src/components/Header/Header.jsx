@@ -25,7 +25,6 @@ const Header = () => {
       <Container fluid className='px-5'>
       <Navbar.Brand href="/" className="d-flex align-items-center justify-content-center custum-navbar-brand">
           <img src={logo} alt="VZU" width="80" />
-          <span className="fs-2 px-2">Venta de Zapatillas</span>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="navbar" />
         <Navbar.Collapse className='align-items-center justify-content-end text-end' id="navbar">
