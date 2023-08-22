@@ -11,7 +11,7 @@ import { FiTwitter } from "react-icons/fi";
 // Uso tema oscuro (bg="dark") y el texto blanco text white
 const Footer = () => {
   return (
-    <Container className='bg-dark' style={{ paddingBottom: '20px' }}>
+    <Container className='bg-dark mt-5' style={{ paddingBottom: '20px' }}>
       <Row className='pt-3 d-flex'>
         <Col md={4} className='text-white '>
           <h4 className='mb-1'>Enlaces</h4>

@@ -15,9 +15,9 @@ function CarouselHome() {
           style={{ objectPosition: 'center bottom' }}
         />
         <Carousel.Caption>
-          <p>
+          <p className='rounded p-2'>
             Lleva la moda sostenible a otro nivel con nuestras zapatillas. Únete al movimiento y marca la diferencia.
-            </p>
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item className="" style={{ maxHeight: '650px' }}>
@@ -27,9 +27,9 @@ function CarouselHome() {
           alt="Second slide"
         />
         <Carousel.Caption>
-          <p>
+          <p className='rounded p-2'>
             La esencia del pasado se une con la frescura del presente. ¿Estás listo para hacer historia con cada paso?
-            </p>
+          </p>
         </Carousel.Caption>
       </Carousel.Item>
       <Carousel.Item className="" style={{ maxHeight: '650px' }}>
@@ -39,8 +39,8 @@ function CarouselHome() {
           alt="Third slide"
         />
         <Carousel.Caption>
-          <p>
-          La esencia del pasado se une con la frescura del presente. ¿Estás listo para hacer historia con cada paso?
+          <p className='rounded p-2'>
+          Más que sólo calzado. Es un estilo de vida que valora el pasado y abraza el futuro.
           </p>
         </Carousel.Caption>
       </Carousel.Item>

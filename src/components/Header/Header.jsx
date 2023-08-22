@@ -1,14 +1,13 @@
 import React from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, Button, NavDropdown } from 'react-bootstrap';
 import logo from "../../assets/3.png";
 import { useAuth } from '../../hooks/useAuth';
-import Sidebar from '../Sidebar/Sidebar';
 
 const Header = () => {
   const { user, logout, userData } = useAuth();
 
   const handleLogout = () => {
-    logout(); // Cerrar sesión utilizando el contexto de autenticación
+    logout();
   };
 
   const handleButtonClick = (e) => {
@@ -22,44 +21,36 @@ const Header = () => {
   const userName = userData?.nombre || user?.email || '';
 
   return (
-    <Navbar bg="dark" data-bs-theme="dark" expand="lg" fixed="top">
+    <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Container fluid className='px-5'>
-        <Navbar.Brand href="/">
+      <Navbar.Brand href="/" className="d-flex align-items-center justify-content-center custum-navbar-brand">
           <img src={logo} alt="VZU" width="80" />
+          <span className="fs-2 px-2">Venta de Zapatillas</span>
         </Navbar.Brand>
-        <span className='navbar-brand ms-5'>
-          <h3>
-            Bienvenido: {userName}
-          </h3>
-        </span>
         <Navbar.Toggle aria-controls="navbar" />
-        <Navbar.Collapse className='align-items-center justify-content-end' id="navbar">
+        <Navbar.Collapse className='align-items-center justify-content-end text-end' id="navbar">
           <Nav>
-            <Nav.Link href="/productList">
-              Productos
-            </Nav.Link>
-            <Nav.Link href="#contacto" onClick={handleButtonClick}>
-              Contacto
-            </Nav.Link>
-          </Nav>
-          <span className='navbar-brand ms-4'>
+            <Nav.Link href="/productList">Productos</Nav.Link>
+            <Nav.Link href="#contacto" onClick={handleButtonClick}>Contacto</Nav.Link>
             {!user ? (
-              <Nav.Link href="/login">
-                Iniciar sesión
-              </Nav.Link>
+              <Nav.Link href="/login">Iniciar sesión</Nav.Link>
             ) : (
-              <div className='d-flex align-items-center '>
-                <Nav.Link href="/user">
-                  Carrito
-                </Nav.Link>
-                <button className='btn btn-primary ms-3 me-5' onClick={handleLogout}>
+              <>
+                <Nav.Link href="/user">Carrito</Nav.Link>
+                {userData?.admin ? (
+                  <NavDropdown title="Configuración" className='d-flex-column justify-content-flex-end' menuVariant="dark">
+                    <NavDropdown.Item className='text-end'  href="/admin">Listar productos</NavDropdown.Item>
+                    <NavDropdown.Item className='text-end' href="/admin/createProduct">Crear producto</NavDropdown.Item>
+                  </NavDropdown>
+                ) : null}
+                <Nav.Item >
+                <Button variant="outline-danger" className='ml-auto' onClick={handleLogout}>
                   Cerrar sesión
-                </button>
-                {userData?.admin ? <Sidebar /> : ""}
-              </div>
+                </Button>
+                </Nav.Item>
+              </>
             )}
-          </span>
-          <span className='navbar-brand m-5'></span>
+          </Nav>
         </Navbar.Collapse>
       </Container>
     </Navbar>

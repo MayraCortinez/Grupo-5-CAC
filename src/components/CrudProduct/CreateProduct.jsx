@@ -31,8 +31,6 @@ const CreateProduct = () => {
     fileHandler,
   } = usePrivate();
 
-
-
   return (
     <Container className='mx-auto p-5' style={{maxWidth: '520px', paddingTop: '6.5rem', textAlign:'center'}}>
       <Stack className='pt-5 pb-5 mb-3 mt-5'>
