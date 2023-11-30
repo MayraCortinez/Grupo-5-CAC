@@ -84,10 +84,9 @@ const getPedidoById = async (pedidoId) => {
   const getUserPedidos = async () => {
     try {
       const querySnapshot = await getDocs(pedidosCollection);
-      const pedidos = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const pedidos = querySnapshot.docs
+        .map((doc) => ({ id: doc.id, ...doc.data() }))
+        .filter((pedido) => pedido.userId === user.uid); // Filtrar por el userId del usuario autenticado
       setCart(pedidos);
       console.log('Pedidos del usuario:', pedidos);
     
